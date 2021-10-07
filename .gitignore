@@ -348,3 +348,12 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+
+# Extra Folders and Types
+MonODGE.Test/
+*.sln
+*.mcgb
+*.png
+*.mp4
+*.spritefont
