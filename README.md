@@ -7,5 +7,5 @@ Libraries, extensions, and utilities for 2D MonoGame projects.
 
 Includes:
 
-- **MonODGE.IO**: A library for Keyboard and GamePad based player input.
-- **MonODGE.UI**: A stylesheet-based, event-driven player interface library.
+- **[MonODGE.IO](Docs/IO_README.md)**: A library for Keyboard and GamePad based player input.
+- **[MonODGE.UI](Docs/UI_README.md)**: A stylesheet-based, event-driven player interface library.
