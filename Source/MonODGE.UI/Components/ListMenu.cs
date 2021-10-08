@@ -21,29 +21,28 @@ namespace MonODGE.UI.Components {
         public int SelectedIndex {
             get { return _selectedIndex; }
             set {
+                if (Options.Count == 0) {
+                    _selectedIndex = 0;
+                    return;
+                }
+
                 value = MathHelper.Clamp(value, 0, Options.Count - 1);
                 if (_selectedIndex != value) {
-                    SelectedOption.OnUnselected();
+                    SelectedOption?.OnUnselected(); // ?'ed in case SelectedOption was removed.
                     _selectedIndex = value;
                     SelectedOption.OnSelected();
                 }
             }
         }
 
-        public OdgeButton SelectedOption {
-            get {
-                if (Options != null && Options.Count > 0)
-                    return Options[SelectedIndex];
-                else
-                    return null;
-            }
-        }
+        public OdgeButton SelectedOption => 
+            (Options.Count > _selectedIndex) ? Options[_selectedIndex] : null;
 
 
         protected override int MinWidth {
             get {
                 int mw = Style.Padding.Left + Style.Padding.Right;
-                if ((Options?.Count ?? 0) > 0)
+                if (Options.Count > 0)
                     mw += Options[0].Width;
                 return mw;
             }
@@ -232,6 +231,7 @@ namespace MonODGE.UI.Components {
         public void AddOption(OdgeButton option) {
             Options.Add(option);
             if (Options.Count == 1) {
+                _selectedIndex = 0;
                 option.Y = 0;
                 option.OnSelected();
             }
@@ -253,10 +253,14 @@ namespace MonODGE.UI.Components {
         }
 
         public void RemoveOption(OdgeButton option) {
-            if (SelectedIndex == Options.Count - 1)
-                SelectedIndex--;
-
+            bool onDeletion = option == SelectedOption;
             Options.Remove(option);
+
+            if (SelectedIndex > Options.Count - 1)
+                SelectedIndex = Options.Count - 1;
+            else if (onDeletion)
+                SelectedOption?.OnSelected();
+
             IsMessy = true;
         }
 
