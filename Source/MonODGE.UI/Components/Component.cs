@@ -49,8 +49,13 @@ namespace MonODGE.UI.Components {
         public Point Size {
             get { return _dimensions.Size; }
             set {
-                if (_dimensions.Size != value) {
-                    _dimensions.Size = value;
+                Point newvalue = new Point(
+                    Math.Max(value.X, MinWidth),
+                    Math.Max(value.Y, MinHeight)
+                    );
+
+                if (_dimensions.Size != newvalue) {
+                    _dimensions.Size = newvalue;
                     OnResize();
                 }
             }

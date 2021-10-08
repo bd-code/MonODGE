@@ -237,7 +237,7 @@ namespace MonODGE.UI.Components {
             }
             else {
                 option.Location = new Point(0, Options[Options.Count - 2].Dimensions.Bottom + Style.Spacing.Vertical);
-                option.Size = Options[Options.Count - 2].Size;
+                option.Size = Options[0].Size;
                 option.Layout();
             }
             IsMessy = true;

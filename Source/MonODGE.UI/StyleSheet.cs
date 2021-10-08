@@ -434,6 +434,7 @@ namespace MonODGE.UI {
         public void AcceptChanges() { IsChanged = false; }
     }
 
+    //***********************************************************************//
 
     /// <summary>
     /// Represents 4-sided inner padding. 
