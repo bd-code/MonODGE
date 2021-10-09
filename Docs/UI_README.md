@@ -54,8 +54,8 @@ Customize your game's look and feel to fit your style, and even change it on the
 </td>
 
 <td>
-<a href="ogui0-ListMenuWithDialogBox.png">
-<img src="ogui0-ListMenuWithDialogBox.png" width="200" height="120" />
+<a href="ogui2-QuestionBoxAndProgs.png">
+<img src="ogui2-QuestionBoxAndProgs.png" width="200" height="120" />
 </a>
 </td>
 
