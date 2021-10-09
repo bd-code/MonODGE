@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonODGE.IO;
+using MonODGE.UI.Utilities;
 
 namespace MonODGE.UI.Components {
     /// <summary>
@@ -11,7 +12,7 @@ namespace MonODGE.UI.Components {
     /// </summary>
     public abstract class OdgeComponent {
         public enum SnapAnchors {
-            TOPLEFT, TOPCENTER, TOPRIGHT,
+            TOPLEFT, TOP, TOPRIGHT,
             LEFT, CENTER, RIGHT,
             BOTTOMLEFT, BOTTOM, BOTTOMRIGHT
         }
@@ -254,7 +255,7 @@ namespace MonODGE.UI.Components {
                 Location = new Point(0, 0);
             }
 
-            else if (anchor == SnapAnchors.TOPCENTER) {
+            else if (anchor == SnapAnchors.TOP) {
                 Location = new Point((screenwidth - Dimensions.Width) / 2, 0);
             }
 

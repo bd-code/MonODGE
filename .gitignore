@@ -354,6 +354,6 @@ MigrationBackup/
 MonODGE.Test/
 *.sln
 *.mcgb
-*.png
+#*.png
 *.mp4
 *.spritefont

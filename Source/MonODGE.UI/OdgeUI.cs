@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonODGE.UI.Components;
+using MonODGE.UI.Utilities;
 
 namespace MonODGE.UI {
     /// <summary>
@@ -215,19 +216,6 @@ namespace MonODGE.UI {
             OdgeUIVisitor stv = new OdgeUIVisitor(oc => oc.Style = style);
             stv.Traverse(_controls);
             stv.Traverse(_pops);
-        }
-    }
-
-    public class OdgeUIVisitor {
-        public System.Action<OdgeComponent> Method { get; private set; }
-
-        public OdgeUIVisitor(System.Action<OdgeComponent> method) {
-            Method = method;
-        }
-
-        public void Traverse(IEnumerable<OdgeComponent> components) {
-            foreach (OdgeComponent oc in components)
-                oc.AcceptVisitor(this);
         }
     }
 }
