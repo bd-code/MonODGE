@@ -200,103 +200,7 @@ namespace MonODGE.UI {
         private Color _unselectedColor;
 
 
-        //// Text Shadows ////
-
-        /// <summary>
-        /// A Vector[4] array that determines the position of the four text shadows. 
-        /// Padding order: 0-TopLeft, 1-TopRight, 2-BottomLeft, 3-BottomRight.
-        /// </summary>
-        public Vector2[] TextShadows {
-            get { return _textShadows; }
-            set {
-                if (value.Length >= 4) {
-                    _textShadows[0] = value[0];
-                    _textShadows[1] = value[1];
-                    _textShadows[2] = value[2];
-                    _textShadows[3] = value[3];
-                }
-                else if (value.Length == 3) {
-                    _textShadows[0] = value[0];
-                    _textShadows[1] = _textShadows[3] = value[1];
-                    _textShadows[2] = value[2];
-                }
-                else if (value.Length == 2) {
-                    _textShadows[0] = _textShadows[2] = value[0];
-                    _textShadows[1] = _textShadows[3] = value[1];
-                }
-                else if (value.Length == 1) {
-                    _textShadows[0] = _textShadows[1] = _textShadows[2] = _textShadows[3] = value[0];
-                }
-                IsChanged = true;
-            }
-        }
-        private Vector2[] _textShadows;
-
-        /// <summary>
-        /// Sets top-left text shadow position.
-        /// </summary>
-        public Vector2 TextShadowTopLeft {
-            get { return _textShadows[0]; }
-            set {
-                _textShadows[0] = value;
-                IsChanged = true;
-            }
-        }
-
-        /// <summary>
-        /// Sets top-right text shadow position.
-        /// </summary>
-        public Vector2 TextShadowTopRight {
-            get { return _textShadows[1]; }
-            set {
-                _textShadows[1] = value;
-                IsChanged = true;
-            }
-        }
-
-        /// <summary>
-        /// Sets bottom-left text shadow position.
-        /// </summary>
-        public Vector2 TextShadowBottomLeft {
-            get { return _textShadows[2]; }
-            set {
-                _textShadows[2] = value;
-                IsChanged = true;
-            }
-        }
-
-        /// <summary>
-        /// Sets bottom-right text shadow position.
-        /// </summary>
-        public Vector2 TextShadowBottomRight {
-            get { return _textShadows[3]; }
-            set {
-                _textShadows[3] = value;
-                IsChanged = true;
-            }
-        }
-
-        /// <summary>
-        /// Text outline color.
-        /// </summary>
-        public Color TextShadowColor {
-            get { return _textShadowColor; }
-            set {
-                _textShadowColor = value;
-                IsChanged = true;
-            }
-        }
-        private Color _textShadowColor;
-
-        /// <summary>
-        /// TextShadow Preset: Adds a 1px "glow" around text. Great for readability.
-        /// </summary>
-        public static Vector2[] TextShadow_1pxGlow {
-            get { return new[] { new Vector2(-1, -1), new Vector2(1, -1), new Vector2(-1, 1), new Vector2(1, 1) }; }
-        }
-
-
-        //// Padding and Spacing ////
+        //// Padding, Spacing, and Shadows ////
 
         /// <summary>
         /// Represents the Component's inner padding. 
@@ -321,7 +225,20 @@ namespace MonODGE.UI {
             }
         }
         private Spacing _spacing;
-       
+
+
+        /// <summary>
+        /// Text shadowing used in StyledText.
+        /// </summary>
+        public Shadows TextShadow { 
+            get { return _shadows; } 
+            set {
+                _shadows = value;
+                IsChanged = true;
+            }
+        }
+        private Shadows _shadows;
+
 
         //// Input Mapping ////
 
@@ -394,9 +311,7 @@ namespace MonODGE.UI {
 
             _padding = new Padding(0, 0, 0, 0);
             _spacing = new Spacing(0, 0);
-            _textShadows = new Vector2[4] {
-                Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero
-            };
+            _shadows = new Shadows(Color.Transparent, 0);
 
             IsChanged = false;
         }
@@ -425,49 +340,12 @@ namespace MonODGE.UI {
             clone.SubmitButton = SubmitButton;          clone.SubmitKey = SubmitKey;
             clone.AlignH = AlignH;              clone.AlignV = AlignV;
             clone.TextColor = TextColor;
-            clone.TextShadowColor = TextShadowColor;    clone.TextShadows = TextShadows;
+            clone.TextShadow = TextShadow;
             clone.IsChanged = false;
             return clone;
         }
 
         public void RegisterChanges() { IsChanged = true; }
         public void AcceptChanges() { IsChanged = false; }
-    }
-
-    //***********************************************************************//
-
-    /// <summary>
-    /// Represents 4-sided inner padding. 
-    /// </summary>
-    public struct Padding {
-        public int Top { get; set; }
-        public int Left { get; set; }
-        public int Right { get; set; }
-        public int Bottom { get; set; }
-
-        public Padding(int all) { Top = Right = Bottom = Left = all; }
-        public Padding(int leftright, int topbottom) {
-            Left = Right = leftright;
-            Top = Bottom = topbottom;
-        }
-        public Padding(int top, int right, int bottom, int left) {
-            Top = top;             Right = right;
-            Bottom = bottom;       Left = left;
-        }
-    }
-
-
-    /// <summary>
-    /// Represents inner space around sub-components.
-    /// </summary>
-    public struct Spacing {
-        public int Horizontal { get; set; }
-        public int Vertical { get; set; }
-
-        public Spacing(int all) { Horizontal = Vertical = all; }
-        public Spacing(int horizontal, int vertical) {
-            Horizontal = horizontal;
-            Vertical = vertical;
-        }
     }
 }

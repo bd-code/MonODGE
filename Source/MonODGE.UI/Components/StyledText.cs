@@ -122,11 +122,11 @@ namespace MonODGE.UI.Components {
 
 
         private void DrawShadows(SpriteBatch batch, int index, Vector2 where) {
-            for (int s = 0; s < Style.TextShadows.Length; s++) {
-                if (Style.TextShadows[s] != Vector2.Zero) {
+            foreach (var s in Style.TextShadow.Distances) {
+                if (s != Vector2.Zero) {
                     batch.DrawString(_font, _lines[index],
-                        where + _positions[index] + Style.TextShadows[s],
-                        Style.TextShadowColor);
+                        where + _positions[index] + s,
+                        Style.TextShadow.Color);
                 }
             }
         }
