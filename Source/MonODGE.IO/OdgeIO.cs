@@ -60,16 +60,17 @@ namespace MonODGE.IO {
             return IsCommandDown(0, command);
         }
         public static bool IsCommandDown(int playerIndex, string command) {
-            if (Input.GamePadEnabled && Map.HasButtonsCommand(command)) {
-                Buttons b = Map.ButtonLookup(command);
-                if (GP.IsButtonDown(playerIndex, b))
-                    return true;
-            }
-            else if (Input.KeyboardEnabled && Map.HasKeysCommand(command)) {
-                Keys k = Map.KeyboardLookup(command);
-                return KB.IsKeyDown(k);
-            }
-            return false;
+            if (
+            (Input.GamePadEnabled
+            && Map.HasButtonsCommand(command)
+            && GP.IsButtonDown(playerIndex, Map.ButtonLookup(command)))
+            ||
+            (Input.KeyboardEnabled
+            && Map.HasKeysCommand(command)
+            && KB.IsKeyDown(Map.KeyboardLookup(command)))
+            )
+                return true;
+            else return false;
         }
 
 
@@ -77,16 +78,17 @@ namespace MonODGE.IO {
             return IsCommandHold(0, command);
         }
         public static bool IsCommandHold(int playerIndex, string command) {
-            if (Input.GamePadEnabled && Map.HasButtonsCommand(command)) {
-                Buttons b = Map.ButtonLookup(command);
-                if (GP.IsButtonHold(playerIndex, b))
-                    return true;
-            }
-            else if (Input.KeyboardEnabled && Map.HasKeysCommand(command)) {
-                Keys k = Map.KeyboardLookup(command);
-                return KB.IsKeyHold(k);
-            }
-            return false;
+            if (
+            (Input.GamePadEnabled
+            && Map.HasButtonsCommand(command)
+            && GP.IsButtonHold(playerIndex, Map.ButtonLookup(command)))
+            ||
+            (Input.KeyboardEnabled
+            && Map.HasKeysCommand(command)
+            && KB.IsKeyHold(Map.KeyboardLookup(command)))
+            )
+                return true;
+            else return false;
         }
 
 
@@ -94,17 +96,17 @@ namespace MonODGE.IO {
             return IsCommandPress(0, command);
         }
         public static bool IsCommandPress(int playerIndex, string command) {
-            if (Input.GamePadEnabled && Map.HasButtonsCommand(command)) {
-                Buttons b = Map.ButtonLookup(command);
-                if (GP.IsButtonPress(playerIndex, b))
-                    return true;
-            }
-            else
-            if (Input.KeyboardEnabled && Map.HasKeysCommand(command)) {
-                Keys k = Map.KeyboardLookup(command);
-                return KB.IsKeyPress(k);
-            }
-            return false;
+            if (
+            (Input.GamePadEnabled
+            && Map.HasButtonsCommand(command)
+            && GP.IsButtonPress(playerIndex, Map.ButtonLookup(command)))
+            ||
+            (Input.KeyboardEnabled
+            && Map.HasKeysCommand(command)
+            && KB.IsKeyPress(Map.KeyboardLookup(command)))
+            )
+                return true;
+            else return false;
         }
 
 
@@ -112,16 +114,17 @@ namespace MonODGE.IO {
             return IsCommandRelease(0, command);
         }
         public static bool IsCommandRelease(int playerIndex, string command) {
-            if (Input.GamePadEnabled && Map.HasButtonsCommand(command)) {
-                Buttons b = Map.ButtonLookup(command);
-                if (GP.IsButtonRelease(playerIndex, b))
-                    return true;
-            }
-            else if (Input.KeyboardEnabled && Map.HasKeysCommand(command)) {
-                Keys k = Map.KeyboardLookup(command);
-                return KB.IsKeyRelease(k);
-            }
-            return false;
+            if (
+            (Input.GamePadEnabled
+            && Map.HasButtonsCommand(command)
+            && GP.IsButtonRelease(playerIndex, Map.ButtonLookup(command)))
+            ||
+            (Input.KeyboardEnabled
+            && Map.HasKeysCommand(command)
+            && KB.IsKeyRelease(Map.KeyboardLookup(command)))
+            )
+                return true;
+            else return false;
         }
     }
 
