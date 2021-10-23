@@ -100,13 +100,13 @@ namespace MonODGE.UI.Components {
         public override void Draw(SpriteBatch batch) {
             DrawBG(batch);
             DrawBorders(batch);
-            batch.DrawString(Style.Font, Text, Dimensions.Location.ToVector2() + textPosition, Style.TextColor);
+            batch.DrawString(Style.Font, Text, Location.ToVector2() + textPosition, Style.TextColor);
         }
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             DrawBG(batch, parentRect);
             DrawBorders(batch, parentRect);
             batch.DrawString(Style.Font, Text, 
-                (Dimensions.Location + parentRect.Location).ToVector2() + textPosition, Style.TextColor);
+                (Location + parentRect.Location).ToVector2() + textPosition, Style.TextColor);
         }
 
 

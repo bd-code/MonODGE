@@ -36,6 +36,20 @@ namespace MonODGE.IO {
             }
         }
 
+        /// <summary>
+        /// This is provided in case user wants to use an external input manager. 
+        /// Pass in the GamePadState of the external input manager to effectively 
+        /// "sync" OdgeInput's GamePadState with the external.
+        /// </summary>
+        /// <param name="playerIndex">GamePad player index.</param>
+        /// <param name="padstate">GamePadState of the external input library.</param>
+        public void Update(int playerIndex, GamePadState padstate) {
+            if (playerIndex < _playercount) {
+                OldStates[playerIndex] = States[playerIndex];
+                States[playerIndex] = padstate;
+            }
+        }
+
 
         public bool IsButtonDown(int playerIndex, Buttons button) {
             return States[playerIndex].IsButtonDown(button);

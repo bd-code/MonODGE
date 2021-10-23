@@ -104,7 +104,7 @@ namespace MonODGE.UI.Components {
             DrawBorders(batch);
 
             if (messageIndex < messages.Length) {
-                _stytex.Draw(batch, new Rectangle(Dimensions.Location + textPoint, Dimensions.Size));
+                _stytex.Draw(batch, new Rectangle(Location + textPoint, Size));
                 if (messages.Length > 1)
                     DrawFooter(batch, Dimensions);
             }
@@ -116,9 +116,9 @@ namespace MonODGE.UI.Components {
             DrawBorders(batch, parentRect);
 
             if (messageIndex < messages.Length) {
-                _stytex.Draw(batch, new Rectangle(parentRect.Location + Dimensions.Location + textPoint, Dimensions.Size));
+                _stytex.Draw(batch, new Rectangle(parentRect.Location + Location + textPoint, Size));
                 if (messages.Length > 1) {
-                    Rectangle where = new Rectangle(parentRect.Location + Dimensions.Location, Dimensions.Size);
+                    Rectangle where = new Rectangle(parentRect.Location + Location, Size);
                     DrawFooter(batch, where);
                 }
             }

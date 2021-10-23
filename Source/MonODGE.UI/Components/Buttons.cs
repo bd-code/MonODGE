@@ -48,17 +48,8 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch) {
-            DrawBG(batch);
-
-            if (IsSelected) 
-                DrawBorders(batch);            
-            else 
-                DrawCorners(batch);
-            
-            _stytex.Draw(batch, new Rectangle(Dimensions.Location + textPoint, Dimensions.Size));
+            Draw(batch, Rectangle.Empty);
         }
-
-
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             DrawBG(batch, parentRect);
 
@@ -67,7 +58,7 @@ namespace MonODGE.UI.Components {
             else 
                 DrawCorners(batch, parentRect);
             
-            _stytex.Draw(batch, new Rectangle(parentRect.Location + Dimensions.Location + textPoint, Dimensions.Size));
+            _stytex.Draw(batch, new Rectangle(parentRect.Location + Location + textPoint, Size));
         }
 
 
@@ -113,42 +104,25 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch) {
-            Rectangle dst = new Rectangle(Dimensions.Location + dstRect.Location, dstRect.Size);
-            DrawBG(batch);
-
-            if (IsSelected) {
-                DrawBorders(batch);
-                batch.Draw(texture, dst, srcRect, Color.White);
-            }
-            else {
-                DrawCorners(batch);
-                batch.Draw(texture, dst, srcRect, Color.Gray);
-            }
+            Draw(batch, Rectangle.Empty);
         }
-
-
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
-            Rectangle where = new Rectangle(parentRect.Location + Dimensions.Location, Dimensions.Size);
             DrawBG(batch, parentRect);
+            Rectangle where = new Rectangle(parentRect.Location + Location + dstRect.Location, dstRect.Size);
 
             if (IsSelected) {
                 DrawBorders(batch, parentRect);
-                batch.Draw(texture, 
-                    new Rectangle(where.Location + dstRect.Location, dstRect.Size), 
-                    srcRect, Color.White);
+                batch.Draw(texture, where, srcRect, Color.White);
             }
             else {
                 DrawCorners(batch, parentRect);
-                batch.Draw(texture, 
-                    new Rectangle(where.Location + dstRect.Location, dstRect.Size), 
-                    srcRect, Color.Gray);
+                batch.Draw(texture, where, srcRect, Color.Gray);
             }
         }
 
 
         public override void Layout() {
             // No child components, Rectangle adjustments unnecessary.
-            //PackToSize(new Point(Width, Height));
             dstRect.Location = Utilities.LayoutHelper.AlignToPoint(this, srcRect);
             base.Layout();
         }

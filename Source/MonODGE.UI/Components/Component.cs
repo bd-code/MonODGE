@@ -189,8 +189,10 @@ namespace MonODGE.UI.Components {
         /// <param name="where">Rectangle area to draw.</param>
         protected void DrawBG(SpriteBatch batch, Rectangle parentRect) {
             if (Style.Background != null) {
-                var rect = new Rectangle(parentRect.Location + Dimensions.Location, Dimensions.Size);
-                batch.Draw(Style.Background, rect, Style.BackgroundColor);
+                batch.Draw(
+                    Style.Background, 
+                    new Rectangle(parentRect.Location + Location, Size), 
+                    Style.BackgroundColor);
             }
         }
 
@@ -200,9 +202,7 @@ namespace MonODGE.UI.Components {
         /// </summary>
         /// <param name="batch">SpriteBatch</param>
         protected void DrawCorners(SpriteBatch batch) {
-            if (Style.Borders != null) {
-                Style.Borders.DrawCorners(batch, Dimensions, Style.BorderColor);
-            }
+            Style.Borders?.DrawCorners(batch, Dimensions, Style.BorderColor);
         }
 
 
@@ -213,10 +213,10 @@ namespace MonODGE.UI.Components {
         /// <param name="batch">SpriteBatch</param>
         /// <param name="where">Rectangle area to draw.</param>
         protected void DrawCorners(SpriteBatch batch, Rectangle parentRect) {
-            if (Style.Borders != null) {
-                var rect = new Rectangle(parentRect.Location + Dimensions.Location, Dimensions.Size);
-                Style.Borders.DrawCorners(batch, rect, Style.BorderColor);
-            }
+            Style.Borders?.DrawCorners(
+                batch, 
+                new Rectangle(parentRect.Location + Location, Size), 
+                Style.BorderColor);
         }
 
 
@@ -225,9 +225,7 @@ namespace MonODGE.UI.Components {
         /// </summary>
         /// <param name="batch">SpriteBatch</param>
         protected void DrawBorders(SpriteBatch batch) {
-            if (Style.Borders != null) {
-                Style.Borders.Draw(batch, Dimensions, Style.BorderColor);
-            }
+            Style.Borders?.Draw(batch, Dimensions, Style.BorderColor);
         }
 
 
@@ -237,10 +235,10 @@ namespace MonODGE.UI.Components {
         /// <param name="batch">SpriteBatch</param>
         /// <param name="parentRect">Rectangle area to draw.</param>
         protected void DrawBorders(SpriteBatch batch, Rectangle parentRect) {
-            if (Style.Borders != null) {
-                var rect = new Rectangle(parentRect.Location + Dimensions.Location, Dimensions.Size);
-                Style.Borders.Draw(batch, rect, Style.BorderColor);
-            }
+            Style.Borders?.Draw(
+                batch, 
+                new Rectangle(parentRect.Location + Location, Size), 
+                Style.BorderColor);
         }
 
 
@@ -256,43 +254,43 @@ namespace MonODGE.UI.Components {
             }
 
             else if (anchor == SnapAnchors.TOP) {
-                Location = new Point((screenwidth - Dimensions.Width) / 2, 0);
+                Location = new Point((screenwidth - Width) / 2, 0);
             }
 
             else if (anchor == SnapAnchors.TOPRIGHT) {
-                Location = new Point(screenwidth - Dimensions.Width, 0);
+                Location = new Point(screenwidth - Width, 0);
             }
 
             else if (anchor == SnapAnchors.LEFT) {
-                Location = new Point(0, (screenheight - Dimensions.Height) / 2);
+                Location = new Point(0, (screenheight - Height) / 2);
             }
 
             else if (anchor == SnapAnchors.CENTER) {
                 Location = new Point(
-                    (screenwidth - Dimensions.Width) / 2,
-                    (screenheight - Dimensions.Height) / 2);
+                    (screenwidth - Width) / 2,
+                    (screenheight - Height) / 2);
             }
 
             else if (anchor == SnapAnchors.RIGHT) {
                 Location = new Point(
-                    screenwidth - Dimensions.Width,
-                    (screenheight - Dimensions.Height) / 2);
+                    screenwidth - Width,
+                    (screenheight - Height) / 2);
             }
 
             else if (anchor == SnapAnchors.BOTTOMLEFT) {
-                Location = new Point(0, screenheight - Dimensions.Height);
+                Location = new Point(0, screenheight - Height);
             }
 
             else if (anchor == SnapAnchors.BOTTOM) {
                 Location = new Point(
-                    (screenwidth - Dimensions.Width) / 2,
-                    screenheight - Dimensions.Height);
+                    (screenwidth - Width) / 2,
+                    screenheight - Height);
             }
 
             else if (anchor == SnapAnchors.BOTTOMRIGHT) {
                 Location = new Point(
-                    screenwidth - Dimensions.Width,
-                    screenheight - Dimensions.Height);
+                    screenwidth - Width,
+                    screenheight - Height);
             }
 
             Layout();
@@ -376,14 +374,6 @@ namespace MonODGE.UI.Components {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-
-    /*
-     * NOTE: If a "popup" doesn't vanish after the Timeout, THEN IT ISN'T A POPUP!
-     * Looking at StyledText(fixed), ProgressBar here.
-     * Could add PopImage, Countdown classes.
-     * 
-     * Also, change type name from OdgePopUp to OdgeNotification.
-     */
 
     /// <summary>
     /// PopUps are temporary non-modal components that do not respond to input

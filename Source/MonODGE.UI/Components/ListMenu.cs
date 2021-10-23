@@ -120,7 +120,7 @@ namespace MonODGE.UI.Components {
         public override void Draw(SpriteBatch batch) {
             DrawBG(batch);
             DrawBorders(batch);
-            _stytex.Draw(batch, new Rectangle(Dimensions.Location + textPoint, Dimensions.Size));
+            _stytex.Draw(batch, new Rectangle(Location + textPoint, Size));
             
             for (int p = 0; p < Options.Count; p++) {
                 if (Options[p].Y >= 0 && Options[p].Dimensions.Bottom <= _bpanel.Height) {
@@ -131,7 +131,7 @@ namespace MonODGE.UI.Components {
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             DrawBG(batch, parentRect);
             DrawBorders(batch, parentRect);
-            _stytex.Draw(batch, new Rectangle(Dimensions.Location + parentRect.Location + textPoint, Dimensions.Size));
+            _stytex.Draw(batch, new Rectangle(Location + parentRect.Location + textPoint, Size));
 
             Rectangle bp2 = new Rectangle(_bpanel.Location + parentRect.Location, _bpanel.Size);
             for (int p = 0; p < Options.Count; p++) {

@@ -35,14 +35,14 @@ namespace MonODGE.UI.Components {
         public override void Draw(SpriteBatch batch) {
             DrawBG(batch);
             DrawBorders(batch);
-            _stytex.Draw(batch, new Rectangle(Dimensions.Location + textPoint, Dimensions.Size));
+            _stytex.Draw(batch, new Rectangle(Location + textPoint, Size));
         }
 
 
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             DrawBG(batch, parentRect);
             DrawBorders(batch, parentRect);
-            _stytex.Draw(batch, new Rectangle(parentRect.Location + Dimensions.Location + textPoint, Dimensions.Size));
+            _stytex.Draw(batch, new Rectangle(parentRect.Location + Location + textPoint, Size));
         }
 
 

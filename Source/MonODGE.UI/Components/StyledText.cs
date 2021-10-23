@@ -99,7 +99,6 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch) {
-            //DrawBorders(batch);
             for (int d = 0; d < _lines.Length; d++) {
                 DrawShadows(batch, d, new Vector2(X, Y));
                 batch.DrawString(_font, _lines[d], 
@@ -111,7 +110,6 @@ namespace MonODGE.UI.Components {
 
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             Vector2 where = new Vector2(X + parentRect.X, Y + parentRect.Y);
-            //DrawCorners(batch, new Rectangle(where.ToPoint(), Size));
             for (int d = 0; d < _lines.Length; d++) {
                 DrawShadows(batch, d, where);
                 batch.DrawString(_font, _lines[d], 

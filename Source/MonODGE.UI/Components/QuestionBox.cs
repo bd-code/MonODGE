@@ -77,7 +77,7 @@ namespace MonODGE.UI.Components {
                 }
             };
 
-            Resize += (o, e) => dialog.Size = Dimensions.Size;
+            Resize += (o, e) => dialog.Size = Size;
 
             // At first optionNo should be selected.
             btnNo.OnSelected();
@@ -121,7 +121,7 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
-            Rectangle where = new Rectangle(parentRect.Location + Dimensions.Location, Dimensions.Location);
+            Rectangle where = new Rectangle(parentRect.Location + Location, Location);
             dialog.Draw(batch, where);
             btnYes.Draw(batch, where);
             btnNo.Draw(batch, where);
