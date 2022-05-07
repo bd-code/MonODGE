@@ -7,6 +7,8 @@ namespace MonODGE.UI {
         private Rectangle _srcrect;
 
         public Texture2D Texture => _tex2d;
+        public int Width => _srcrect.Width;
+        public int Height => _srcrect.Height;
 
         /// <summary>
         /// Constructs a BGTexture with full texture width, height.
