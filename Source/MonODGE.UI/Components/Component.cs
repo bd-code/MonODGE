@@ -12,9 +12,9 @@ namespace MonODGE.UI.Components {
     /// </summary>
     public abstract class OdgeComponent {
         public enum SnapAnchors {
-            TOPLEFT, TOP, TOPRIGHT,
-            LEFT, CENTER, RIGHT,
-            BOTTOMLEFT, BOTTOM, BOTTOMRIGHT
+            LEFTTOP, CENTERTOP, RIGHTTOP,
+            LEFTCENTER, CENTER, RIGHTCENTER,
+            LEFTBOTTOM, CENTERBOTTOM, RIGHTBOTTOM
         }
 
         internal OdgeUI _manager;
@@ -249,50 +249,82 @@ namespace MonODGE.UI.Components {
         /// <param name="screenwidth">Screen width.</param>
         /// <param name="screenheight">Screen height.</param>
         public virtual void SnapTo(SnapAnchors anchor, int screenwidth, int screenheight) {
-            if (anchor == SnapAnchors.TOPLEFT) {
-                Location = new Point(0, 0);
+            SnapTo(anchor, new Rectangle(0, 0, screenwidth, screenheight));
+        }
+
+
+        /// <summary>
+        /// Snaps the OdgeComponent to a position within a rectangle.
+        /// </summary>
+        /// <param name="anchor">A SnapAnchors enum value.</param>
+        /// <param name="screenrect">The bounding rectangle.</param>
+        public virtual void SnapTo(SnapAnchors anchor, Rectangle screenrect) {
+            int nx = 0;
+            int ny = 0;
+
+            if (anchor == SnapAnchors.LEFTTOP) {
+                nx = screenrect.X;
+                ny = screenrect.Y;
+                //Location = screenrect.Location;
             }
 
-            else if (anchor == SnapAnchors.TOP) {
-                Location = new Point((screenwidth - Width) / 2, 0);
+            else if (anchor == SnapAnchors.CENTERTOP) {
+                nx = ((screenrect.Width - Width) / 2) + screenrect.X;
+                ny = screenrect.Y;
+                //Location = new Point(nx, screenrect.Y);
             }
 
-            else if (anchor == SnapAnchors.TOPRIGHT) {
-                Location = new Point(screenwidth - Width, 0);
+            else if (anchor == SnapAnchors.RIGHTTOP) {
+                nx = screenrect.Width - Width + screenrect.X;
+                ny = screenrect.Y;
+                //Location = new Point(nx, screenrect.Y);
             }
 
-            else if (anchor == SnapAnchors.LEFT) {
-                Location = new Point(0, (screenheight - Height) / 2);
+            else if (anchor == SnapAnchors.LEFTCENTER) {
+                nx = screenrect.X;
+                ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
+                //Location = new Point(0, (screenheight - Height) / 2);
             }
 
             else if (anchor == SnapAnchors.CENTER) {
-                Location = new Point(
-                    (screenwidth - Width) / 2,
-                    (screenheight - Height) / 2);
+                nx = ((screenrect.Width - Width) / 2) + screenrect.X;
+                ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
+                //Location = new Point(
+                //    (screenwidth - Width) / 2,
+                //    (screenheight - Height) / 2);
             }
 
-            else if (anchor == SnapAnchors.RIGHT) {
-                Location = new Point(
-                    screenwidth - Width,
-                    (screenheight - Height) / 2);
+            else if (anchor == SnapAnchors.RIGHTCENTER) {
+                nx = screenrect.Width - Width + screenrect.X;
+                ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
+                //Location = new Point(
+                //    screenwidth - Width,
+                //    (screenheight - Height) / 2);
             }
 
-            else if (anchor == SnapAnchors.BOTTOMLEFT) {
-                Location = new Point(0, screenheight - Height);
+            else if (anchor == SnapAnchors.LEFTBOTTOM) {
+                nx = screenrect.X;
+                ny = screenrect.Height - Height + screenrect.Y;
+                //Location = new Point(0, screenheight - Height);
             }
 
-            else if (anchor == SnapAnchors.BOTTOM) {
-                Location = new Point(
-                    (screenwidth - Width) / 2,
-                    screenheight - Height);
+            else if (anchor == SnapAnchors.CENTERBOTTOM) {
+                nx = ((screenrect.Width - Width) / 2) + screenrect.X;
+                ny = screenrect.Height - Height + screenrect.Y;
+                //Location = new Point(
+                //    (screenwidth - Width) / 2,
+                //    screenheight - Height);
             }
 
-            else if (anchor == SnapAnchors.BOTTOMRIGHT) {
-                Location = new Point(
-                    screenwidth - Width,
-                    screenheight - Height);
+            else if (anchor == SnapAnchors.RIGHTBOTTOM) {
+                nx = screenrect.Width - Width + screenrect.X;
+                ny = screenrect.Height - Height + screenrect.Y;
+                //Location = new Point(
+                //    screenwidth - Width,
+                //    screenheight - Height);
             }
 
+            Location = new Point(nx, ny);
             Layout();
         }
     }
