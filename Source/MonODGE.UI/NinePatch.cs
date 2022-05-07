@@ -19,18 +19,10 @@ namespace MonODGE.UI {
         /// Constructs a NinePatch by dividing image to equal thirds.
         /// </summary>
         /// <param name="image">Texture2D to be stretched. Must be larger than 3x3px.</param>
-        public NinePatch(Texture2D image) {
-            _tex2d = image;
-            _cornerWidth = image.Width / 3;
-            _cornerHeight = image.Height / 3;
-
-            if (_cornerWidth == 0 || _cornerHeight == 0) {
-                string e = $"NinePatch: image.Width or image.Height is < 3 px.";
-                throw new ArgumentException(e);
-            }
-
-            _srcRects = GetPatches(new Rectangle(0, 0, image.Width, image.Height));
-        }
+        public NinePatch(Texture2D image) : 
+            this(image, 
+                new Rectangle(0, 0, image.Width, image.Height), 
+                image.Width / 3, image.Height / 3) { }
 
 
         /// <summary>
@@ -39,21 +31,42 @@ namespace MonODGE.UI {
         /// <param name="image">Texture2D to be stretched. Must be larger than 3x3px.</param>
         /// <param name="cornerWidth">Must be strictly less than image.Width / 2.</param>
         /// <param name="cornerHeight">Must be strictly less than image.Height / 2.</param>
-        public NinePatch(Texture2D image, int cornerWidth, int cornerHeight) {
+        public NinePatch(Texture2D image, int cornerWidth, int cornerHeight) :
+            this(image, 
+                new Rectangle(0, 0, image.Width, image.Height), 
+                cornerWidth, cornerHeight) { }
+
+
+        /// <summary>
+        /// Constructs a NinePatch with fixed corner area from texture selection.
+        /// </summary>
+        /// <param name="image">Texture2D to be stretched. Must be larger than 3x3px.</param>
+        /// <param name="selection">Texture source rectangle.</param>
+        /// <param name="cornerWidth">Must be strictly less than image.Width / 2.</param>
+        /// <param name="cornerHeight">Must be strictly less than image.Height / 2</param>
+        public NinePatch(Texture2D image, Rectangle selection, int cornerWidth, int cornerHeight) {
             _tex2d = image;
             _cornerWidth = cornerWidth;
             _cornerHeight = cornerHeight;
-            
-            if (_cornerWidth >= _tex2d.Width / 2) {
-                string e = $"NinePatch: cornerWidth {_cornerWidth} is too large for image.Width {_tex2d.Width}.";
+
+            if (image.Width < 3 || image.Height < 3) {
+                string e = $"NinePatch: image.Width or image.Height is < 3 px.";
+                throw new ArgumentException(e);
+            }
+            else if (_cornerWidth == 0 || _cornerHeight == 0) {
+                string e = $"NinePatch: cornerWidth or cornerHeight is 0.";
                 throw new ArgumentOutOfRangeException(e);
             }
-            else if (_cornerHeight >= _tex2d.Height / 2) {
-                string e = $"NinePatch: cornerHeight {_cornerHeight} is too large for image.Height {_tex2d.Height}.";
+            else if (_cornerWidth >= selection.Width / 2) {
+                string e = $"NinePatch: cornerWidth {_cornerWidth} is too large for image.Width {selection.Width}.";
+                throw new ArgumentOutOfRangeException(e);
+            }
+            else if (_cornerHeight >= selection.Height / 2) {
+                string e = $"NinePatch: cornerHeight {_cornerHeight} is too large for image.Height {selection.Height}.";
                 throw new ArgumentOutOfRangeException(e);
             }
 
-            _srcRects = GetPatches(new Rectangle(0, 0, image.Width, image.Height));
+            _srcRects = GetPatches(selection);
         }
 
 

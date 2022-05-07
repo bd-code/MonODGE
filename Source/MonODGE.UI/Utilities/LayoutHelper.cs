@@ -1,8 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using MonODGE.UI.Components;
@@ -65,7 +62,7 @@ namespace MonODGE.UI.Utilities {
 
 
         /// <summary>
-        /// Returns largest width and largest height of the OdgeComponent..
+        /// Returns largest width and largest height of the OdgeComponent.
         /// Largest width and height need not be on the same button.
         /// </summary>
         /// <param name="odges">Sequence of OdgeComponents.</param>

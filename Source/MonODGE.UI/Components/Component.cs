@@ -176,8 +176,7 @@ namespace MonODGE.UI.Components {
         /// </summary>
         /// <param name="batch">SpriteBatch</param>
         protected void DrawBG(SpriteBatch batch) {
-            if (Style.Background != null)
-                batch.Draw(Style.Background, Dimensions, Style.BackgroundColor);
+            Style.Background?.Draw(batch, Dimensions, Style.BackgroundColor);
         }
 
 
@@ -188,12 +187,10 @@ namespace MonODGE.UI.Components {
         /// <param name="batch">SpriteBatch</param>
         /// <param name="where">Rectangle area to draw.</param>
         protected void DrawBG(SpriteBatch batch, Rectangle parentRect) {
-            if (Style.Background != null) {
-                batch.Draw(
-                    Style.Background, 
-                    new Rectangle(parentRect.Location + Location, Size), 
-                    Style.BackgroundColor);
-            }
+            Style.Background?.Draw(
+                batch, 
+                new Rectangle(parentRect.Location + Location, Size), 
+                Style.BackgroundColor);
         }
 
 
@@ -265,63 +262,46 @@ namespace MonODGE.UI.Components {
             if (anchor == SnapAnchors.LEFTTOP) {
                 nx = screenrect.X;
                 ny = screenrect.Y;
-                //Location = screenrect.Location;
             }
 
             else if (anchor == SnapAnchors.CENTERTOP) {
                 nx = ((screenrect.Width - Width) / 2) + screenrect.X;
                 ny = screenrect.Y;
-                //Location = new Point(nx, screenrect.Y);
             }
 
             else if (anchor == SnapAnchors.RIGHTTOP) {
                 nx = screenrect.Width - Width + screenrect.X;
                 ny = screenrect.Y;
-                //Location = new Point(nx, screenrect.Y);
             }
 
             else if (anchor == SnapAnchors.LEFTCENTER) {
                 nx = screenrect.X;
                 ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
-                //Location = new Point(0, (screenheight - Height) / 2);
             }
 
             else if (anchor == SnapAnchors.CENTER) {
                 nx = ((screenrect.Width - Width) / 2) + screenrect.X;
                 ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
-                //Location = new Point(
-                //    (screenwidth - Width) / 2,
-                //    (screenheight - Height) / 2);
             }
 
             else if (anchor == SnapAnchors.RIGHTCENTER) {
                 nx = screenrect.Width - Width + screenrect.X;
                 ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
-                //Location = new Point(
-                //    screenwidth - Width,
-                //    (screenheight - Height) / 2);
             }
 
             else if (anchor == SnapAnchors.LEFTBOTTOM) {
                 nx = screenrect.X;
                 ny = screenrect.Height - Height + screenrect.Y;
-                //Location = new Point(0, screenheight - Height);
             }
 
             else if (anchor == SnapAnchors.CENTERBOTTOM) {
                 nx = ((screenrect.Width - Width) / 2) + screenrect.X;
                 ny = screenrect.Height - Height + screenrect.Y;
-                //Location = new Point(
-                //    (screenwidth - Width) / 2,
-                //    screenheight - Height);
             }
 
             else if (anchor == SnapAnchors.RIGHTBOTTOM) {
                 nx = screenrect.Width - Width + screenrect.X;
                 ny = screenrect.Height - Height + screenrect.Y;
-                //Location = new Point(
-                //    screenwidth - Width,
-                //    screenheight - Height);
             }
 
             Location = new Point(nx, ny);

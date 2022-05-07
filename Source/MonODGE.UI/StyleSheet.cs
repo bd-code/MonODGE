@@ -44,14 +44,14 @@ namespace MonODGE.UI {
         /// <summary>
         /// Background texture which fills Component dimensions. Can be set to null for no background.
         /// </summary>
-        public Texture2D Background {
+        public BGTexture Background {
             get { return _background; }
             set {
                 _background = value;
                 IsChanged = true;
             }
         }
-        private Texture2D _background;
+        private BGTexture _background;
 
         /// <summary>
         /// Border texture color. Set to Color.White to match original image.

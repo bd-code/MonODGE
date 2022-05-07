@@ -74,17 +74,17 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch) {
-            batch.Draw(Style.Background, _filledRect, Style.SelectedTextColor);
+            Style.Background?.Draw(batch, _filledRect, Style.SelectedTextColor);
             if (DrawIncompleteBar)
-                batch.Draw(Style.Background, _unfilledRect, Style.UnselectedTextColor);
+                Style.Background?.Draw(batch, _unfilledRect, Style.UnselectedTextColor);
         }
 
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
-            batch.Draw(Style.Background, 
+            Style.Background?.Draw(batch, 
                 new Rectangle(parentRect.Location + _filledRect.Location, _filledRect.Size), 
                 Style.SelectedTextColor);
             if (DrawIncompleteBar)
-                batch.Draw(Style.Background, 
+                Style.Background?.Draw(batch, 
                     new Rectangle(parentRect.Location + _unfilledRect.Location, _unfilledRect.Size), 
                     Style.UnselectedTextColor);
         }
