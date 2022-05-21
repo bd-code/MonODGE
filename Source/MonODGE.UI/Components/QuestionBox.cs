@@ -16,6 +16,11 @@ namespace MonODGE.UI.Components {
         private OdgeButton btnNo;
         private DialogBox dialog;
 
+        /// <summary>
+        /// Sets whether the QuestionBox automatically closes when a Button is chosen.
+        /// </summary>
+        public bool AutoClose { get; set; }
+
         private bool _btnInText;
         public bool ButtonsInText {
             get { return _btnInText; }
@@ -55,6 +60,7 @@ namespace MonODGE.UI.Components {
             _btnAnchorIn = false;
 
             Answer = AnswerType.Unanswered;
+            AutoClose = true;
 
             PackToSize(area);
             Layout();
@@ -95,6 +101,7 @@ namespace MonODGE.UI.Components {
         public override void Update() {
             if (CheckSubmit) {
                 OnSubmit();
+                if (AutoClose) Close();
             }
 
             else if (!btnYes.IsSelected && InputHelper.LEFT) {
@@ -109,6 +116,7 @@ namespace MonODGE.UI.Components {
 
             else if (CheckCancel) {
                 OnCancel();
+                if (AutoClose) Close();
             }
         }
 
