@@ -370,10 +370,10 @@ namespace MonODGE.UI.Components {
         public event EventHandler Cancel;
 
         public void Close() {
-            if (_manager != null) {
+            if (_manager != null)
                 _manager.Close(this);
-                OnClosed();
-            }
+            else
+                throw new Exception($"Control {Name}: Close() called without UI manager.");
         }
 
         protected bool CheckSubmit {
@@ -404,10 +404,10 @@ namespace MonODGE.UI.Components {
         }
 
         public void Close() {
-            if (_manager != null) {
+            if (_manager != null)
                 _manager.Close(this);
-                OnClosed();
-            }
+            else
+                throw new Exception($"Popup {Name}: Close() called without UI manager.");
         }
     }
 
