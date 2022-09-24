@@ -11,7 +11,7 @@ namespace MonODGE.UI.Components {
     /// Base class for all MonODGE.UI components.
     /// </summary>
     public abstract class OdgeComponent {
-        public enum SnapAnchors {
+        public enum Anchors {
             LEFTTOP, CENTERTOP, RIGHTTOP,
             LEFTCENTER, CENTER, RIGHTCENTER,
             LEFTBOTTOM, CENTERBOTTOM, RIGHTBOTTOM
@@ -245,7 +245,7 @@ namespace MonODGE.UI.Components {
         /// <param name="anchor">A SnapAnchors enum value.</param>
         /// <param name="screenwidth">Screen width.</param>
         /// <param name="screenheight">Screen height.</param>
-        public virtual void SnapTo(SnapAnchors anchor, int screenwidth, int screenheight) {
+        public virtual void SnapTo(Anchors anchor, int screenwidth, int screenheight) {
             SnapTo(anchor, new Rectangle(0, 0, screenwidth, screenheight));
         }
 
@@ -255,51 +255,51 @@ namespace MonODGE.UI.Components {
         /// </summary>
         /// <param name="anchor">A SnapAnchors enum value.</param>
         /// <param name="screenrect">The bounding rectangle.</param>
-        public virtual void SnapTo(SnapAnchors anchor, Rectangle screenrect) {
+        public virtual void SnapTo(Anchors anchor, Rectangle screenrect) {
             int nx = 0;
             int ny = 0;
 
-            if (anchor == SnapAnchors.LEFTTOP) {
+            if (anchor == Anchors.LEFTTOP) {
                 nx = screenrect.X;
                 ny = screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.CENTERTOP) {
+            else if (anchor == Anchors.CENTERTOP) {
                 nx = ((screenrect.Width - Width) / 2) + screenrect.X;
                 ny = screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.RIGHTTOP) {
+            else if (anchor == Anchors.RIGHTTOP) {
                 nx = screenrect.Width - Width + screenrect.X;
                 ny = screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.LEFTCENTER) {
+            else if (anchor == Anchors.LEFTCENTER) {
                 nx = screenrect.X;
                 ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.CENTER) {
+            else if (anchor == Anchors.CENTER) {
                 nx = ((screenrect.Width - Width) / 2) + screenrect.X;
                 ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.RIGHTCENTER) {
+            else if (anchor == Anchors.RIGHTCENTER) {
                 nx = screenrect.Width - Width + screenrect.X;
                 ny = ((screenrect.Height - Height) / 2) + screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.LEFTBOTTOM) {
+            else if (anchor == Anchors.LEFTBOTTOM) {
                 nx = screenrect.X;
                 ny = screenrect.Height - Height + screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.CENTERBOTTOM) {
+            else if (anchor == Anchors.CENTERBOTTOM) {
                 nx = ((screenrect.Width - Width) / 2) + screenrect.X;
                 ny = screenrect.Height - Height + screenrect.Y;
             }
 
-            else if (anchor == SnapAnchors.RIGHTBOTTOM) {
+            else if (anchor == Anchors.RIGHTBOTTOM) {
                 nx = screenrect.Width - Width + screenrect.X;
                 ny = screenrect.Height - Height + screenrect.Y;
             }

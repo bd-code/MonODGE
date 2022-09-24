@@ -128,5 +128,19 @@ namespace MonODGE.UI.Utilities {
             }
             return string.Join(Environment.NewLine, lines);
         }
+
+
+        /// <summary>
+        /// Re-formats text to remove single line-breaks but preserve double line-breaks (paragraphs).
+        /// </summary>
+        /// <param name="text">string to re-wrap.</param>
+        /// <returns>The re-wrapped string.</returns>
+        /// <remarks>Useful for reformatting strings broken to get under line char limits.</remarks>
+        public static string ReWrap(string text, SpriteFont font, float maxWidth) {
+            return text
+                .Replace($"{Environment.NewLine}{Environment.NewLine}", "<!~~>")
+                .Replace(Environment.NewLine, " ")
+                .Replace("<!~~>", $"{Environment.NewLine}{Environment.NewLine}");
+        }
     }
 }
