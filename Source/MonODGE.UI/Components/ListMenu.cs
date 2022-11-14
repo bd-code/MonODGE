@@ -21,16 +21,12 @@ namespace MonODGE.UI.Components {
         public int SelectedIndex {
             get { return _selectedIndex; }
             set {
-                if (Options.Count == 0) {
-                    _selectedIndex = 0;
-                    return;
-                }
-
-                value = MathHelper.Clamp(value, 0, Options.Count - 1);
+                value = MathHelper.Clamp(value, 0, Math.Max(0, Options.Count - 1));
                 if (_selectedIndex != value) {
                     SelectedOption?.OnUnselected(); // ?'ed in case SelectedOption was removed.
                     _selectedIndex = value;
-                    SelectedOption.OnSelected();
+                    OnSelectedIndexChanged();
+                    SelectedOption?.OnSelected();
                 }
             }
         }
@@ -77,9 +73,16 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
+        /// This is called when the SelectedIndex property has changed.
+        /// </summary>
+        protected virtual void OnSelectedIndexChanged() { SelectedIndexChanged?.Invoke(this, EventArgs.Empty); }
+        public event EventHandler SelectedIndexChanged;
+
+
+        /// <summary>
         /// This is called in Update when Options.Count == 0.
         /// </summary>
-        public virtual void OnEmpty() { Emptied?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnEmptied() { Emptied?.Invoke(this, EventArgs.Empty); }
         public event EventHandler Emptied;
 
 
@@ -111,7 +114,7 @@ namespace MonODGE.UI.Components {
                     return;
                 }
                 else {
-                    OnEmpty();
+                    OnEmptied();
                 }
             }
         }
