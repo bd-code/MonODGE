@@ -157,7 +157,7 @@ namespace MonODGE.UI.Components {
         }
 
         /// <summary>
-        /// 
+        /// Accepts a OdgeUIVisitor, which runs a method on the OdgeComponent.
         /// </summary>
         /// <param name="visitor"></param>
         public virtual void AcceptVisitor(OdgeUIVisitor visitor) {

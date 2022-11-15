@@ -10,39 +10,16 @@ namespace MonODGE.UI.Components {
     /// <summary>
     /// Displays a scrollable list of option buttons extended from OdgeButton.
     /// </summary>
-    public class ListMenu : OdgeControl {
+    public class ListMenu : OdgeMenu {
         protected StyledText _stytex;
         protected Point textPoint;
-
-        protected List<OdgeButton> Options { get; set; }
         protected Rectangle _bpanel;
 
-        private int _selectedIndex;
-        public int SelectedIndex {
-            get { return _selectedIndex; }
-            set {
-                value = MathHelper.Clamp(value, 0, Math.Max(0, Options.Count - 1));
-                if (_selectedIndex != value) {
-                    SelectedOption?.OnUnselected(); // ?'ed in case SelectedOption was removed.
-                    _selectedIndex = value;
-                    OnSelectedIndexChanged();
-                    SelectedOption?.OnSelected();
-                }
-            }
-        }
 
-        public OdgeButton SelectedOption => 
-            (Options.Count > _selectedIndex) ? Options[_selectedIndex] : null;
-
-
-        protected override int MinWidth {
-            get {
-                int mw = Style.Padding.Left + Style.Padding.Right;
-                if (Options.Count > 0)
-                    mw += Options[0].Width;
-                return mw;
-            }
-        }
+        protected override int MinWidth =>
+            Style.Padding.Left +
+            (Options.Count > 0 ? Options[0].Width : 0) +
+            Style.Padding.Right;
 
 
         public ListMenu(StyleSheet style, Rectangle area, string heading)
@@ -63,33 +40,12 @@ namespace MonODGE.UI.Components {
 
             Layout();
 
-            Opened += (o, e) => {
-                foreach (OdgeButton option in Options)
-                    option.OnOpened();
-            };
-
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
 
 
-        /// <summary>
-        /// This is called when the SelectedIndex property has changed.
-        /// </summary>
-        protected virtual void OnSelectedIndexChanged() { SelectedIndexChanged?.Invoke(this, EventArgs.Empty); }
-        public event EventHandler SelectedIndexChanged;
-
-
-        /// <summary>
-        /// This is called in Update when Options.Count == 0.
-        /// </summary>
-        protected virtual void OnEmptied() { Emptied?.Invoke(this, EventArgs.Empty); }
-        public event EventHandler Emptied;
-
-
         public override void AcceptVisitor(OdgeUIVisitor visitor) {
             _stytex.AcceptVisitor(visitor);
-            foreach (OdgeButton butt in Options)
-                butt.AcceptVisitor(visitor);
             base.AcceptVisitor(visitor);
         }
 
@@ -145,53 +101,13 @@ namespace MonODGE.UI.Components {
         }
 
 
-        private void HandleInput() {
-            // Submit.
-            if (CheckSubmit) {
-                SelectedOption.OnSubmit();
-                // this.OnSubmit()? Maybe containers shouldn't have submit.
-            }
-
-            // Move Down.
-            else if (InputHelper.DOWN) {
-                if (SelectedIndex + 1 >= Options.Count)
-                    SelectedIndex = 0;
-                else
-                    SelectedIndex++;
-            }
-
-            // Move Up!
-            else if (InputHelper.UP) {
-                if (SelectedIndex - 1 < 0)
-                    SelectedIndex = Options.Count - 1;
-                else
-                    SelectedIndex--;
-            }
-
-            // Jump Down.
-            else if (InputHelper.RIGHT) {
-                SelectedIndex += 8;
-            }
-
-            // Jump Up!
-            else if (InputHelper.LEFT) {
-                SelectedIndex -= 8;
-            }
-
-            // Cancel.
-            else if (CheckCancel) {
-                OnCancel();
-            }
-        }
-
-
         public override void Layout() {
             if (_stytex.IsMessy)
                 _stytex.Layout();
 
             /// Reset Buttons ///
             int wdh = Math.Max(
-                Width - Style.Padding.Left - Style.Padding.Right, 
+                Width - Style.Padding.Left - Style.Padding.Right,
                 LayoutHelper.GetMaxSizes(Options).X);
             int ypos = Options.Count > 0 ? Options[0]?.Y ?? 0 : 0;
 
@@ -231,7 +147,11 @@ namespace MonODGE.UI.Components {
         }
 
 
-        public void AddOption(OdgeButton option) {
+        /// <summary>
+        /// Adds an OdgeButton to the ListMenu.
+        /// </summary>
+        /// <param name="option">An OdgeButton to add to the ListMenu.</param>
+        public void Add(OdgeButton option) {
             Options.Add(option);
             if (Options.Count == 1) {
                 _selectedIndex = 0;
@@ -246,7 +166,12 @@ namespace MonODGE.UI.Components {
             IsMessy = true;
         }
 
-        public void SetOptions(OdgeButton[] options) {
+
+        /// <summary>
+        /// Adds a group of OdgeButtons to the list of menu options. 
+        /// </summary>
+        /// <param name="options">An array of OdgeButtons to add to the menu.</param>
+        public void AddRange(OdgeButton[] options) {
             Options = new List<OdgeButton>(options);
             if (Options.Count > 0) {
                 _selectedIndex = 0;
@@ -255,28 +180,43 @@ namespace MonODGE.UI.Components {
             }
         }
 
-        public void RemoveOption(OdgeButton option) {
-            bool onDeletion = option == SelectedOption;
-            Options.Remove(option);
 
-            if (SelectedIndex > Options.Count - 1)
-                SelectedIndex = Options.Count - 1;
-            else if (onDeletion)
-                SelectedOption?.OnSelected();
+        private void HandleInput() {
+            // Submit.
+            if (CheckSubmit) {
+                SelectedOption.OnSubmit();
+                // this.OnSubmit()? Maybe containers shouldn't have submit.
+            }
 
-            IsMessy = true;
-        }
+            // Move Down.
+            else if (InputHelper.DOWN) {
+                if (SelectedIndex + 1 >= Options.Count)
+                    SelectedIndex = 0;
+                else
+                    SelectedIndex++;
+            }
 
+            // Move Up!
+            else if (InputHelper.UP) {
+                if (SelectedIndex - 1 < 0)
+                    SelectedIndex = Options.Count - 1;
+                else
+                    SelectedIndex--;
+            }
 
-        /// <summary>
-        /// Cascades ListMenu's StyleSheet to OdgeButtons.
-        /// </summary>
-        public void CascadeStyle() {
-            if (Options != null) {
-                foreach (OdgeButton option in Options)
-                    option.Style = Style;
+            // Jump Down.
+            else if (InputHelper.RIGHT) {
+                SelectedIndex += 8;
+            }
 
-                IsMessy = true;
+            // Jump Up!
+            else if (InputHelper.LEFT) {
+                SelectedIndex -= 8;
+            }
+
+            // Cancel.
+            else if (CheckCancel) {
+                OnCancel();
             }
         }
 

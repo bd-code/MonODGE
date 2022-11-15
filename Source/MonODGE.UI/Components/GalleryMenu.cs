@@ -10,32 +10,7 @@ namespace MonODGE.UI.Components {
     /// <summary>
     /// Displays a menu as a gallery-like two-dimensional grid.
     /// </summary>
-    public class GalleryMenu : OdgeControl {
-        protected List<OdgeButton> Options { get; set; }
-
-        private int _selectedIndex;
-        public int SelectedIndex {
-            get { return _selectedIndex; }
-            set {
-                value = MathHelper.Clamp(value, 0, Math.Max(0, Options.Count - 1));
-                if (_selectedIndex != value) {
-                    SelectedOption?.OnUnselected(); // ?'ed in case SelectedOption was removed.
-                    _selectedIndex = value;
-                    OnSelectedIndexChanged();
-                    SelectedOption?.OnSelected();
-                }
-            }
-        }
-
-        public OdgeButton SelectedOption {
-            get {
-                if (Options != null && Options.Count > 0)
-                    return Options[SelectedIndex];
-                else
-                    return null;
-            }
-        }
-
+    public class GalleryMenu : OdgeMenu {
         private int _columns;
         public int Columns {
             get { return _columns; }
@@ -52,6 +27,7 @@ namespace MonODGE.UI.Components {
             (Style.Spacing.Horizontal * Columns * 2) + 
             Style.Padding.Right;
 
+
         protected int OptionTopBound => Style.Padding.Top;
         protected int OptionLowBound => Dimensions.Height - Style.Padding.Bottom;
 
@@ -62,32 +38,6 @@ namespace MonODGE.UI.Components {
             _columns = columns;
             PackToSize(area);
             Layout();
-
-            Opened += (o, e) => {
-                foreach (OdgeButton option in Options)
-                    option.OnOpened();
-            };
-        }
-
-
-        /// <summary>
-        /// This is called when the SelectedIndex property has changed.
-        /// </summary>
-        protected virtual void OnSelectedIndexChanged() { SelectedIndexChanged?.Invoke(this, EventArgs.Empty); }
-        public event EventHandler SelectedIndexChanged;
-
-
-        /// <summary>
-        /// This is called in Update when Options.Count == 0.
-        /// </summary>
-        protected virtual void OnEmptied() { Emptied?.Invoke(this, EventArgs.Empty); }
-        public event EventHandler Emptied;
-
-
-        public override void AcceptVisitor(OdgeUIVisitor visitor) {
-            foreach (OdgeButton butt in Options)
-                butt.AcceptVisitor(visitor);
-            base.AcceptVisitor(visitor);
         }
 
 
@@ -119,7 +69,6 @@ namespace MonODGE.UI.Components {
             DrawBG(batch);
             DrawBorders(batch);
 
-            // Draw Options
             for (int p = 0; p < Options.Count; p++) {
                 if (Options[p].Y >= OptionTopBound && Options[p].Dimensions.Bottom <= OptionLowBound) {
                     Options[p].Draw(batch, Dimensions);
@@ -170,7 +119,12 @@ namespace MonODGE.UI.Components {
         }
 
 
-        public void AddOption(OdgeButton option) {
+        /// <summary>
+        /// 
+        /// Adds an OdgeButton to the GalleryMenu.
+        /// </summary>
+        /// <param name="option">An OdgeButton to add to the GalleryMenu.</param>
+        public void Add(OdgeButton option) {
             Options.Add(option);
             if (Options.Count == 1)
                 option.OnSelected();
@@ -178,7 +132,12 @@ namespace MonODGE.UI.Components {
             IsMessy = true;
         }
 
-        public void SetOptions(OdgeButton[] options) {
+
+        /// <summary>
+        /// Adds a group of OdgeButtons to the list of menu options. 
+        /// </summary>
+        /// <param name="options">An array of OdgeButtons to add to the menu.</param>
+        public void AddRange(OdgeButton[] options) {
             Options = new List<OdgeButton>(options);
             if (Options.Count > 0) {
                 _selectedIndex = 0;
@@ -188,51 +147,32 @@ namespace MonODGE.UI.Components {
             }
         }
 
-        public void RemoveOption(OdgeButton option) {
-            if (SelectedOption == option)
-                SelectedIndex--;
-
-            Options.Remove(option);
-            IsMessy = true;
-        }
-
-
-        /// <summary>
-        /// Cascades GalleryMenu's StyleSheet to OdgeButtons.
-        /// </summary>
-        public void CascadeStyle() {
-            if (Options != null) {
-                foreach (OdgeButton option in Options)
-                    option.Style = Style;
-            }
-        }
-
 
         private void HandleInput() {            
             // Submit.
             if (CheckSubmit) {
-                Options[SelectedIndex].OnSubmit();
+                SelectedOption.OnSubmit();
                 // this.OnSubmit()? Maybe containers shouldn't have submit.
             }
 
             // Right Button.
             else if (InputHelper.RIGHT) {
-                Options[SelectedIndex].OnUnselected();
+                SelectedOption.OnUnselected();
                 if (SelectedIndex + 1 >= Options.Count)
                     SelectedIndex = 0;
                 else
                     SelectedIndex++;
-                Options[SelectedIndex].OnSelected();
+                SelectedOption.OnSelected();
             }
 
             // Left Button.
             else if (InputHelper.LEFT) {
-                Options[SelectedIndex].OnUnselected();
+                SelectedOption.OnUnselected();
                 if (SelectedIndex - 1 < 0)
                     SelectedIndex = Options.Count - 1;
                 else
                     SelectedIndex--;
-                Options[SelectedIndex].OnSelected();
+                SelectedOption.OnSelected();
             }
 
             // Down Button.

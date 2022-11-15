@@ -95,6 +95,7 @@ namespace MonODGE.UI {
                 _layoutVisitor.Traverse(_pops);
 
                 if (RunAllPopUps) {
+                    // Do not fetch Count in the loop since Count may change.
                     int c = _pops.Count;
                     for (int p = 0; p < c; p++) {
                         OdgePopUp pop = _pops.Dequeue();
