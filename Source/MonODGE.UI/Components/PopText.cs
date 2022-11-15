@@ -67,16 +67,19 @@ namespace MonODGE.UI.Components {
                 Style.TextColor *= 1.0f - (1.0f / (Lifetime + 1.0f));
                 Style.BorderColor *= 1.0f - (1.0f / (Lifetime + 1.0f));
             }
+
+            if (Lifetime == 0)
+                OnTimeout();
         }
 
 
         private void UpdateRising() {
-            if (Lifetime >= 0 && Lifetime % 3 == 0)
+            if (Lifetime > 0 && Lifetime % 3 == 0)
                 _dy -= 1;
             Lifetime -= 1;
         }
         private void UpdateFalling() {
-            if (Lifetime >= 0 && Lifetime % 3 == 0)
+            if (Lifetime > 0 && Lifetime % 3 == 0)
                 _dy += 1;
             Lifetime -= 1;
         }

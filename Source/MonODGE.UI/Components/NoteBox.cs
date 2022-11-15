@@ -29,6 +29,9 @@ namespace MonODGE.UI.Components {
                 Style.TextColor *= 1.0f - (1.0f / (Lifetime+1.0f));
                 Style.BorderColor *= 1.0f - (1.0f / (Lifetime+1.0f));
             }
+
+            if (Lifetime == 0)
+                OnTimeout();
         }
 
 
