@@ -159,7 +159,7 @@ namespace MonODGE.UI.Components {
         /// <summary>
         /// Accepts a OdgeUIVisitor, which runs a method on the OdgeComponent.
         /// </summary>
-        /// <param name="visitor"></param>
+        /// <param name="visitor">OdgeUIVisitor.</param>
         public virtual void AcceptVisitor(OdgeUIVisitor visitor) {
             visitor.Method?.Invoke(this);
         }
@@ -174,7 +174,7 @@ namespace MonODGE.UI.Components {
         /// Draws the Texture2D saved in Style.Background in color Style.BackgroundColor
         /// to the position and area saved in Dimensions.
         /// </summary>
-        /// <param name="batch">SpriteBatch</param>
+        /// <param name="batch">SpriteBatch.</param>
         protected void DrawBG(SpriteBatch batch) {
             Style.Background?.Draw(batch, Dimensions, Style.BackgroundColor);
         }
@@ -184,7 +184,7 @@ namespace MonODGE.UI.Components {
         /// Draws the Texture2D saved in Style.Background in color Style.BackgroundColor
         /// to the position and area saved in Rectangle 'where'.
         /// </summary>
-        /// <param name="batch">SpriteBatch</param>
+        /// <param name="batch">SpriteBatch.</param>
         /// <param name="where">Rectangle area to draw.</param>
         protected void DrawBG(SpriteBatch batch, Rectangle parentRect) {
             Style.Background?.Draw(

@@ -11,6 +11,8 @@ namespace MonODGE.UI {
         private Texture2D _tex2d;
         private int _cornerWidth, _cornerHeight;
         private Rectangle[] _srcRects;
+        private Rectangle[] _dstRects;
+        private Rectangle _lastDrawRect;
 
         public Texture2D Texture => _tex2d;
 
@@ -67,20 +69,27 @@ namespace MonODGE.UI {
             }
 
             _srcRects = GetPatches(selection);
+            _lastDrawRect = Rectangle.Empty;
         }
 
 
         public void Draw(SpriteBatch batch, Rectangle drawRect, Color color) {
-            var dstRects = GetPatches(drawRect);
+            if (_lastDrawRect != drawRect) {
+                _dstRects = GetPatches(drawRect);
+                _lastDrawRect = drawRect;
+            }
             for (int p = 0; p < 9; p++)
-                batch.Draw(_tex2d, dstRects[p], _srcRects[p], color);
+                batch.Draw(_tex2d, _dstRects[p], _srcRects[p], color);
         }
         public void DrawCorners(SpriteBatch batch, Rectangle drawRect, Color color) {
-            var dstRects = GetPatches(drawRect);
-            batch.Draw(_tex2d, dstRects[0], _srcRects[0], color);
-            batch.Draw(_tex2d, dstRects[2], _srcRects[2], color);
-            batch.Draw(_tex2d, dstRects[6], _srcRects[6], color);
-            batch.Draw(_tex2d, dstRects[8], _srcRects[8], color);
+            if (_lastDrawRect != drawRect) {
+                _dstRects = GetPatches(drawRect);
+                _lastDrawRect = drawRect;
+            }
+            batch.Draw(_tex2d, _dstRects[0], _srcRects[0], color);
+            batch.Draw(_tex2d, _dstRects[2], _srcRects[2], color);
+            batch.Draw(_tex2d, _dstRects[6], _srcRects[6], color);
+            batch.Draw(_tex2d, _dstRects[8], _srcRects[8], color);
         }
 
 
