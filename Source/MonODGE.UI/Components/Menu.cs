@@ -64,13 +64,18 @@ namespace MonODGE.UI.Components {
             if (indx > -1) {
                 Options.Remove(option);
 
-                if (SelectedIndex > indx)
-                    _selectedIndex--; // Do not run events.
-
-                else if (SelectedIndex == indx) {
+                if (_selectedIndex == indx) {
+                    if (_selectedIndex >= Options.Count && Options.Count > 0)
+                        _selectedIndex--;
                     SelectedOption?.OnSelected();
                 }
+
+                else if (_selectedIndex > indx)
+                    _selectedIndex--; // Do not run events.
             }
+
+            if (Options.Count == 0)
+                OnEmptied();
 
             IsMessy = true;
         }
@@ -81,17 +86,8 @@ namespace MonODGE.UI.Components {
         /// <param name="index"></param>
         public void RemoveAt(int index) {
             if (index > -1 && index < Options.Count) {
-                Options.RemoveAt(index);
-
-                if (SelectedIndex > index)
-                    _selectedIndex--; // Do not run events.
-
-                else if (SelectedIndex == index) {
-                    SelectedOption?.OnSelected();
-                }
+                Remove(Options[index]);
             }
-
-            IsMessy = true;
         }
 
 
