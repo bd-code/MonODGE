@@ -19,8 +19,6 @@ namespace MonODGE.UI {
         private Queue<OdgePopUp> _pops;
         private Texture2D _mask;
 
-        private OdgeUIVisitor _styleVisitor;
-        private OdgeUIVisitor _layoutVisitor;
         private OdgeUIVisitor _acceptVisitor;
 
         public int ControlCount { get { return _controls.Count; } }
@@ -52,14 +50,6 @@ namespace MonODGE.UI {
             _controls = new Stack<OdgeControl>();
             _pops = new Queue<OdgePopUp>();
 
-            _styleVisitor = new OdgeUIVisitor(oc => {
-                if (oc.Style.IsChanged)
-                    oc.OnStyleChanged();
-            });
-            _layoutVisitor = new OdgeUIVisitor(oc => {
-                if (oc.IsMessy)
-                    oc.Layout();
-            });
             _acceptVisitor = new OdgeUIVisitor(oc => {
                 if (oc.Style.IsChanged)
                     oc.Style.AcceptChanges();
@@ -82,17 +72,13 @@ namespace MonODGE.UI {
 
         private void UpdateControls() {
             if (ControlCount > 0) {
-                _styleVisitor.Traverse(_controls);
-                _layoutVisitor.Traverse(_controls);
                 _controls.Peek().Update();
             }
         }
 
 
         private void UpdatePopups() {
-            if (PopUpCount > 0) {                
-                _styleVisitor.Traverse(_pops);
-                _layoutVisitor.Traverse(_pops);
+            if (PopUpCount > 0) {
 
                 if (RunAllPopUps) {
                     // Do not fetch Count in the loop since Count may change.

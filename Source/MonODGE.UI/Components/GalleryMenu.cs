@@ -16,7 +16,7 @@ namespace MonODGE.UI.Components {
             get { return _columns; }
             set {
                 _columns = value;
-                Width = Width;
+                Width = Width; // This will recalc Width.
             }
         }
 
@@ -27,6 +27,11 @@ namespace MonODGE.UI.Components {
             (Style.Spacing.Horizontal * Columns * 2) + 
             Style.Padding.Right;
 
+        protected override int MinHeight => 
+            Style.Padding.Top +
+            LayoutHelper.GetMaxSizes(Options).Y
+            + Style.Padding.Bottom;
+
 
         protected int OptionTopBound => Style.Padding.Top;
         protected int OptionLowBound => Dimensions.Height - Style.Padding.Bottom;
@@ -36,8 +41,8 @@ namespace MonODGE.UI.Components {
             : base(style) {
             Options = new List<OdgeButton>();
             _columns = columns;
-            PackToSize(area);
             Layout();
+            PackToSize(area);
         }
 
 
@@ -53,15 +58,11 @@ namespace MonODGE.UI.Components {
             }
 
             else {
-                // Cancel.
-                if (CheckCancel) {
-                    OnCancel();
-                    return;
-                }
-                else {
-                    OnEmptied();
-                }
+                if (CheckSubmit) OnSubmit();
+                else if (CheckCancel) OnCancel();
             }
+
+            base.Update();
         }
 
 
@@ -126,8 +127,10 @@ namespace MonODGE.UI.Components {
         /// <param name="option">An OdgeButton to add to the GalleryMenu.</param>
         public void Add(OdgeButton option) {
             Options.Add(option);
-            if (Options.Count == 1)
+            if (Options.Count == 1) {
+                _selectedIndex = 0;
                 option.OnSelected();
+            }
             PackToSize(Dimensions);
             IsMessy = true;
         }
@@ -152,47 +155,32 @@ namespace MonODGE.UI.Components {
             // Submit.
             if (CheckSubmit) {
                 SelectedOption.OnSubmit();
-                // this.OnSubmit()? Maybe containers shouldn't have submit.
             }
 
             // Right Button.
             else if (InputHelper.RIGHT) {
-                SelectedOption.OnUnselected();
                 if (SelectedIndex + 1 >= Options.Count)
                     SelectedIndex = 0;
                 else
                     SelectedIndex++;
-                SelectedOption.OnSelected();
             }
 
             // Left Button.
             else if (InputHelper.LEFT) {
-                SelectedOption.OnUnselected();
                 if (SelectedIndex - 1 < 0)
                     SelectedIndex = Options.Count - 1;
                 else
                     SelectedIndex--;
-                SelectedOption.OnSelected();
             }
 
             // Down Button.
             else if (InputHelper.DOWN) {
-                int x = SelectedIndex;
                 SelectedIndex += Columns;
-                if (x != SelectedIndex) {
-                    Options[x].OnUnselected();
-                    Options[SelectedIndex].OnSelected();
-                }
             }
 
             // Up Button.
             else if (InputHelper.UP) {
-                int x = SelectedIndex;
                 SelectedIndex -= Columns;
-                if (x != SelectedIndex) {
-                    Options[x].OnUnselected();
-                    Options[SelectedIndex].OnSelected();
-                }
             }
 
             // Cancel.
@@ -203,6 +191,9 @@ namespace MonODGE.UI.Components {
 
 
         private void ScrollOptions() {
+            if (Options.Count == 0)
+                return;
+
             int topBound = OptionTopBound;
             int lowBound = OptionLowBound;
             int correction = 0;

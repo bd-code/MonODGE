@@ -36,8 +36,8 @@ namespace MonODGE.UI.Components {
             }
             _dy = 0;
 
+            Layout();
             PackToSize(new Rectangle(position.X, position.Y, _stytex.Width, _stytex.Height));
-            Layout(); // Just to unset IsMessy.
         }
 
 
@@ -70,6 +70,8 @@ namespace MonODGE.UI.Components {
 
             if (Lifetime == 0)
                 OnTimeout();
+
+            base.Update();
         }
 
 

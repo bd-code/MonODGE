@@ -65,7 +65,6 @@ namespace MonODGE.UI.Components {
         public override void Layout() {
             if (_stytex.IsMessy)
                 _stytex.Layout();
-            PackToSize(Dimensions);
             textPoint = Utilities.LayoutHelper.AlignToPoint(this, _stytex);
             base.Layout();
         }
@@ -122,7 +121,6 @@ namespace MonODGE.UI.Components {
 
 
         public override void Layout() {
-            // No child components, Rectangle adjustments unnecessary.
             dstRect.Location = Utilities.LayoutHelper.AlignToPoint(this, srcRect);
             base.Layout();
         }

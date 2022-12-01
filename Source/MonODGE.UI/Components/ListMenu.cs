@@ -21,6 +21,11 @@ namespace MonODGE.UI.Components {
             (Options.Count > 0 ? Options[0].Width : 0) +
             Style.Padding.Right;
 
+        protected override int MinHeight => 
+            Style.Padding.Top + _stytex.Height + 
+            (Options.Count > 0 ? Style.Spacing.Vertical + Options[0].Height : 0) + 
+            Style.Padding.Bottom;
+
 
         public ListMenu(StyleSheet style, Rectangle area, string heading)
             : base(style) {
@@ -29,7 +34,6 @@ namespace MonODGE.UI.Components {
             _stytex.StyleMode = StyledText.StyleModes.Header;
 
             Options = new List<OdgeButton>();
-            PackToSize(area);
 
             _bpanel = new Rectangle(
                X + Style.Padding.Left,
@@ -39,6 +43,7 @@ namespace MonODGE.UI.Components {
                );
 
             Layout();
+            PackToSize(area);
 
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
@@ -53,8 +58,6 @@ namespace MonODGE.UI.Components {
         public override void Update() {
             if (Options.Count > 0) {
                 HandleInput();
-
-                // Scroll if Selection Offscreen
                 ScrollOptions();
 
                 // Update each option.
@@ -64,15 +67,11 @@ namespace MonODGE.UI.Components {
             }
             
             else {
-                // Cancel.
-                if (CheckCancel) {
-                    OnCancel();
-                    return;
-                }
-                else {
-                    OnEmptied();
-                }
+                if (CheckSubmit) OnSubmit();
+                else if (CheckCancel) OnCancel();                
             }
+
+            base.Update();
         }
 
 
@@ -119,10 +118,6 @@ namespace MonODGE.UI.Components {
                 ypos += option.Height + Style.Spacing.Vertical;
             }
 
-            // Since widening options affect MinWidth, check for that too.
-            PackToSize(Dimensions);
-
-
             /// Calc Panel ///
             _bpanel = new Rectangle(
                 X + Style.Padding.Left,
@@ -130,7 +125,6 @@ namespace MonODGE.UI.Components {
                 wdh,
                 Height - (Style.Padding.Top + _stytex.Height + Style.Spacing.Vertical + Style.Padding.Bottom)
                 );
-
 
             /// Calc textPoint X ///
             if (Style.AlignH == StyleSheet.AlignmentsH.LEFT)
@@ -155,7 +149,6 @@ namespace MonODGE.UI.Components {
             Options.Add(option);
             if (Options.Count == 1) {
                 _selectedIndex = 0;
-                option.Y = 0;
                 option.OnSelected();
             }
             else {
@@ -176,7 +169,7 @@ namespace MonODGE.UI.Components {
             if (Options.Count > 0) {
                 _selectedIndex = 0;
                 Options[0].OnSelected();
-                Layout();
+                IsMessy = true;
             }
         }
 
@@ -185,7 +178,6 @@ namespace MonODGE.UI.Components {
             // Submit.
             if (CheckSubmit) {
                 SelectedOption.OnSubmit();
-                // this.OnSubmit()? Maybe containers shouldn't have submit.
             }
 
             // Move Down.
@@ -222,6 +214,9 @@ namespace MonODGE.UI.Components {
 
 
         private void ScrollOptions() {
+            if (Options.Count == 0)
+                return;
+
             // SelectedOption too high
             if (SelectedOption.Y < 0) {
                 int dy = -(SelectedOption.Y);

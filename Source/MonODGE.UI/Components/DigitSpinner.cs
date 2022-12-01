@@ -10,11 +10,14 @@ namespace MonODGE.UI.Components {
     /// A control for selecting a bounded integer value.
     /// </summary>
     public class DigitSpinner : OdgeControl {
-        private int _value;
+        private Vector2[] textPositions;
+        private Vector2[] textDimensions;
+
         public int Value {
             get { return _value; }
             set { _value = MathHelper.Clamp(value, MinValue, MaxValue); }
         }
+        private int _value;
 
         public int Step { get; set; }
         public int MinValue { get; set; }
@@ -23,10 +26,9 @@ namespace MonODGE.UI.Components {
         protected override int MinWidth => 
             Style.Padding.Left + Style.Padding.Right +
             (int)(textDimensions[0].X + textDimensions[1].X + textDimensions[2].X);
+
         protected override int MinHeight => Style.Padding.Bottom + Style.Padding.Top + (int)(textDimensions?[0].Y ?? 0);
 
-        private Vector2[] textPositions;
-        private Vector2[] textDimensions;
 
         public DigitSpinner(StyleSheet style,
         int minVal = 0, int maxVal = int.MaxValue, 
@@ -36,6 +38,7 @@ namespace MonODGE.UI.Components {
             Step = step;
             Value = initval;
             Layout();
+            Size = new Point(MinWidth, MinHeight);
         }
 
 
@@ -69,6 +72,8 @@ namespace MonODGE.UI.Components {
             else if (CheckCancel) {
                 OnCancel();
             }
+
+            base.Update();
         }
 
 
@@ -107,8 +112,6 @@ namespace MonODGE.UI.Components {
                 Style.Font?.MeasureString(_value.ToString()) ?? Vector2.Zero,
                 Style.Font?.MeasureString(" >>") ?? Vector2.Zero
             };
-
-            PackToSize(new Point(Width, Height));
 
             // All three text components use Absolute Positioning
             // and only need Vertical Positioning.

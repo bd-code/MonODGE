@@ -10,6 +10,7 @@ namespace MonODGE.UI.Components {
     public class StyledText : OdgeComponent {
         private string[] _lines;
         private Vector2[] _positions;
+        int _minWidth, _minHeight;
 
         public enum StyleModes {
             Standard = 0, Header = 1, Footer = 2, Selected = 3, Unselected = 4
@@ -24,7 +25,13 @@ namespace MonODGE.UI.Components {
             }
         }
 
+
+        protected override int MinWidth => _minWidth;
+        protected override int MinHeight => _minHeight;
+
+
         public string Text => string.Join(Environment.NewLine, _lines);
+
 
         private SpriteFont _font {
             get {
@@ -64,8 +71,9 @@ namespace MonODGE.UI.Components {
             // Get dimensions and set HEIGHT ONLY of every string line.
             for (int s = 0; s < _lines.Length; s++) {
                 Vector2 dims = string.IsNullOrEmpty(_lines[s]) ?
-                    _font?.MeasureString("A") ?? Vector2.Zero :
-                    _font?.MeasureString(_lines[s]) ?? Vector2.Zero;
+                    (_font?.MeasureString("A") ?? Vector2.Zero) :
+                    (_font?.MeasureString(_lines[s]) ?? Vector2.Zero);
+
                 _positions[s] = new Vector2(dims.X, lasty);
                 lasty +=  dims.Y + Style.Spacing.Vertical;
                 maxWidth = Math.Max(maxWidth, _positions[s].X);
@@ -92,7 +100,9 @@ namespace MonODGE.UI.Components {
             }
 
             // Lastly, calculate new width + height based on alignment and style.
-            Size = new Point((int)maxWidth, (int)lasty);
+            _minWidth = (int)maxWidth;
+            _minHeight = (int)lasty;
+            Size = new Point(_minWidth, _minHeight);
 
             base.Layout();
         }

@@ -62,8 +62,8 @@ namespace MonODGE.UI.Components {
             Answer = AnswerType.Unanswered;
             AutoClose = true;
 
-            PackToSize(area);
             Layout();
+            PackToSize(area);
 
             Submit += (o, e) => {
                 if (btnYes.IsSelected) {
@@ -118,6 +118,8 @@ namespace MonODGE.UI.Components {
                 OnCancel();
                 if (AutoClose) Close();
             }
+
+            base.Update();
         }
 
 
@@ -137,7 +139,7 @@ namespace MonODGE.UI.Components {
 
 
         public override void Layout() {
-            if (dialog.IsMessy) dialog.Layout();
+            dialog.Layout();
             if (btnYes.IsMessy) btnYes.Layout();
             if (btnNo.IsMessy) btnNo.Layout();
 

@@ -26,7 +26,7 @@ namespace MonODGE.UI.Components {
             }
         }
 
-        public int TextLength { get { return Text?.Length ?? 0; } }
+        public int TextLength => Text?.Length ?? 0;
         public int MaxLength { get; private set; }
         public CharsAllowed InputRules { get; private set; }
 
@@ -76,7 +76,7 @@ namespace MonODGE.UI.Components {
                 OnCancel();
 
             // Only control char we need is Backspace, as we don't allow cursor movement.
-            else if (isKeyPress(Keys.Back) && TextLength > 0) 
+            else if (IsKeyPress(Keys.Back) && TextLength > 0) 
                 Text = Text.Remove(TextLength - 1, 1);
 
             // Handle character input.
@@ -87,13 +87,15 @@ namespace MonODGE.UI.Components {
 
                     string k = convertToCharString(kee, isShiftDown);
 
-                    if (charTest(k) && isKeyPress(kee)) {
+                    if (charTest(k) && IsKeyPress(kee)) {
                         Text = Text + k;
                         OnTextChanged();
                         break;
                     }
                 }
             }
+
+            base.Update();
         }
 
 
@@ -112,7 +114,6 @@ namespace MonODGE.UI.Components {
 
         public override void Layout() {
             charSize = Style.Font?.MeasureString("M") ?? Vector2.One;
-            PackToSize(Dimensions);
 
             if (Text != null) {
                 // Horizontal: always left, otherwise we would have to recalc
@@ -131,7 +132,7 @@ namespace MonODGE.UI.Components {
         }
 
 
-        public bool isKeyPress(Keys kee) {
+        private bool IsKeyPress(Keys kee) {
             return (_keystate.IsKeyDown(kee) && !_oldstate.IsKeyDown(kee));
         }
 

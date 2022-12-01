@@ -10,13 +10,21 @@ namespace MonODGE.UI.Components {
         private StyledText _stytex;
         private Point textPoint;
 
-        protected override int MinWidth => Style.Padding.Left + (_stytex?.Width ?? 0) + Style.Padding.Right; 
-        protected override int MinHeight => Style.Padding.Top + (_stytex?.Height ?? 0) + Style.Padding.Bottom; 
+        protected override int MinWidth => 
+            Style.Padding.Left + 
+            (_stytex?.Width ?? 0) + 
+            Style.Padding.Right; 
+
+        protected override int MinHeight => 
+            Style.Padding.Top + 
+            (_stytex?.Height ?? 0) + 
+            Style.Padding.Bottom; 
 
         public NoteBox(StyleSheet style, string text, int lifetime = 300) : base(style) {
             _stytex = new StyledText(Style, text);
             Lifetime = lifetime;
-            Layout();
+            Size = new Point(MinWidth, MinHeight);
+            Layout();            
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
 
@@ -32,6 +40,8 @@ namespace MonODGE.UI.Components {
 
             if (Lifetime == 0)
                 OnTimeout();
+
+            base.Update();
         }
 
 
@@ -53,7 +63,6 @@ namespace MonODGE.UI.Components {
             if (_stytex.IsMessy)
                 _stytex.Layout();
             
-            PackToSize(Dimensions);
             textPoint = Utilities.LayoutHelper.AlignToPoint(this, _stytex);
             base.Layout();
         }

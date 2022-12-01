@@ -24,7 +24,7 @@ namespace MonODGE.UI.Components {
 
 
         private StyleSheet _style;
-        public virtual StyleSheet Style {
+        public StyleSheet Style {
             get { return _style; }
             set {
                 _style = value;
@@ -34,7 +34,7 @@ namespace MonODGE.UI.Components {
 
 
         private Rectangle _dimensions;
-        public virtual Rectangle Dimensions => _dimensions;
+        public Rectangle Dimensions => _dimensions;
         
 
         public Point Location {
@@ -79,21 +79,8 @@ namespace MonODGE.UI.Components {
             set { Size = new Point(Width, value); }
         }
 
-        protected virtual int MinWidth { get { return 0; } }
-        protected virtual int MinHeight { get { return 0; } }
-
-
-        protected void PackToSize() {
-            PackToSize(new Rectangle(X, Y, MinWidth, MinHeight));
-        }
-        protected void PackToSize(Point size) {
-            PackToSize(new Rectangle(_dimensions.Location, size));
-        }
-        protected void PackToSize(Rectangle area) {
-            area.Width = Math.Max(area.Width, MinWidth);
-            area.Height = Math.Max(area.Height, MinHeight);
-            _dimensions = area;
-        }
+        protected virtual int MinWidth => 0;
+        protected virtual int MinHeight => 0;
 
 
         /// <summary>
@@ -146,15 +133,60 @@ namespace MonODGE.UI.Components {
         public event EventHandler Closed;
 
 
+        public virtual void Update() {
+            if (Style.IsChanged)
+                OnStyleChanged();
+
+            if (IsMessy) {
+                Layout();
+                if (Width < MinWidth || Height < MinHeight)
+                    PackToSize(Dimensions);
+            }
+        }
+
+
+        public virtual void Draw(SpriteBatch batch) { }
+        public virtual void Draw(SpriteBatch batch, Rectangle parentRect) { }
+
+
         /// <summary>
-        /// Recalculates the OdgeComponent's internal layout.
+        /// Repositions the OdgeComponent's internal child components.
         /// 
         /// Layout should be called every time changes are made to the StyleSheet or Dimensions 
         /// that result in a repositioning of text or other sub-elements.
+        /// 
+        /// Layout() does NOT change the dimensions of the OdgeComponent itself.
         /// </summary>
         public virtual void Layout() {
             IsMessy = false;
         }
+
+
+        /// <summary>
+        /// Resizes the OdgeComponent down to its minimum width and height.
+        /// </summary>
+        protected void PackToSize() {
+            PackToSize(new Rectangle(X, Y, MinWidth, MinHeight));
+        }
+
+        /// <summary>
+        /// Resizes the OdgeComponent to a specific size, or its minimum.
+        /// </summary>
+        /// <param name="size">Max. Size.</param>
+        protected void PackToSize(Point size) {
+            PackToSize(new Rectangle(_dimensions.Location, size));
+        }
+
+        /// <summary>
+        /// Resizes the OdgeComponent to a Rectangle's size, or its minimum.
+        /// </summary>
+        /// <param name="area"></param>
+        protected void PackToSize(Rectangle area) {
+            area.Width = Math.Max(area.Width, MinWidth);
+            area.Height = Math.Max(area.Height, MinHeight);
+            _dimensions = area;
+        }
+
 
         /// <summary>
         /// Accepts a OdgeUIVisitor, which runs a method on the OdgeComponent.
@@ -163,11 +195,6 @@ namespace MonODGE.UI.Components {
         public virtual void AcceptVisitor(OdgeUIVisitor visitor) {
             visitor.Method?.Invoke(this);
         }
-
-
-        public virtual void Update() { }
-        public virtual void Draw(SpriteBatch batch) { }
-        public virtual void Draw(SpriteBatch batch, Rectangle parentRect) { }
 
 
         /// <summary>
@@ -305,7 +332,6 @@ namespace MonODGE.UI.Components {
             }
 
             Location = new Point(nx, ny);
-            Layout();
         }
     }
 
@@ -319,12 +345,11 @@ namespace MonODGE.UI.Components {
      * 1. Construct all known sub-components. 
      * -- This should provide a MinWidth and MinHeight.
      * 
-     * 2. Pack to a default or passed Rectangle.
-     * -- This requires MinWidth, MinHeight.
-     * -- A parent Rectangle is required for some sub-component layouts, alignments.
+     * 2. Layout sub-components using style padding, spacing.
      * 
-     * 3. Layout sub-components.
-     * -- Some layout options require as rectangle first.
+     * 3. Pack to a default or passed Rectangle.
+     * -- This requires MinWidth, MinHeight.
+     * -- Components require a Size set in the constructor.
      * 
      * 4. Add any necessary event handlers.
      * 
@@ -334,11 +359,10 @@ namespace MonODGE.UI.Components {
      * -- Don't use a visitor.
      * -- This gives us a new MinWidth, MinHeight.
      * 
-     * 2. Run PacktoSize once we have new MinWidth, MinHeight.
-     * -- Again, final parent size is a dependency for some layouts.
+     * 2. DO NOT Run PacktoSize() in Layout()! 
+     * -- This is for internal layout only!
      * 
-     * 3. Layout sub-components using Location property.
-     * 4. Call base.Layout().
+     * 3. Call base.Layout().
      */
 
     ///////////////////////////////////////////////////////////////////////////
