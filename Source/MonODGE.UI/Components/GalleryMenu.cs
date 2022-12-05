@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -118,34 +118,6 @@ namespace MonODGE.UI.Components {
                 else { pointer.X += cellsize.X; }
             }
             base.Layout();
-        }
-
-
-        /// <summary>
-        /// Adds an OdgeButton to the GalleryMenu.
-        /// </summary>
-        /// <param name="option">An OdgeButton to add to the GalleryMenu.</param>
-        public void Add(OdgeButton option) {
-            Options.Add(option);
-            if (Options.Count == 1) {
-                _selectedIndex = 0;
-                option.OnSelected();
-            }
-            IsMessy = true;
-        }
-
-
-        /// <summary>
-        /// Adds a group of OdgeButtons to the list of menu options. 
-        /// </summary>
-        /// <param name="options">An array of OdgeButtons to add to the menu.</param>
-        public void AddRange(OdgeButton[] options) {
-            Options = new List<OdgeButton>(options);
-            if (Options.Count > 0) {
-                _selectedIndex = 0;
-                Options[0].OnSelected();
-                IsMessy = true;
-            }
         }
 
 

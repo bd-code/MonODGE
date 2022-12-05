@@ -55,6 +55,34 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
+        /// Adds an OdgeButton to the ListMenu.
+        /// </summary>
+        /// <param name="option">An OdgeButton to add to the ListMenu.</param>
+        public void Add(OdgeButton option) {
+            Options.Add(option);
+            if (Options.Count == 1) {
+                _selectedIndex = 0;
+                option.OnSelected();
+            }
+            IsMessy = true;
+        }
+
+
+        /// <summary>
+        /// Adds a group of OdgeButtons to the list of menu options. 
+        /// </summary>
+        /// <param name="options">An array of OdgeButtons to add to the menu.</param>
+        public void AddRange(OdgeButton[] options) {
+            Options = new List<OdgeButton>(options);
+            if (Options.Count > 0) {
+                _selectedIndex = 0;
+                Options[0].OnSelected();
+                IsMessy = true;
+            }
+        }
+
+
+        /// <summary>
         /// Removes the specified OdgeButton from the menu options.
         /// </summary>
         /// <param name="option"></param>
@@ -79,6 +107,7 @@ namespace MonODGE.UI.Components {
 
             IsMessy = true;
         }
+
 
         /// <summary>
         /// Removes the OdgeButton at the specified index from the menu options.
