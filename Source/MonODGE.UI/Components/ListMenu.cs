@@ -18,7 +18,9 @@ namespace MonODGE.UI.Components {
 
         protected override int MinWidth =>
             Style.Padding.Left +
-            (Options.Count > 0 ? Options[0].Width : 0) +
+            (Options.Count > 0 ? 
+                Math.Max(Options[0].Width, _stytex.Width) : 
+                _stytex.Width) +
             Style.Padding.Right;
 
         protected override int MinHeight => 
@@ -29,9 +31,7 @@ namespace MonODGE.UI.Components {
 
         public ListMenu(StyleSheet style, Rectangle area, string heading)
             : base(style) {
-            heading = heading ?? string.Empty;
-            _stytex = new StyledText(style, heading);
-            _stytex.StyleMode = StyledText.StyleModes.Header;
+            _stytex = new StyledText(style, heading ?? string.Empty, StyledText.StyleModes.Header);
 
             Options = new List<OdgeButton>();
 
@@ -151,11 +151,11 @@ namespace MonODGE.UI.Components {
                 _selectedIndex = 0;
                 option.OnSelected();
             }
-            else {
-                option.Location = new Point(0, Options[Options.Count - 2].Dimensions.Bottom + Style.Spacing.Vertical);
-                option.Size = Options[0].Size;
-                option.Layout();
-            }
+            //else {
+            //    option.Location = new Point(0, Options[Options.Count - 2].Dimensions.Bottom + Style.Spacing.Vertical);
+            //    option.Size = Options[0].Size;
+            //    option.Layout();
+            //}
             IsMessy = true;
         }
 
