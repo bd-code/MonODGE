@@ -62,8 +62,9 @@ namespace MonODGE.UI.Components {
             Answer = AnswerType.Unanswered;
             AutoClose = true;
 
+            Location = area.Location;
+            Size = area.Size;
             Layout();
-            PackToSize(area);
 
             Submit += (o, e) => {
                 if (btnYes.IsSelected) {

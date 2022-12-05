@@ -139,8 +139,10 @@ namespace MonODGE.UI.Components {
 
             if (IsMessy) {
                 Layout();
-                if (Width < MinWidth || Height < MinHeight)
-                    PackToSize(Dimensions);
+                if (Width < MinWidth)
+                    Width = MinWidth;
+                if (Height < MinHeight)
+                    Height = MinHeight;
             }
         }
 
@@ -165,26 +167,8 @@ namespace MonODGE.UI.Components {
         /// <summary>
         /// Resizes the OdgeComponent down to its minimum width and height.
         /// </summary>
-        protected void PackToSize() {
-            PackToSize(new Rectangle(X, Y, MinWidth, MinHeight));
-        }
-
-        /// <summary>
-        /// Resizes the OdgeComponent to a specific size, or its minimum.
-        /// </summary>
-        /// <param name="size">Max. Size.</param>
-        protected void PackToSize(Point size) {
-            PackToSize(new Rectangle(_dimensions.Location, size));
-        }
-
-        /// <summary>
-        /// Resizes the OdgeComponent to a Rectangle's size, or its minimum.
-        /// </summary>
-        /// <param name="area"></param>
-        protected void PackToSize(Rectangle area) {
-            area.Width = Math.Max(area.Width, MinWidth);
-            area.Height = Math.Max(area.Height, MinHeight);
-            _dimensions = area;
+        protected void SizeToMin() {
+            Size = new Point(MinWidth, MinHeight);
         }
 
 

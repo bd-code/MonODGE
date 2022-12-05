@@ -50,7 +50,8 @@ namespace MonODGE.UI.Components {
             Value = value;
             DrawIncompleteBar = drawIncomplete;
 
-            PackToSize(area);
+            Location = area.Location;
+            Size = area.Size;
             Layout();
         }
 

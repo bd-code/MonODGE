@@ -49,8 +49,9 @@ namespace MonODGE.UI.Components {
                 area.Width - style.Padding.Left - style.Padding.Right);
             _stytex = new StyledText(Style, s);
 
+            Location = area.Location;
+            Size = area.Size;
             Layout();
-            PackToSize(area);
 
             Submit += (o, e) => {
                 messageIndex++;

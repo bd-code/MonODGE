@@ -38,7 +38,7 @@ namespace MonODGE.UI.Components {
         public TextButton(StyleSheet style, string optionText, EventHandler action) : base(style, action) {
             _stytex = new StyledText(style, optionText);
             _stytex.StyleMode = StyledText.StyleModes.Unselected;
-            PackToSize(new Rectangle(0, 0, MinWidth, MinHeight));
+            SizeToMin();
             //Layout(); // No Layout on init for buttons.
 
             Select += (o, e) => _stytex.StyleMode = StyledText.StyleModes.Selected;
@@ -88,7 +88,7 @@ namespace MonODGE.UI.Components {
             texture = image;
             srcRect = new Rectangle(0, 0, image.Width, image.Height);
             dstRect = new Rectangle(0, 0, srcRect.Width, srcRect.Height);
-            PackToSize(new Rectangle(0, 0, MinWidth, MinHeight));
+            SizeToMin();
             //Layout(); // No Layout on init for buttons.
         }
 
@@ -97,7 +97,7 @@ namespace MonODGE.UI.Components {
             texture = image;
             srcRect = sourceRect;
             dstRect = new Rectangle(0, 0, srcRect.Width, srcRect.Height);
-            PackToSize(new Rectangle(0, 0, MinWidth, MinHeight));
+            SizeToMin();
             //Layout(); // No Layout on init for buttons.
         }
 

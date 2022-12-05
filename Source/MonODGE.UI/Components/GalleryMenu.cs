@@ -41,8 +41,9 @@ namespace MonODGE.UI.Components {
             : base(style) {
             Options = new List<OdgeButton>();
             _columns = columns;
+            Location = area.Location;
+            Size = area.Size;
             Layout();
-            PackToSize(area);
         }
 
 
@@ -121,7 +122,6 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
-        /// 
         /// Adds an OdgeButton to the GalleryMenu.
         /// </summary>
         /// <param name="option">An OdgeButton to add to the GalleryMenu.</param>
@@ -131,7 +131,6 @@ namespace MonODGE.UI.Components {
                 _selectedIndex = 0;
                 option.OnSelected();
             }
-            PackToSize(Dimensions);
             IsMessy = true;
         }
 
@@ -145,8 +144,7 @@ namespace MonODGE.UI.Components {
             if (Options.Count > 0) {
                 _selectedIndex = 0;
                 Options[0].OnSelected();
-                PackToSize(Dimensions);
-                Layout();
+                IsMessy = true;
             }
         }
 

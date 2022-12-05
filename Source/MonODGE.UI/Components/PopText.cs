@@ -22,6 +22,10 @@ namespace MonODGE.UI.Components {
         private int _dy;
 
 
+        protected override int MinWidth => _stytex.Width;
+        protected override int MinHeight => _stytex.Height;
+
+
         public PopText(StyleSheet style, string message, Point position, MoveType motion = MoveType.Static, int lifetime = 80)
             : base(style){
             _stytex = new StyledText(style, message);
@@ -36,8 +40,9 @@ namespace MonODGE.UI.Components {
             }
             _dy = 0;
 
+            Location = position;
+            SizeToMin();
             Layout();
-            PackToSize(new Rectangle(position.X, position.Y, _stytex.Width, _stytex.Height));
         }
 
 

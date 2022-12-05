@@ -42,8 +42,9 @@ namespace MonODGE.UI.Components {
                Height - (Style.Padding.Top + _stytex.Height + Style.Spacing.Vertical + Style.Padding.Bottom)
                );
 
+            Location = area.Location;
+            Size = area.Size;
             Layout();
-            PackToSize(area);
 
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
@@ -151,11 +152,6 @@ namespace MonODGE.UI.Components {
                 _selectedIndex = 0;
                 option.OnSelected();
             }
-            //else {
-            //    option.Location = new Point(0, Options[Options.Count - 2].Dimensions.Bottom + Style.Spacing.Vertical);
-            //    option.Size = Options[0].Size;
-            //    option.Layout();
-            //}
             IsMessy = true;
         }
 
