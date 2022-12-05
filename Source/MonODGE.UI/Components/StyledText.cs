@@ -20,8 +20,10 @@ namespace MonODGE.UI.Components {
         public StyleModes StyleMode {
             get { return _stymode; }
             set {
-                _stymode = value;
-                Layout();
+                if (_stymode != value) {
+                    IsMessy = true;
+                    _stymode = value;
+                }
             }
         }
 
@@ -64,7 +66,7 @@ namespace MonODGE.UI.Components {
 
 
         public override void Layout() {
-            float lasty = 2;
+            float lasty = 0;
             float maxWidth = 0;
             float lineheight = 0f;
 
@@ -81,7 +83,7 @@ namespace MonODGE.UI.Components {
             }
 
             // Correct for extra space added.
-            lasty -= Style.Spacing.Vertical + (lineheight / 8f) - 1;
+            lasty -= Style.Spacing.Vertical+2;
 
             // At this point _position.X is the width of the string, not it's X position!
             // Alignment X repositioning is below!
