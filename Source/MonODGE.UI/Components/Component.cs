@@ -156,8 +156,6 @@ namespace MonODGE.UI.Components {
         /// 
         /// Layout should be called every time changes are made to the StyleSheet or Dimensions 
         /// that result in a repositioning of text or other sub-elements.
-        /// 
-        /// Layout() does NOT change the dimensions of the OdgeComponent itself.
         /// </summary>
         public virtual void Layout() {
             IsMessy = false;
@@ -329,11 +327,10 @@ namespace MonODGE.UI.Components {
      * 1. Construct all known sub-components. 
      * -- This should provide a MinWidth and MinHeight.
      * 
-     * 2. Layout sub-components using style padding, spacing.
-     * 
-     * 3. Pack to a default or passed Rectangle.
-     * -- This requires MinWidth, MinHeight.
+     * 3. Set Dimensions: Location and Size.
      * -- Components require a Size set in the constructor.
+     * 
+     * 2. Layout sub-components using style padding, spacing.
      * 
      * 4. Add any necessary event handlers.
      * 
@@ -343,8 +340,7 @@ namespace MonODGE.UI.Components {
      * -- Don't use a visitor.
      * -- This gives us a new MinWidth, MinHeight.
      * 
-     * 2. DO NOT Run PacktoSize() in Layout()! 
-     * -- This is for internal layout only!
+     * 2. Can then resize if necessary.
      * 
      * 3. Call base.Layout().
      */

@@ -39,7 +39,6 @@ namespace MonODGE.UI.Components {
 
         public GalleryMenu(StyleSheet style, Rectangle area, int columns) 
             : base(style) {
-            Options = new List<OdgeButton>();
             _columns = columns;
             Location = area.Location;
             Size = area.Size;

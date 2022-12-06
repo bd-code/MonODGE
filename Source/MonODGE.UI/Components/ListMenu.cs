@@ -33,8 +33,6 @@ namespace MonODGE.UI.Components {
             : base(style) {
             _stytex = new StyledText(style, heading ?? string.Empty, StyledText.StyleModes.Header);
 
-            Options = new List<OdgeButton>();
-
             _bpanel = new Rectangle(
                X + Style.Padding.Left,
                Y + Style.Padding.Top + _stytex.Height + Style.Spacing.Vertical,
