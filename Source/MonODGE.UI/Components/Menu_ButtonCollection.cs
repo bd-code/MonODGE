@@ -31,17 +31,18 @@ namespace MonODGE.UI.Components {
                 _items.Add(option);
                 if (_items.Count == 1) {
                     _owner._selectedIndex = 0;
-                    option.OnSelected();
+                    option.IsSelected = true;
                 }
                 _owner.IsMessy = true;
             }
 
 
             public void AddRange(OdgeButton[] options) {
-                _items = new List<OdgeButton>(options);
+                _items.Clear();
+                _items.AddRange(options);
                 if (_items.Count > 0) {
                     _owner._selectedIndex = 0;
-                    _items[0].OnSelected();
+                    _items[0].IsSelected = true;
                     _owner.IsMessy = true;
                 }
             }
@@ -54,10 +55,11 @@ namespace MonODGE.UI.Components {
                     _items.Remove(option);
                     _owner.IsMessy = true;
 
-                    if (_owner._selectedIndex == indx) {
-                        if (_owner._selectedIndex >= _items.Count && _items.Count > 0)
+                    if (_owner._selectedIndex == indx && _items.Count > 0) {
+                        if (_owner._selectedIndex >= _items.Count)
                             _owner._selectedIndex--;
-                        _owner.SelectedOption?.OnSelected();
+
+                        _owner.SelectedOption.IsSelected = true;
                     }
 
                     else if (_owner._selectedIndex > indx)
@@ -78,10 +80,11 @@ namespace MonODGE.UI.Components {
                     _owner.IsMessy = true;
                     done = true;
 
-                    if (_owner._selectedIndex == indx) {
-                        if (_owner._selectedIndex >= _items.Count && _items.Count > 0)
+                    if (_owner._selectedIndex == indx && _items.Count > 0) {
+                        if (_owner._selectedIndex >= _items.Count)
                             _owner._selectedIndex--;
-                        _owner.SelectedOption?.OnSelected();
+
+                        _owner.SelectedOption.IsSelected = true;
                     }
 
                     else if (_owner._selectedIndex > indx)

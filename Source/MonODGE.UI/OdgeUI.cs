@@ -133,7 +133,7 @@ namespace MonODGE.UI {
             control._manager = this;
 
             _controls.Push(control);
-            control.OnOpened();
+            control.PerformOpen();
         }
 
 
@@ -143,7 +143,7 @@ namespace MonODGE.UI {
             popup._manager = this;
 
             _pops.Enqueue(popup);
-            popup.OnOpened();
+            popup.PerformOpen();
         }
 
 
@@ -153,7 +153,7 @@ namespace MonODGE.UI {
             while (_controls.Count > 0) {
                 OdgeControl con = _controls.Pop();
                 if (con == control)
-                    con.OnClosed();
+                    con.PerformClose();
                 else
                     temp.Push(con);
             }
@@ -168,7 +168,7 @@ namespace MonODGE.UI {
             for (int p = 0; p < c; p++) {
                 OdgePopUp pop = _pops.Dequeue();
                 if (pop == popup)
-                    pop.OnClosed();
+                    pop.PerformClose();
                 else
                     _pops.Enqueue(pop);
             }
@@ -177,11 +177,11 @@ namespace MonODGE.UI {
 
         public void CloseAllControls() {
             while (_controls.Count > 0)
-                _controls.Pop().OnClosed();
+                _controls.Pop().PerformClose();
         }
         public void CloseAllPopups() {
             while (_pops.Count > 0)
-                _pops.Dequeue().OnClosed();
+                _pops.Dequeue().PerformClose();
         }
 
 

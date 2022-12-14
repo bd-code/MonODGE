@@ -69,25 +69,25 @@ namespace MonODGE.UI.Components {
             Submit += (o, e) => {
                 if (btnYes.IsSelected) {
                     Answer = AnswerType.Affirmative;
-                    btnYes.OnSubmit();
+                    btnYes.PerformSubmit();
                 }
                 else {
                     Answer = AnswerType.Negative;
-                    btnNo.OnSubmit();
+                    btnNo.PerformSubmit();
                 }
             };
 
             Cancel += (o, e) => {
                 if (btnYes.IsSelected) {
-                    btnYes.OnUnselected();
-                    btnNo.OnSelected();
+                    btnYes.IsSelected = false;
+                    btnNo.IsSelected = true;
                 }
             };
 
             Resize += (o, e) => dialog.Size = Size;
 
             // At first optionNo should be selected.
-            btnNo.OnSelected();
+            btnNo.IsSelected = true;
         }
 
 
@@ -100,22 +100,22 @@ namespace MonODGE.UI.Components {
 
 
         public override void Update() {
-            if (CheckSubmit) {
+            if (IsSubmitPressed) {
                 OnSubmit();
                 if (AutoClose) Close();
             }
 
             else if (!btnYes.IsSelected && InputHelper.LEFT) {
-                btnNo.OnUnselected();
-                btnYes.OnSelected();
+                btnNo.IsSelected = false;
+                btnYes.IsSelected = true;
             }
 
             else if (btnYes.IsSelected && InputHelper.RIGHT) {
-                btnYes.OnUnselected();
-                btnNo.OnSelected();
+                btnYes.IsSelected = false;
+                btnNo.IsSelected = true;
             }
 
-            else if (CheckCancel) {
+            else if (IsCancelPressed) {
                 OnCancel();
                 if (AutoClose) Close();
             }

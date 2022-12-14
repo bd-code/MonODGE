@@ -50,7 +50,7 @@ namespace MonODGE.UI.Components {
         }
 
 
-        public void OnTextChanged() {
+        protected void OnTextChanged() {
             TextChanged?.Invoke(this, EventArgs.Empty);
         }
         public event EventHandler TextChanged;
@@ -70,9 +70,9 @@ namespace MonODGE.UI.Components {
             // StyleSheet.SubmitKey should choose a non-AlphaNumeric key, like Keys.Enter, 
             // otherwise that key cannot output a printable char.
             // Do NOT close on submit, as this kills validation scripts.
-            if (CheckSubmit)
+            if (IsSubmitPressed)
                 OnSubmit();
-            else if (CheckCancel)
+            else if (IsCancelPressed)
                 OnCancel();
 
             // Only control char we need is Backspace, as we don't allow cursor movement.

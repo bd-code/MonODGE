@@ -56,7 +56,7 @@ namespace MonODGE.UI.Components {
         }
 
 
-        public void OnValueChanged() {
+        protected void OnValueChanged() {
             IsMessy = true;
             ValueChanged?.Invoke(this, EventArgs.Empty);
         }

@@ -15,10 +15,14 @@ namespace MonODGE.UI.Components {
             set {
                 value = MathHelper.Clamp(value, 0, Math.Max(0, Options.Count - 1));
                 if (_selectedIndex != value) {
-                    SelectedOption?.OnUnselected(); // ?'ed in case SelectedOption was removed.
+
+                    // Unselect last option if it wasn't just removed.
+                    if (_selectedIndex < Options.Count)
+                        SelectedOption.IsSelected = false; // ?'ed in case SelectedOption was removed.
+
                     _selectedIndex = value;
                     OnSelectedIndexChanged();
-                    SelectedOption?.OnSelected();
+                    SelectedOption.IsSelected = true;
                 }
             }
         }

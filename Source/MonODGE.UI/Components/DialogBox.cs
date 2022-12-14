@@ -69,7 +69,7 @@ namespace MonODGE.UI.Components {
         /// It is not called on style or position changes to the current text, only when a
         /// completely new string displays.
         /// </summary>
-        public void OnTextChanged() {
+        protected void OnTextChanged() {
             string s = TextWrapper.WrapToWidth(messages[messageIndex], Style.Font, 
                 Width - Style.Padding.Left - Style.Padding.Right);
             _stytex = new StyledText(Style, s);
@@ -80,7 +80,7 @@ namespace MonODGE.UI.Components {
 
 
         public override void Update() {
-            if (CheckSubmit) {
+            if (IsSubmitPressed) {
                 OnSubmit();
             }
 
@@ -94,7 +94,7 @@ namespace MonODGE.UI.Components {
                 OnTextChanged();
             }
 
-            else if (CheckCancel) {
+            else if (IsCancelPressed) {
                 OnCancel();
             }
 

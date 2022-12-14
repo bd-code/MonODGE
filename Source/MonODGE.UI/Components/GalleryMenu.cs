@@ -58,8 +58,8 @@ namespace MonODGE.UI.Components {
             }
 
             else {
-                if (CheckSubmit) OnSubmit();
-                else if (CheckCancel) OnCancel();
+                if (IsSubmitPressed) OnSubmit();
+                else if (IsCancelPressed) OnCancel();
             }
 
             base.Update();
@@ -122,8 +122,8 @@ namespace MonODGE.UI.Components {
 
         private void HandleInput() {            
             // Submit.
-            if (CheckSubmit) {
-                SelectedOption.OnSubmit();
+            if (IsSubmitPressed) {
+                SelectedOption.PerformSubmit();
             }
 
             // Right Button.
@@ -153,7 +153,7 @@ namespace MonODGE.UI.Components {
             }
 
             // Cancel.
-            else if (CheckCancel) {
+            else if (IsCancelPressed) {
                 OnCancel();
             }
         }

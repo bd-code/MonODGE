@@ -45,19 +45,19 @@ namespace MonODGE.UI.Components {
         /// <summary>
         /// This is called when Value is incremented by pressing Keys.Right.
         /// </summary>
-        public void OnIncrement() { Incremented?.Invoke(this, EventArgs.Empty); }
+        protected void OnIncrement() { Incremented?.Invoke(this, EventArgs.Empty); }
         public event EventHandler Incremented;
 
 
         /// <summary>
         /// This is called when Value is decremented by pressing Keys.Left.
         /// </summary>
-        public void OnDecrement() { Decremented?.Invoke(this, EventArgs.Empty); }
+        protected void OnDecrement() { Decremented?.Invoke(this, EventArgs.Empty); }
         public event EventHandler Decremented;
 
 
         public override void Update() {
-            if (CheckSubmit) {
+            if (IsSubmitPressed) {
                 OnSubmit();
             }
 
@@ -69,7 +69,7 @@ namespace MonODGE.UI.Components {
                 Increment();
             }
 
-            else if (CheckCancel) {
+            else if (IsCancelPressed) {
                 OnCancel();
             }
 

@@ -86,14 +86,14 @@ namespace MonODGE.UI.Components {
         /// <summary>
         /// This is called when the OdgeComponent is added to the UI Manager.
         /// </summary>
-        public virtual void OnOpened() { Opened?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnOpened() { Opened?.Invoke(this, EventArgs.Empty); }
         public event EventHandler Opened;
 
         /// <summary>
         /// This is called when a property changes in the OdgeComponent's StyleSheet,
         /// or when setting OdgeComponent.Style to a new StyleSheet.
         /// </summary>
-        public virtual void OnStyleChanged() {
+        protected virtual void OnStyleChanged() {
             IsMessy = true;
             StyleChanged?.Invoke(this, EventArgs.Empty);
         }
@@ -104,7 +104,7 @@ namespace MonODGE.UI.Components {
         /// This should be overriden to reposition any text, textures, or other elements 
         /// when the Component's position changes.
         /// </summary>
-        public virtual void OnMove() {
+        protected virtual void OnMove() {
             IsMessy = true;
             Move?.Invoke(this, EventArgs.Empty); 
         }
@@ -119,7 +119,7 @@ namespace MonODGE.UI.Components {
         /// OnResize(). If we need to check that the new width and height are large enough to 
         /// contain sub-elements, override the Dimensions property itself to check the values.
         /// </summary>
-        public virtual void OnResize() {
+        protected virtual void OnResize() {
             IsMessy = true;
             Resize?.Invoke(this, EventArgs.Empty); 
         }
@@ -129,7 +129,7 @@ namespace MonODGE.UI.Components {
         /// <summary>
         /// This is called when the OdgeComponent is closed.
         /// </summary>
-        public virtual void OnClosed() { Closed?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnClosed() { Closed?.Invoke(this, EventArgs.Empty); }
         public event EventHandler Closed;
 
 
@@ -149,6 +149,15 @@ namespace MonODGE.UI.Components {
 
         public virtual void Draw(SpriteBatch batch) { }
         public virtual void Draw(SpriteBatch batch, Rectangle parentRect) { }
+
+
+        internal void PerformOpen() {
+            OnOpened();
+        }
+
+        internal void PerformClose() {
+            OnClosed();
+        }
 
 
         /// <summary>
@@ -181,7 +190,7 @@ namespace MonODGE.UI.Components {
 
         /// <summary>
         /// Draws the Texture2D saved in Style.Background in color Style.BackgroundColor
-        /// to the position and area saved in Dimensions.
+        /// to the component's Dimensions.
         /// </summary>
         /// <param name="batch">SpriteBatch.</param>
         protected void DrawBG(SpriteBatch batch) {
@@ -191,7 +200,7 @@ namespace MonODGE.UI.Components {
 
         /// <summary>
         /// Draws the Texture2D saved in Style.Background in color Style.BackgroundColor
-        /// to the position and area saved in Rectangle 'where'.
+        /// to the component's Dimensions relative to a parent Rectangle.
         /// </summary>
         /// <param name="batch">SpriteBatch.</param>
         /// <param name="where">Rectangle area to draw.</param>
@@ -204,7 +213,7 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
-        /// Draws only the corner tiles of Style.Borders to the four corners saved in Dimensions.
+        /// Draws only the corner tiles of Style.Borders to the four corners of the component.
         /// </summary>
         /// <param name="batch">SpriteBatch</param>
         protected void DrawCorners(SpriteBatch batch) {
@@ -213,8 +222,8 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
-        /// Draws only the corner tiles of Style.Borders to the four corners saved in 
-        /// Rectangle 'where'.
+        /// Draws only the corner tiles of Style.Borders to the four corners of the component 
+        /// relative to a parent Rectangle.
         /// </summary>
         /// <param name="batch">SpriteBatch</param>
         /// <param name="where">Rectangle area to draw.</param>
@@ -236,7 +245,8 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
-        /// Draws the Texture2D saved in Style.Borders around Rectangle 'where'.
+        /// Draws the Texture2D saved in Style.Borders around the OdgeComponent
+        /// relative to a parent Rectangle.
         /// </summary>
         /// <param name="batch">SpriteBatch</param>
         /// <param name="parentRect">Rectangle area to draw.</param>
@@ -359,20 +369,24 @@ namespace MonODGE.UI.Components {
         /// This is called when the user presses the Key assigned in Style.SubmitKey,
         /// or the GamePad Button assigned in Style.SubmitButton.
         /// </summary>
-        public virtual void OnSubmit() { Submit?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnSubmit() { Submit?.Invoke(this, EventArgs.Empty); }
         public event EventHandler Submit;
 
         /// <summary>
         /// This is called when the user presses the key assigned in Style.CancelKey,
         /// or the GamePad Button assigned in Style.CancelButton.
         /// </summary>
-        public virtual void OnCancel() {
+        protected virtual void OnCancel() {
             Cancel?.Invoke(this, EventArgs.Empty);
             if (Style.CloseOnCancel)
                 Close();
         }
         public event EventHandler Cancel;
 
+
+        /// <summary>
+        /// Closes the OdgeControl.
+        /// </summary>
         public void Close() {
             if (_manager != null)
                 _manager.Close(this);
@@ -380,13 +394,11 @@ namespace MonODGE.UI.Components {
                 throw new Exception($"Control {Name}: Close() called without UI manager.");
         }
 
-        protected bool CheckSubmit {
-            get { return OdgeIO.KB.IsKeyPress(Style.SubmitKey) || OdgeIO.GP.IsButtonPress(0, Style.SubmitButton); }
-        }
+        protected bool IsSubmitPressed => 
+            OdgeIO.KB.IsKeyPress(Style.SubmitKey) || OdgeIO.GP.IsButtonPress(0, Style.SubmitButton); 
 
-        protected bool CheckCancel {
-            get { return OdgeIO.KB.IsKeyPress(Style.CancelKey) || OdgeIO.GP.IsButtonPress(0, Style.CancelButton); }
-        }
+        protected bool IsCancelPressed => 
+            OdgeIO.KB.IsKeyPress(Style.CancelKey) || OdgeIO.GP.IsButtonPress(0, Style.CancelButton); 
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -400,13 +412,16 @@ namespace MonODGE.UI.Components {
         public FadeStyle Fade { get; set; }
         public int Lifetime { get; set; }
 
-        public virtual void OnTimeout() { TimedOut?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnTimeout() { TimedOut?.Invoke(this, EventArgs.Empty); }
         public event EventHandler TimedOut;
 
         public OdgePopUp(StyleSheet style) {
             Style = style;
         }
 
+        /// <summary>
+        /// Closes the OdgePopUp.
+        /// </summary>
         public void Close() {
             if (_manager != null)
                 _manager.Close(this);
@@ -418,7 +433,19 @@ namespace MonODGE.UI.Components {
     ///////////////////////////////////////////////////////////////////////////
 
     public abstract class OdgeButton : OdgeComponent {
-        public bool IsSelected { get; private set; }
+        public bool IsSelected {
+            get { return _isSelected; } 
+            set {
+                if (_isSelected != value) {
+                    _isSelected = value;
+                    if (_isSelected)
+                        OnSelected();
+                    else
+                        OnUnselected();
+                }
+            } 
+        }
+        private bool _isSelected;
 
         public OdgeButton(StyleSheet style, EventHandler action) {
             Style = style;
@@ -428,14 +455,13 @@ namespace MonODGE.UI.Components {
         /// <summary>
         /// This is called when the user presses the key assigned in Style.SubmitKey.
         /// </summary>
-        public virtual void OnSubmit() { Submit?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnSubmit() { Submit?.Invoke(this, EventArgs.Empty); }
         public event EventHandler Submit;
 
         /// <summary>
         /// This is called when an option is highlighted in the ListMenu.
         /// </summary>
-        public virtual void OnSelected() {
-            IsSelected = true;
+        protected virtual void OnSelected() {
             Select?.Invoke(this, EventArgs.Empty);
         }
         public event EventHandler Select;
@@ -444,11 +470,17 @@ namespace MonODGE.UI.Components {
         /// This is called when an option is unhighlighted (another option is selected) in the
         /// ListMenu.
         /// </summary>
-        public virtual void OnUnselected() {
-            IsSelected = false;
+        protected virtual void OnUnselected() {            
             Unselect?.Invoke(this, EventArgs.Empty);
         }
         public event EventHandler Unselect;
+
+        /// <summary>
+        /// Generates a Submit event for the OdgeButton.
+        /// </summary>
+        public void PerformSubmit() {
+            OnSubmit();
+        }
     }
 
 }
