@@ -5,19 +5,20 @@ namespace MonODGE.UI {
     /// Represents 4-sided inner padding. 
     /// </summary>
     public struct Padding {
-        public int Top { get; set; }
-        public int Left { get; set; }
-        public int Right { get; set; }
-        public int Bottom { get; set; }
+        private int _top, _left, _right, _bottom;
+        public int Top => _top;
+        public int Left => _left;
+        public int Right => _right;
+        public int Bottom => _bottom;
 
-        public Padding(int all) { Top = Right = Bottom = Left = all; }
+        public Padding(int all) { _top = _left = _right = _bottom = all; }
         public Padding(int leftright, int topbottom) {
-            Left = Right = leftright;
-            Top = Bottom = topbottom;
+            _left = _right = leftright;
+            _top = _bottom = topbottom;
         }
         public Padding(int top, int right, int bottom, int left) {
-            Top = top; Right = right;
-            Bottom = bottom; Left = left;
+            _top = top; _right = right;
+            _bottom = bottom; _left = left;
         }
     }
 
@@ -26,13 +27,14 @@ namespace MonODGE.UI {
     /// Represents inner space around sub-components.
     /// </summary>
     public struct Spacing {
-        public int Horizontal { get; set; }
-        public int Vertical { get; set; }
+        private int _h, _v;
+        public int Horizontal => _h;
+        public int Vertical => _v;
 
-        public Spacing(int all) { Horizontal = Vertical = all; }
+        public Spacing(int all) { _h = _v = all; }
         public Spacing(int horizontal, int vertical) {
-            Horizontal = horizontal;
-            Vertical = vertical;
+            _h = horizontal;
+            _v = vertical;
         }
     }
 
