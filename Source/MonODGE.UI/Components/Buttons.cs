@@ -7,27 +7,6 @@ using MonODGE.UI.Styles;
 
 namespace MonODGE.UI.Components {
     /// <summary>
-    /// Helper methods for easier button creation.
-    /// </summary>
-    public class OdgeButtonFactory {
-        public static TextButton Create(OdgeComponent parent, string text, EventHandler func) {
-            var btn = new TextButton(parent.Style.Clone(), text, func);
-            btn.Width = parent.Width - parent.Style.Padding.Left - parent.Style.Padding.Right;
-            btn.Layout();
-            return btn;
-        }
-
-        public static ImageButton Create(OdgeComponent parent, Texture2D image, EventHandler func) {
-            var btn = new ImageButton(parent.Style.Clone(), image, func);
-            btn.Width = parent.Width - parent.Style.Padding.Left - parent.Style.Padding.Right;
-            btn.Layout();
-            return btn;
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
     /// A Button with a StyledText component.
     /// </summary>
     public class TextButton : OdgeButton {
