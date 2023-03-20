@@ -95,109 +95,23 @@ namespace MonODGE.UI {
 
         //// Fonts and Text Color ////
 
-        /// <summary>
-        /// Header text font.
-        /// </summary>
-        public SpriteFont HeaderFont {
-            get { return _headerFont; }
+        public FontStyleContext Fonts {
+            get => _fonts;
             set {
-                _headerFont = value;
+                _fonts = value;
                 IsChanged = true;
             }
         }
-        private SpriteFont _headerFont;
+        private FontStyleContext _fonts;
 
-        /// <summary>
-        /// Header text color.
-        /// </summary>
-        public Color HeaderColor {
-            get { return _headerColor; }
+        public ColorStyleContext TextColors {
+            get => _textColors;
             set {
-                _headerColor = value;
+                _textColors = value;
                 IsChanged = true;
             }
         }
-        private Color _headerColor;
-
-        /// <summary>
-        /// Main text font.
-        /// </summary>
-        public SpriteFont Font {
-            get { return _font; }
-            set {
-                _font = value;
-                if (_headerFont == null)
-                    _headerFont = value;
-                if (_footerFont == null)
-                    _footerFont = value;
-                IsChanged = true;
-            }
-        }
-        private SpriteFont _font;
-
-        /// <summary>
-        /// Main text color.
-        /// </summary>
-        public Color TextColor {
-            get { return _textColor; }
-            set {
-                _textColor = value;
-                if (_headerColor == null)
-                    _headerColor = value;
-                if (_footerColor == null)
-                    _footerColor = value;
-                IsChanged = true;
-            }
-        }
-        private Color _textColor;
-
-        /// <summary>
-        /// Footer text font.
-        /// </summary>
-        public SpriteFont FooterFont {
-            get { return _footerFont; }
-            set {
-                _footerFont = value;
-                IsChanged = true;
-            }
-        }
-        private SpriteFont _footerFont;
-
-        /// <summary>
-        /// Footer text color.
-        /// </summary>
-        public Color FooterColor {
-            get { return _footerColor; }
-            set {
-                _footerColor = value;
-                IsChanged = true;
-            }
-        }
-        private Color _footerColor;
-        
-        /// <summary>
-        /// For menus and other controls, selected item text is displayed in this color rather than TextColor.
-        /// </summary>
-        public Color SelectedTextColor {
-            get { return _selectedColor; }
-            set {
-                _selectedColor = value;
-                IsChanged = true;
-            }
-        }
-        private Color _selectedColor;
-
-        /// <summary>
-        /// For menus and other controls, unselected item text is displayed in this color rather than TextColor.
-        /// </summary>
-        public Color UnselectedTextColor {
-            get { return _unselectedColor; }
-            set {
-                _unselectedColor = value;
-                IsChanged = true;
-            }
-        }
-        private Color _unselectedColor;
+        private ColorStyleContext _textColors;
 
 
         //// Padding, Spacing, and Shadows ////
@@ -302,9 +216,7 @@ namespace MonODGE.UI {
             BackgroundColor = Color.Transparent;            
             BorderColor = Color.White;
 
-            TextColor = Color.White;
-            SelectedTextColor = Color.Gold;
-            UnselectedTextColor = Color.Gray;
+            TextColors = new ColorStyleContext(Color.White, Color.Gold);
             
             AlignH = AlignmentsH.LEFT;
             AlignV = AlignmentsV.TOP;
@@ -327,19 +239,20 @@ namespace MonODGE.UI {
         /// <returns>A new StyleSheet object with this StyleSheet's values.</returns>
         public StyleSheet Clone() {
             StyleSheet clone = new StyleSheet();
+            clone.AlignH = AlignH;                      clone.AlignV = AlignV;
             clone.Background = Background;              clone.BackgroundColor = BackgroundColor;
             clone.BorderColor = BorderColor;            clone.Borders = Borders;
+
+            clone.Fonts = new FontStyleContext(Fonts.Normal, Fonts.Active, Fonts.Header, Fonts.Footer);
+            clone.TextColors = new ColorStyleContext(TextColors.Normal, TextColors.Active, TextColors.Header, TextColors.Footer);
+
+            clone.Padding = Padding;
+            clone.Spacing = Spacing;
+
+            clone.SubmitButton = SubmitButton;          clone.SubmitKey = SubmitKey;
             clone.CancelButton = CancelButton;          clone.CancelKey = CancelKey;
             clone.CloseOnCancel = CloseOnCancel;
-            clone.Font = Font;
-            clone.FooterColor = FooterColor;            clone.FooterFont = FooterFont;
-            clone.HeaderColor = HeaderColor;            clone.HeaderFont = HeaderFont;
-            clone.Padding = Padding;
-            clone.SelectedTextColor = SelectedTextColor;    clone.UnselectedTextColor = UnselectedTextColor;
-            clone.Spacing = Spacing;
-            clone.SubmitButton = SubmitButton;          clone.SubmitKey = SubmitKey;
-            clone.AlignH = AlignH;              clone.AlignV = AlignV;
-            clone.TextColor = TextColor;
+            
             clone.TextShadow = TextShadow;
             clone.IsChanged = false;
             return clone;

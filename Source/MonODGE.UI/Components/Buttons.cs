@@ -37,12 +37,12 @@ namespace MonODGE.UI.Components {
 
         public TextButton(StyleSheet style, string optionText, EventHandler action) : base(style, action) {
             _stytex = new StyledText(style, optionText);
-            _stytex.StyleMode = StyledText.StyleModes.Unselected;
+            _stytex.Context = StyledText.StyleModes.Normal;
             SizeToMin();
             //Layout(); // No Layout on init for buttons.
 
-            Select += (o, e) => _stytex.StyleMode = StyledText.StyleModes.Selected;
-            Unselect += (o, e) => _stytex.StyleMode = StyledText.StyleModes.Unselected;
+            Select += (o, e) => _stytex.Context = StyledText.StyleModes.Active;
+            Unselect += (o, e) => _stytex.Context = StyledText.StyleModes.Normal;
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
 

@@ -34,7 +34,7 @@ namespace MonODGE.UI.Components {
 
             if (Lifetime < 64 && Fade == FadeStyle.FadeOut) {
                 Style.BackgroundColor *= 1.0f - (1.0f / (Lifetime+1.0f));
-                Style.TextColor *= 1.0f - (1.0f / (Lifetime+1.0f));
+                Style.TextColors.Normal *= 1.0f - (1.0f / (Lifetime+1.0f));
                 Style.BorderColor *= 1.0f - (1.0f / (Lifetime+1.0f));
             }
 

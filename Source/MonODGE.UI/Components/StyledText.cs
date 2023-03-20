@@ -12,53 +12,46 @@ namespace MonODGE.UI.Components {
         private Vector2[] _positions;
         int _minWidth, _minHeight;
 
-        public enum StyleModes {
-            Standard = 0, Header = 1, Footer = 2, Selected = 3, Unselected = 4
-        }
-
-        private StyleModes _stymode;
-        public StyleModes StyleMode {
-            get { return _stymode; }
+        public ConponentContexts Context {
+            get { return _context; }
             set {
-                if (_stymode != value) {
+                if (_context != value) {
                     IsMessy = true;
-                    _stymode = value;
+                    _context = value;
                 }
             }
         }
-
+        private ConponentContexts _context;
 
         protected override int MinWidth => _minWidth;
         protected override int MinHeight => _minHeight;
 
-
         public string Text => string.Join(Environment.NewLine, _lines);
-
 
         private SpriteFont _font {
             get {
-                if (StyleMode == StyleModes.Header) return Style.HeaderFont;
-                else if (StyleMode == StyleModes.Footer) return Style.FooterFont;
-                else return Style.Font;
+                if (Context == ConponentContexts.Header) return Style.Fonts.Header;
+                else if (Context == ConponentContexts.Footer) return Style.Fonts.Footer;
+                else if (Context == ConponentContexts.Active) return Style.Fonts.Active;
+                else return Style.Fonts.Normal;
             }
         }
         private Color _color {
             get {
-                if (StyleMode == StyleModes.Header) return Style.HeaderColor;
-                else if (StyleMode == StyleModes.Footer) return Style.FooterColor;
-                else if (StyleMode == StyleModes.Selected) return Style.SelectedTextColor;
-                else if (StyleMode == StyleModes.Unselected) return Style.UnselectedTextColor;
-                else return Style.TextColor;
+                if (Context == ConponentContexts.Header) return Style.TextColors.Header;
+                else if (Context == ConponentContexts.Footer) return Style.TextColors.Footer;
+                else if (Context == ConponentContexts.Active) return Style.TextColors.Active;
+                else return Style.TextColors.Normal;
             }
         }
 
 
-        public StyledText(StyleSheet style, string textblock, StyleModes mode = StyleModes.Standard) : 
+        public StyledText(StyleSheet style, string textblock, ConponentContexts mode = ConponentContexts.Normal) : 
             this(style, textblock.Split(new[] { Environment.NewLine }, StringSplitOptions.None), mode) { }
 
-        public StyledText(StyleSheet style, string[] textlines, StyleModes mode = StyleModes.Standard) {
+        public StyledText(StyleSheet style, string[] textlines, ConponentContexts mode = ConponentContexts.Normal) {
             Style = style;
-            _stymode = mode;
+            _context = mode;
             _lines = textlines;
             _positions = new Vector2[_lines.Length];
             Layout();

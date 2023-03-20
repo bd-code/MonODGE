@@ -102,18 +102,18 @@ namespace MonODGE.UI.Components {
         public override void Draw(SpriteBatch batch) {
             DrawBG(batch);
             DrawBorders(batch);
-            batch.DrawString(Style.Font, Text, Location.ToVector2() + textPosition, Style.TextColor);
+            batch.DrawString(Style.Fonts.Normal, Text, Location.ToVector2() + textPosition, Style.TextColors.Normal);
         }
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             DrawBG(batch, parentRect);
             DrawBorders(batch, parentRect);
-            batch.DrawString(Style.Font, Text, 
-                (Location + parentRect.Location).ToVector2() + textPosition, Style.TextColor);
+            batch.DrawString(Style.Fonts.Normal, Text, 
+                (Location + parentRect.Location).ToVector2() + textPosition, Style.TextColors.Normal);
         }
 
 
         public override void Layout() {
-            charSize = Style.Font?.MeasureString("M") ?? Vector2.One;
+            charSize = Style.Fonts?.Normal?.MeasureString("M") ?? Vector2.One;
 
             if (Text != null) {
                 // Horizontal: always left, otherwise we would have to recalc

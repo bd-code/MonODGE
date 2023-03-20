@@ -82,12 +82,12 @@ namespace MonODGE.UI.Components {
             DrawBorders(batch);
 
             if (Value > MinValue)
-                batch.DrawString(Style.FooterFont, "<< ", textPositions[0], Style.FooterColor);
+                batch.DrawString(Style.Fonts.Footer, "<< ", textPositions[0], Style.TextColors.Footer);
 
-            batch.DrawString(Style.Font, Value.ToString(), textPositions[1], Style.TextColor);
+            batch.DrawString(Style.Fonts.Normal, Value.ToString(), textPositions[1], Style.TextColors.Normal);
 
             if (Value < MaxValue)
-                batch.DrawString(Style.FooterFont, " >>", textPositions[2], Style.FooterColor);
+                batch.DrawString(Style.Fonts.Footer, " >>", textPositions[2], Style.TextColors.Footer);
         }
 
 
@@ -108,9 +108,9 @@ namespace MonODGE.UI.Components {
 
         public override void Layout() {
             textDimensions = new Vector2[] {
-                Style.Font?.MeasureString("<< ") ?? Vector2.Zero,
-                Style.Font?.MeasureString(_value.ToString()) ?? Vector2.Zero,
-                Style.Font?.MeasureString(" >>") ?? Vector2.Zero
+                Style.Fonts?.Normal?.MeasureString("<< ") ?? Vector2.Zero,
+                Style.Fonts?.Normal?.MeasureString(_value.ToString()) ?? Vector2.Zero,
+                Style.Fonts?.Normal?.MeasureString(" >>") ?? Vector2.Zero
             };
 
             // All three text components use Absolute Positioning

@@ -45,7 +45,7 @@ namespace MonODGE.UI.Components {
                 ". . . >>"
                 };
 
-            string s = TextWrapper.WrapToWidth(messages[messageIndex], Style.Font, 
+            string s = TextWrapper.WrapToWidth(messages[messageIndex], Style.Fonts.Normal, 
                 area.Width - style.Padding.Left - style.Padding.Right);
             _stytex = new StyledText(Style, s);
 
@@ -70,7 +70,7 @@ namespace MonODGE.UI.Components {
         /// completely new string displays.
         /// </summary>
         protected void OnTextChanged() {
-            string s = TextWrapper.WrapToWidth(messages[messageIndex], Style.Font, 
+            string s = TextWrapper.WrapToWidth(messages[messageIndex], Style.Fonts.Normal, 
                 Width - Style.Padding.Left - Style.Padding.Right);
             _stytex = new StyledText(Style, s);
             footerStrings[1] = $"[Page {messageIndex + 1} of {messages.Length}]";
@@ -131,29 +131,29 @@ namespace MonODGE.UI.Components {
         private void DrawFooter(SpriteBatch batch, Rectangle where) {
             // << . . .
             if (messageIndex > 0)
-                batch.DrawString(Style.FooterFont, footerStrings[0],
+                batch.DrawString(Style.Fonts.Footer, footerStrings[0],
                     new Vector2(
                         where.X + Style.Padding.Left,
                         where.Bottom - footerDimensions[0].Y - Style.Padding.Bottom),
-                    Style.FooterColor);
+                    Style.TextColors.Footer);
 
             // [Page i of n]
             if (ShowMultiPageFooter) {
-                batch.DrawString(Style.FooterFont, footerStrings[1],
+                batch.DrawString(Style.Fonts.Footer, footerStrings[1],
                     new Vector2(
                         where.Center.X - (footerDimensions[1].X / 2),
                         where.Bottom - footerDimensions[1].Y - Style.Padding.Bottom),
-                    Style.FooterColor);
+                    Style.TextColors.Footer);
             }
 
             // . . . >>
             if (messageIndex < messages.Length - 1)
-                batch.DrawString(Style.FooterFont, footerStrings[2],
+                batch.DrawString(Style.Fonts.Footer, footerStrings[2],
                     new Vector2(
                         where.Right - footerDimensions[2].X - Style.Padding.Right,
                         where.Bottom - footerDimensions[2].Y - Style.Padding.Bottom
                         ),
-                    Style.FooterColor);
+                    Style.TextColors.Footer);
         }
 
 
@@ -163,9 +163,9 @@ namespace MonODGE.UI.Components {
                     _stytex.Layout();
 
                 footerDimensions = new Vector2[] {
-                    Style.FooterFont?.MeasureString(footerStrings[0]) ?? Vector2.Zero,
-                    Style.FooterFont?.MeasureString(footerStrings[1]) ?? Vector2.Zero,
-                    Style.FooterFont?.MeasureString(footerStrings[2]) ?? Vector2.Zero
+                    Style.Fonts?.Footer?.MeasureString(footerStrings[0]) ?? Vector2.Zero,
+                    Style.Fonts?.Footer?.MeasureString(footerStrings[1]) ?? Vector2.Zero,
+                    Style.Fonts?.Footer?.MeasureString(footerStrings[2]) ?? Vector2.Zero
                 };
 
                 textPoint = LayoutHelper.AlignToPoint(this, _stytex);

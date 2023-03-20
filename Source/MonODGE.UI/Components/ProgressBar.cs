@@ -38,7 +38,7 @@ namespace MonODGE.UI.Components {
 
         /// <summary>
         /// If true, draws the incomplete (right) side of the progress bar 
-        /// using Style.UnselectedTextColor.
+        /// using Style.TextColors.Normal.
         /// </summary>
         public bool DrawIncompleteBar { get; set; }
 
@@ -75,19 +75,19 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch) {
-            Style.Background?.Draw(batch, _filledRect, Style.SelectedTextColor);
+            Style.Background?.Draw(batch, _filledRect, Style.TextColors.Active);
             if (DrawIncompleteBar)
-                Style.Background?.Draw(batch, _unfilledRect, Style.UnselectedTextColor);
+                Style.Background?.Draw(batch, _unfilledRect, Style.TextColors.Normal);
         }
 
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             Style.Background?.Draw(batch, 
                 new Rectangle(parentRect.Location + _filledRect.Location, _filledRect.Size), 
-                Style.SelectedTextColor);
+                Style.TextColors.Active);
             if (DrawIncompleteBar)
                 Style.Background?.Draw(batch, 
                     new Rectangle(parentRect.Location + _unfilledRect.Location, _unfilledRect.Size), 
-                    Style.UnselectedTextColor);
+                    Style.TextColors.Normal);
         }
     }
 }
