@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonODGE.UI.Styles;
 using MonODGE.UI.Utilities;
 
 namespace MonODGE.UI.Components {
@@ -31,7 +31,7 @@ namespace MonODGE.UI.Components {
 
         public ListMenu(StyleSheet style, Rectangle area, string heading)
             : base(style) {
-            _stytex = new StyledText(style, heading ?? string.Empty, StyledText.StyleModes.Header);
+            _stytex = new StyledText(style, heading ?? string.Empty, ConponentContexts.Header);
 
             _bpanel = new Rectangle(
                X + Style.Padding.Left,

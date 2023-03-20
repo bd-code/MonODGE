@@ -3,6 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonODGE.UI.Styles;
+
 namespace MonODGE.UI.Components {
     /// <summary>
     /// An unframed (windowless) text display intended for damage numbers and other 

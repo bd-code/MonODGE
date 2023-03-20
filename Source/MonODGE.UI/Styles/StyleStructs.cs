@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MonODGE.UI {
+namespace MonODGE.UI.Styles {
     /// <summary>
     /// Represents 4-sided inner padding. 
     /// </summary>

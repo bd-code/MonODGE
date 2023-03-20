@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonODGE.UI {
+namespace MonODGE.UI.Styles {
     /// <summary>
     /// Creates a resizable image with fixed corners and stretchable center.
     /// </summary>

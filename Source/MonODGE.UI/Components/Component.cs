@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonODGE.IO;
+using MonODGE.UI.Styles;
 using MonODGE.UI.Utilities;
 
 namespace MonODGE.UI.Components {

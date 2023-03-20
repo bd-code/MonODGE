@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonODGE.UI.Styles;
+
 namespace MonODGE.UI.Components {
     /// <summary>
     /// A lightweight text display popup.

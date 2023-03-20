@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
+using MonODGE.UI.Styles;
 using MonODGE.UI.Utilities;
 
 namespace MonODGE.UI.Components {

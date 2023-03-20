@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonODGE.UI {
+namespace MonODGE.UI.Styles {
     public enum ConponentContexts {
         Normal = 0, Header = 1, Footer = 2, Active = 3
     }

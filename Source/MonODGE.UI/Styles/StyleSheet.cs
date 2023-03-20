@@ -2,10 +2,9 @@
 using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace MonODGE.UI {
+namespace MonODGE.UI.Styles {
     public class StyleSheet : IChangeTracking {
         public bool IsChanged { get; private set; }
 

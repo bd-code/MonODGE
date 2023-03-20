@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+
 using MonODGE.UI.Components;
+using MonODGE.UI.Styles;
 
 namespace MonODGE.UI.Utilities {
     /// <summary>

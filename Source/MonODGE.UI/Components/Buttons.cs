@@ -3,6 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonODGE.UI.Styles;
+
 namespace MonODGE.UI.Components {
     /// <summary>
     /// Helper methods for easier button creation.
@@ -37,12 +39,12 @@ namespace MonODGE.UI.Components {
 
         public TextButton(StyleSheet style, string optionText, EventHandler action) : base(style, action) {
             _stytex = new StyledText(style, optionText);
-            _stytex.Context = StyledText.StyleModes.Normal;
+            _stytex.Context = ConponentContexts.Normal;
             SizeToMin();
             //Layout(); // No Layout on init for buttons.
 
-            Select += (o, e) => _stytex.Context = StyledText.StyleModes.Active;
-            Unselect += (o, e) => _stytex.Context = StyledText.StyleModes.Normal;
+            Select += (o, e) => _stytex.Context = ConponentContexts.Active;
+            Unselect += (o, e) => _stytex.Context = ConponentContexts.Normal;
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
 
