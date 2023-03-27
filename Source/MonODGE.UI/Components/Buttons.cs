@@ -18,12 +18,12 @@ namespace MonODGE.UI.Components {
 
         public TextButton(StyleSheet style, string optionText, EventHandler action) : base(style, action) {
             _stytex = new StyledText(style, optionText);
-            _stytex.Context = ConponentContexts.Normal;
+            _stytex.Context = ComponentContexts.Normal;
             SizeToMin();
             //Layout(); // No Layout on init for buttons.
 
-            Select += (o, e) => _stytex.Context = ConponentContexts.Active;
-            Unselect += (o, e) => _stytex.Context = ConponentContexts.Normal;
+            Select += (o, e) => _stytex.Context = ComponentContexts.Active;
+            Unselect += (o, e) => _stytex.Context = ComponentContexts.Normal;
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
 

@@ -22,6 +22,7 @@ namespace MonODGE.UI.Components {
 
         public string Name { get; set; }
         public bool IsMessy { get; protected set; }
+        protected virtual ComponentContexts Context => ComponentContexts.Normal;
 
 
         private StyleSheet _style;
@@ -195,7 +196,8 @@ namespace MonODGE.UI.Components {
         /// </summary>
         /// <param name="batch">SpriteBatch.</param>
         protected void DrawBG(SpriteBatch batch) {
-            Style.Background?.Draw(batch, Dimensions, Style.BackgroundColor);
+            Style.Backgrounds.Get(Context)?.Draw(
+                batch, Dimensions, Style.BackgroundColors.Get(Context));
         }
 
 
@@ -206,10 +208,10 @@ namespace MonODGE.UI.Components {
         /// <param name="batch">SpriteBatch.</param>
         /// <param name="where">Rectangle area to draw.</param>
         protected void DrawBG(SpriteBatch batch, Rectangle parentRect) {
-            Style.Background?.Draw(
+            Style.Backgrounds.Get(Context)?.Draw(
                 batch, 
                 new Rectangle(parentRect.Location + Location, Size), 
-                Style.BackgroundColor);
+                Style.BackgroundColors.Get(Context));
         }
 
 
@@ -219,9 +221,9 @@ namespace MonODGE.UI.Components {
         /// <param name="batch">SpriteBatch</param>
         protected void DrawBorders(SpriteBatch batch) {
             if (Style.DrawOnlyCorners)
-                Style.Borders?.DrawCorners(batch, Dimensions, Style.BorderColor);
+                Style.Borders?.Get(Context)?.DrawCorners(batch, Dimensions, Style.BorderColors.Get(Context));
             else
-                Style.Borders?.Draw(batch, Dimensions, Style.BorderColor);
+                Style.Borders?.Get(Context)?.Draw(batch, Dimensions, Style.BorderColors.Get(Context));
         }
 
 
@@ -233,15 +235,15 @@ namespace MonODGE.UI.Components {
         /// <param name="parentRect">Rectangle area to draw.</param>
         protected void DrawBorders(SpriteBatch batch, Rectangle parentRect) {
             if (Style.DrawOnlyCorners)
-                Style.Borders?.DrawCorners(
+                Style.Borders?.Get(Context)?.DrawCorners(
                     batch,
                     new Rectangle(parentRect.Location + Location, Size),
-                    Style.BorderColor);
+                    Style.BorderColors.Get(Context));
             else {
-                Style.Borders?.Draw(
+                Style.Borders?.Get(Context)?.Draw(
                     batch,
                     new Rectangle(parentRect.Location + Location, Size),
-                    Style.BorderColor);
+                    Style.BorderColors.Get(Context));
             }
         }
 
@@ -421,15 +423,22 @@ namespace MonODGE.UI.Components {
     ///////////////////////////////////////////////////////////////////////////
 
     public abstract class OdgeButton : OdgeComponent {
+        protected ComponentContexts _context;
+        protected override ComponentContexts Context => _context;
+
         public bool IsSelected {
             get { return _isSelected; } 
             set {
                 if (_isSelected != value) {
                     _isSelected = value;
-                    if (_isSelected)
+                    if (_isSelected) {
+                        _context = ComponentContexts.Active;
                         OnSelected();
-                    else
+                    }
+                    else {
+                        _context = ComponentContexts.Normal;
                         OnUnselected();
+                    }
                 }
             } 
         }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace MonODGE.UI.Styles {
@@ -17,7 +18,7 @@ namespace MonODGE.UI.Styles {
         /// Horizontal alignment for inner text and elements.
         /// </summary>
         public AlignmentsH AlignH {
-            get { return _alignH; }
+            get => _alignH;
             set {
                 _alignH = value;
                 IsChanged = true;
@@ -29,7 +30,7 @@ namespace MonODGE.UI.Styles {
         /// Vertical alignment for inner text and elements.
         /// </summary>
         public AlignmentsV AlignV {
-            get { return _alignV; }
+            get => _alignV;
             set {
                 _alignV = value;
                 IsChanged = true;
@@ -56,74 +57,86 @@ namespace MonODGE.UI.Styles {
         /// <summary>
         /// Background texture which fills Component dimensions. Can be set to null for no background.
         /// </summary>
-        public BGTexture Background {
-            get { return _background; }
+        public StyleContext<BGTexture> Backgrounds {
+            get => _backgrounds;
             set {
-                _background = value;
-                IsChanged = true;
+                if (value != null) {
+                    _backgrounds = value;
+                    IsChanged = true;
+                }
             }
         }
-        private BGTexture _background;
+        private StyleContext<BGTexture> _backgrounds;
 
         /// <summary>
         /// Border texture color. Set to Color.White to match original image.
         /// </summary>
-        public Color BackgroundColor {
-            get { return _bgColor; }
+        public StyleContext<Color> BackgroundColors {
+            get => _bgColors;
             set {
-                _bgColor = value;
-                IsChanged = true;
+                if (value != null) {
+                    _bgColors = value;
+                    IsChanged = true;
+                }
             }
         }
-        private Color _bgColor;
+        private StyleContext<Color> _bgColors;
 
 
         /// <summary>
         /// Border texture which, uh, borders Components. Can be set to null for no borders.
         /// Border textures are split into 3*3 tiles, and thus image dimensions should be divisible by 3.
         /// </summary>
-        public NinePatch Borders {
-            get { return _borders; }
+        public StyleContext<NinePatch> Borders {
+            get => _borders;
             set {
-                _borders = value;
-                IsChanged = true;
+                if (value != null) {
+                    _borders = value;
+                    IsChanged = true;
+                }
             }
         }
-        private NinePatch _borders;
+        private StyleContext<NinePatch> _borders;
 
 
         /// <summary>
         /// Border texture color. Set to Color.White to match original image.
         /// </summary>
-        public Color BorderColor {
-            get { return _borderColor; }
+        public StyleContext<Color> BorderColors {
+            get => _borderColors;
             set {
-                _borderColor = value;
-                IsChanged = true;
+                if (value != null) {
+                    _borderColors = value;
+                    IsChanged = true;
+                }
             }
         }
-        private Color _borderColor;
+        private StyleContext<Color> _borderColors;
 
 
         //// Fonts and Text Color ////
 
-        public FontStyleContext Fonts {
+        public StyleContext<SpriteFont> Fonts {
             get => _fonts;
             set {
-                _fonts = value;
-                IsChanged = true;
+                if (value != null) {
+                    _fonts = value;
+                    IsChanged = true;
+                }
             }
         }
-        private FontStyleContext _fonts;
+        private StyleContext<SpriteFont> _fonts;
 
-        public ColorStyleContext TextColors {
+        public StyleContext<Color> TextColors {
             get => _textColors;
             set {
-                _textColors = value;
-                IsChanged = true;
+                if (value != null) {
+                    _textColors = value;
+                    IsChanged = true;
+                }
             }
         }
-        private ColorStyleContext _textColors;
+        private StyleContext<Color> _textColors;
 
 
         //// Padding, Spacing, and Shadows ////
@@ -132,7 +145,7 @@ namespace MonODGE.UI.Styles {
         /// Represents the Component's inner padding. 
         /// </summary>
         public Padding Padding { 
-            get { return _padding; }
+            get => _padding;
             set { 
                 _padding = value; 
                 IsChanged = true; 
@@ -144,7 +157,7 @@ namespace MonODGE.UI.Styles {
         /// Determines distance between child Components in OdgeComponents that have them.
         /// </summary>
         public Spacing Spacing {
-            get { return _spacing; }
+            get => _spacing;
             set { 
                 _spacing = value;
                 IsChanged = true;
@@ -157,7 +170,7 @@ namespace MonODGE.UI.Styles {
         /// Text shadowing used in StyledText.
         /// </summary>
         public Shadows TextShadow { 
-            get { return _shadows; } 
+            get => _shadows;
             set {
                 _shadows = value;
                 IsChanged = true;
@@ -172,7 +185,7 @@ namespace MonODGE.UI.Styles {
         /// This Keyboard Key triggers the Component's OnSubmit().
         /// </summary>
         public Keys SubmitKey {
-            get { return _submitKey; }
+            get => _submitKey;
             set {
                 _submitKey = value;
                 IsChanged = true;
@@ -184,7 +197,7 @@ namespace MonODGE.UI.Styles {
         /// This GamePad Button triggers the Component's OnSubmit().
         /// </summary>
         public Buttons SubmitButton {
-            get { return _submitButton; }
+            get => _submitButton;
             set {
                 _submitButton = value;
                 IsChanged = true;
@@ -197,7 +210,7 @@ namespace MonODGE.UI.Styles {
         /// For most Controls, it also closes it.
         /// </summary>
         public Keys CancelKey {
-            get { return _cancelKey; }
+            get => _cancelKey;
             set {
                 _cancelKey = value;
                 IsChanged = true;
@@ -210,7 +223,7 @@ namespace MonODGE.UI.Styles {
         /// For most Controls, it also closes it.
         /// </summary>
         public Buttons CancelButton {
-            get { return _cancelButton; }
+            get => _cancelButton;
             set {
                 _cancelButton = value;
                 IsChanged = true;
@@ -225,10 +238,12 @@ namespace MonODGE.UI.Styles {
 
 
         public StyleSheet() {
-            BackgroundColor = Color.Transparent;            
-            BorderColor = Color.White;
+            Backgrounds = new StyleContext<BGTexture>(null);
+            BackgroundColors = new StyleContext<Color>(Color.Transparent);
+            Borders = new StyleContext<NinePatch>(null);
+            BorderColors = new StyleContext<Color>(Color.White);
 
-            TextColors = new ColorStyleContext(Color.White, Color.Gold);
+            TextColors = new StyleContext<Color>(Color.White, Color.Gold);
             
             AlignH = AlignmentsH.LEFT;
             AlignV = AlignmentsV.TOP;
@@ -250,24 +265,23 @@ namespace MonODGE.UI.Styles {
         /// </summary>
         /// <returns>A new StyleSheet object with this StyleSheet's values.</returns>
         public StyleSheet Clone() {
-            StyleSheet clone = new StyleSheet();
-            clone.AlignH = AlignH;                      clone.AlignV = AlignV;
-            clone.Background = Background;              clone.BackgroundColor = BackgroundColor;
-            clone.BorderColor = BorderColor;            clone.Borders = Borders;
+            StyleSheet clone = new StyleSheet() {
+                AlignH = AlignH,                        AlignV = AlignV,
+                Backgrounds = Backgrounds.Clone(),      BackgroundColors = BackgroundColors.Clone(),
+                Borders = Borders.Clone(),              BorderColors = BorderColors.Clone(),
 
-            clone.Fonts = new FontStyleContext(Fonts.Normal, Fonts.Active, Fonts.Header, Fonts.Footer);
-            clone.TextColors = new ColorStyleContext(TextColors.Normal, TextColors.Active, TextColors.Header, TextColors.Footer);
+                Fonts = Fonts.Clone(),                  TextColors = TextColors.Clone(),
 
-            clone.Padding = Padding;
-            clone.Spacing = Spacing;
+                Padding = Padding,                      Spacing = Spacing,
 
-            clone.SubmitButton = SubmitButton;          clone.SubmitKey = SubmitKey;
-            clone.CancelButton = CancelButton;          clone.CancelKey = CancelKey;
-            clone.CloseOnCancel = CloseOnCancel;
-            
-            clone.TextShadow = TextShadow;
-            clone.DrawOnlyCorners = DrawOnlyCorners;
-            clone.IsChanged = false;
+                SubmitButton = SubmitButton,            SubmitKey = SubmitKey,
+                CancelButton = CancelButton,            CancelKey = CancelKey,
+                CloseOnCancel = CloseOnCancel,
+
+                TextShadow = TextShadow,
+                DrawOnlyCorners = DrawOnlyCorners,
+                IsChanged = false
+            };
             return clone;
         }
 

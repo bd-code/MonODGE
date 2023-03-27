@@ -14,7 +14,7 @@ namespace MonODGE.UI.Components {
         private Vector2[] _positions;
         int _minWidth, _minHeight;
 
-        public ConponentContexts Context {
+        public ComponentContexts Context {
             get { return _context; }
             set {
                 if (_context != value) {
@@ -23,7 +23,7 @@ namespace MonODGE.UI.Components {
                 }
             }
         }
-        private ConponentContexts _context;
+        private ComponentContexts _context;
 
         protected override int MinWidth => _minWidth;
         protected override int MinHeight => _minHeight;
@@ -32,26 +32,26 @@ namespace MonODGE.UI.Components {
 
         private SpriteFont _font {
             get {
-                if (Context == ConponentContexts.Header) return Style.Fonts.Header;
-                else if (Context == ConponentContexts.Footer) return Style.Fonts.Footer;
-                else if (Context == ConponentContexts.Active) return Style.Fonts.Active;
+                if (Context == ComponentContexts.Header) return Style.Fonts.Header;
+                else if (Context == ComponentContexts.Footer) return Style.Fonts.Footer;
+                else if (Context == ComponentContexts.Active) return Style.Fonts.Active;
                 else return Style.Fonts.Normal;
             }
         }
         private Color _color {
             get {
-                if (Context == ConponentContexts.Header) return Style.TextColors.Header;
-                else if (Context == ConponentContexts.Footer) return Style.TextColors.Footer;
-                else if (Context == ConponentContexts.Active) return Style.TextColors.Active;
+                if (Context == ComponentContexts.Header) return Style.TextColors.Header;
+                else if (Context == ComponentContexts.Footer) return Style.TextColors.Footer;
+                else if (Context == ComponentContexts.Active) return Style.TextColors.Active;
                 else return Style.TextColors.Normal;
             }
         }
 
 
-        public StyledText(StyleSheet style, string textblock, ConponentContexts mode = ConponentContexts.Normal) : 
+        public StyledText(StyleSheet style, string textblock, ComponentContexts mode = ComponentContexts.Normal) : 
             this(style, textblock.Split(new[] { Environment.NewLine }, StringSplitOptions.None), mode) { }
 
-        public StyledText(StyleSheet style, string[] textlines, ConponentContexts mode = ConponentContexts.Normal) {
+        public StyledText(StyleSheet style, string[] textlines, ComponentContexts mode = ComponentContexts.Normal) {
             Style = style;
             _context = mode;
             _lines = textlines;
