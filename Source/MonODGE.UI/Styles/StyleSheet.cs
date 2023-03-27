@@ -41,6 +41,19 @@ namespace MonODGE.UI.Styles {
         //// Background & Borders ////
 
         /// <summary>
+        /// If true, only the four corners of the Borders NinePatch will be drawn.
+        /// If false the entire all nine Borders segments will be drawn.
+        /// </summary>
+        public bool DrawOnlyCorners {
+            get => _drawOnlyCorners;
+            set { 
+                _drawOnlyCorners = value; 
+                IsChanged = true; 
+            }
+        }
+        private bool _drawOnlyCorners;
+
+        /// <summary>
         /// Background texture which fills Component dimensions. Can be set to null for no background.
         /// </summary>
         public BGTexture Background {
@@ -253,6 +266,7 @@ namespace MonODGE.UI.Styles {
             clone.CloseOnCancel = CloseOnCancel;
             
             clone.TextShadow = TextShadow;
+            clone.DrawOnlyCorners = DrawOnlyCorners;
             clone.IsChanged = false;
             return clone;
         }

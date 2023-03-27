@@ -33,12 +33,7 @@ namespace MonODGE.UI.Components {
         }
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             DrawBG(batch, parentRect);
-
-            if (IsSelected) 
-                DrawBorders(batch, parentRect);            
-            else 
-                DrawCorners(batch, parentRect);
-            
+            DrawBorders(batch, parentRect);            
             _stytex.Draw(batch, new Rectangle(parentRect.Location + Location + textPoint, Size));
         }
 
@@ -88,16 +83,12 @@ namespace MonODGE.UI.Components {
         }
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             DrawBG(batch, parentRect);
-            Rectangle where = new Rectangle(parentRect.Location + Location + dstRect.Location, dstRect.Size);
+            DrawBorders(batch, parentRect);
 
-            if (IsSelected) {
-                DrawBorders(batch, parentRect);
-                batch.Draw(texture, where, srcRect, Color.White);
-            }
-            else {
-                DrawCorners(batch, parentRect);
-                batch.Draw(texture, where, srcRect, Color.Gray);
-            }
+            Rectangle where = new Rectangle(parentRect.Location + Location + dstRect.Location, dstRect.Size);
+            Color tclr = IsSelected ? Color.White : Color.Gray;
+
+            batch.Draw(texture, where, srcRect, tclr);
         }
 
 

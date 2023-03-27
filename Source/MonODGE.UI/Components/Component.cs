@@ -214,34 +214,14 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
-        /// Draws only the corner tiles of Style.Borders to the four corners of the component.
-        /// </summary>
-        /// <param name="batch">SpriteBatch</param>
-        protected void DrawCorners(SpriteBatch batch) {
-            Style.Borders?.DrawCorners(batch, Dimensions, Style.BorderColor);
-        }
-
-
-        /// <summary>
-        /// Draws only the corner tiles of Style.Borders to the four corners of the component 
-        /// relative to a parent Rectangle.
-        /// </summary>
-        /// <param name="batch">SpriteBatch</param>
-        /// <param name="where">Rectangle area to draw.</param>
-        protected void DrawCorners(SpriteBatch batch, Rectangle parentRect) {
-            Style.Borders?.DrawCorners(
-                batch, 
-                new Rectangle(parentRect.Location + Location, Size), 
-                Style.BorderColor);
-        }
-
-
-        /// <summary>
         /// Draws the Texture2D saved in Style.Borders around the OdgeComponent.
         /// </summary>
         /// <param name="batch">SpriteBatch</param>
         protected void DrawBorders(SpriteBatch batch) {
-            Style.Borders?.Draw(batch, Dimensions, Style.BorderColor);
+            if (Style.DrawOnlyCorners)
+                Style.Borders?.DrawCorners(batch, Dimensions, Style.BorderColor);
+            else
+                Style.Borders?.Draw(batch, Dimensions, Style.BorderColor);
         }
 
 
@@ -252,10 +232,17 @@ namespace MonODGE.UI.Components {
         /// <param name="batch">SpriteBatch</param>
         /// <param name="parentRect">Rectangle area to draw.</param>
         protected void DrawBorders(SpriteBatch batch, Rectangle parentRect) {
-            Style.Borders?.Draw(
-                batch, 
-                new Rectangle(parentRect.Location + Location, Size), 
-                Style.BorderColor);
+            if (Style.DrawOnlyCorners)
+                Style.Borders?.DrawCorners(
+                    batch,
+                    new Rectangle(parentRect.Location + Location, Size),
+                    Style.BorderColor);
+            else {
+                Style.Borders?.Draw(
+                    batch,
+                    new Rectangle(parentRect.Location + Location, Size),
+                    Style.BorderColor);
+            }
         }
 
 
