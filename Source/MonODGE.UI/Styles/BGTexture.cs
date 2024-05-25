@@ -7,6 +7,7 @@ namespace MonODGE.UI.Styles {
         private Rectangle _srcrect;
 
         public Texture2D Texture => _tex2d;
+        public Point TextureOrigin => _srcrect.Location;
         public int Width => _srcrect.Width;
         public int Height => _srcrect.Height;
 

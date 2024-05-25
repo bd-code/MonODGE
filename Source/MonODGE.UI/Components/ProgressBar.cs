@@ -176,7 +176,7 @@ namespace MonODGE.UI.Components {
                 }
             }
             else if (TextMode == ProgressBarTextDisplayMode.Percent) {
-                string p = $"{Percent*100}%";
+                string p = $"{Percent:P1}";
                 if (_stytex == null || _stytex.Text != p) {
                     _stytex = new StyledText(Style, p);
                     IsMessy = true;
@@ -193,22 +193,71 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch) {
-            Style.Backgrounds.Active?.Draw(batch, _filledRect, Style.BackgroundColors.Active);
-            if (DrawIncompleteBar)
-                Style.Backgrounds.Normal?.Draw(batch, _unfilledRect, Style.BackgroundColors.Normal);
+            //Style.Backgrounds.Active?.Draw(batch, _filledRect, Style.BackgroundColors.Active);
+            if (Style.Backgrounds.Active != null) {
+                batch.Draw(
+                    Style.Backgrounds.Active.Texture,
+                    _filledRect,
+                    new Rectangle(
+                        Style.Backgrounds.Active.TextureOrigin,
+                        new Point(
+                            (int)(Style.Backgrounds.Active.Width * Percent),
+                            Style.Backgrounds.Active.Height)),
+                    Style.BackgroundColors.Active);
+            }
+
+
+
+            if (DrawIncompleteBar && Style.Backgrounds.Normal != null) {
+                //Style.Backgrounds.Normal?.Draw(batch, _unfilledRect, Style.BackgroundColors.Normal);
+                batch.Draw(
+                    Style.Backgrounds.Normal.Texture,
+                    _unfilledRect,
+                    new Rectangle(
+                        Style.Backgrounds.Normal.TextureOrigin.X + (int)(Style.Backgrounds.Normal.Width * Percent) + 1,
+                        Style.Backgrounds.Normal.TextureOrigin.Y,
+                        (int)(Style.Backgrounds.Normal.Width * (1.0f - Percent)),
+                        Style.Backgrounds.Normal.Height
+                        ),
+                    Style.BackgroundColors.Normal);
+            }
 
             _stytex?.Draw(batch, new Rectangle(Location + textPoint, Size));
         }
 
+
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
-            Style.Backgrounds.Active?.Draw(batch, 
-                new Rectangle(parentRect.Location + _filledRect.Location, _filledRect.Size), 
-                Style.TextColors.Active);
-            if (DrawIncompleteBar)
-                Style.Backgrounds.Normal?.Draw(batch, 
-                    new Rectangle(parentRect.Location + _unfilledRect.Location, _unfilledRect.Size), 
-                    Style.TextColors.Normal);
-            
+            //Style.Backgrounds.Active?.Draw(batch, 
+            //    new Rectangle(parentRect.Location + _filledRect.Location, _filledRect.Size),
+            //    Style.BackgroundColors.Active);
+            if (Style.Backgrounds.Active != null) {
+                batch.Draw(
+                    Style.Backgrounds.Active.Texture,
+                    new Rectangle(parentRect.Location + _filledRect.Location, _filledRect.Size),
+                    new Rectangle(
+                        Style.Backgrounds.Active.TextureOrigin,
+                        new Point(
+                            (int)(Style.Backgrounds.Active.Width * Percent),
+                            Style.Backgrounds.Active.Height)),
+                    Style.BackgroundColors.Active);
+            }
+
+            if (DrawIncompleteBar && Style.Backgrounds.Normal != null) {
+                //Style.Backgrounds.Normal?.Draw(batch,
+                //    new Rectangle(parentRect.Location + _unfilledRect.Location, _unfilledRect.Size),
+                //    Style.BackgroundColors.Normal);
+                batch.Draw(
+                    Style.Backgrounds.Normal.Texture,
+                    new Rectangle(parentRect.Location + _unfilledRect.Location, _unfilledRect.Size),
+                    new Rectangle(
+                        Style.Backgrounds.Normal.TextureOrigin.X + (int)(Style.Backgrounds.Normal.Width * Percent) + 1,
+                        Style.Backgrounds.Normal.TextureOrigin.Y,
+                        (int)(Style.Backgrounds.Normal.Width * (1.0f - Percent)),
+                        Style.Backgrounds.Normal.Height
+                        ),
+                    Style.BackgroundColors.Normal);
+            }
+
             _stytex?.Draw(batch, new Rectangle(parentRect.Location + Location + textPoint, Size));
         }
 
