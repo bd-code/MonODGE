@@ -96,6 +96,13 @@ namespace MonODGE.UI.Components {
             }
         }
 
+
+        /// <summary>
+        /// The number of decimal places to display in the text. 
+        /// </summary>
+        public uint DecimalPlaces { get; set; }
+
+
         /// <summary>
         /// If true, draws the incomplete (right) side of the progress bar 
         /// using Style.BackgroundColors.Normal.
@@ -117,6 +124,8 @@ namespace MonODGE.UI.Components {
             _max = maxValue;
             // Keep Value last otherwise the Clamp fails.
             _value = MathHelper.Clamp(startValue, _min, _max);
+
+            DecimalPlaces = 0;
             DrawIncompleteBar = drawIncomplete;
 
             if (text != null) {
@@ -155,39 +164,7 @@ namespace MonODGE.UI.Components {
                 Value = _value + _step;
             }
 
-            // Now Text:
-            if (TextMode == ProgressBarTextDisplayMode.None) {
-                if (_stytex != null) { 
-                    _stytex = null;
-                    IsMessy = true;
-                }
-            }
-            else if (TextMode == ProgressBarTextDisplayMode.Value) {
-                if (_stytex == null || _stytex.Text != Value.ToString()) { 
-                    _stytex = new StyledText(Style, Value.ToString());
-                    IsMessy = true;
-                }
-            }
-            else if (TextMode == ProgressBarTextDisplayMode.Fraction) {
-                string f = $"{Value}/{Maximum}";
-                if (_stytex == null || _stytex.Text != f) { 
-                    _stytex = new StyledText(Style, f);
-                    IsMessy = true;
-                }
-            }
-            else if (TextMode == ProgressBarTextDisplayMode.Percent) {
-                string p = $"{Percent:P1}";
-                if (_stytex == null || _stytex.Text != p) {
-                    _stytex = new StyledText(Style, p);
-                    IsMessy = true;
-                }
-            }
-            else if (TextMode == ProgressBarTextDisplayMode.Custom) {
-                if (_stytex == null || _stytex.Text != _customText) {
-                    _stytex = new StyledText(Style, _customText);
-                    IsMessy = true;
-                }
-            }
+            UpdateText();
             base.Update();
         }
 
@@ -285,6 +262,44 @@ namespace MonODGE.UI.Components {
                 _customText = customText;
             }
             else { _customText = null; }
+            UpdateText();
+        }
+
+
+        private void UpdateText() {
+            if (TextMode == ProgressBarTextDisplayMode.None) {
+                if (_stytex != null) {
+                    _stytex = null;
+                    IsMessy = true;
+                }
+            }
+            else if (TextMode == ProgressBarTextDisplayMode.Value) {
+                string v = _value.ToString("F"+DecimalPlaces);
+                if (_stytex == null || _stytex.Text != v) {
+                    _stytex = new StyledText(Style, v);
+                    IsMessy = true;
+                }
+            }
+            else if (TextMode == ProgressBarTextDisplayMode.Fraction) {
+                string f = _value.ToString("F"+DecimalPlaces) + "/" + _max.ToString("F"+DecimalPlaces);
+                if (_stytex == null || _stytex.Text != f) {
+                    _stytex = new StyledText(Style, f);
+                    IsMessy = true;
+                }
+            }
+            else if (TextMode == ProgressBarTextDisplayMode.Percent) {
+                string p = Percent.ToString("P"+DecimalPlaces);
+                if (_stytex == null || _stytex.Text != p) {
+                    _stytex = new StyledText(Style, p);
+                    IsMessy = true;
+                }
+            }
+            else if (TextMode == ProgressBarTextDisplayMode.Custom) {
+                if (_stytex == null || _stytex.Text != _customText) {
+                    _stytex = new StyledText(Style, _customText);
+                    IsMessy = true;
+                }
+            }
         }
     }
 }
