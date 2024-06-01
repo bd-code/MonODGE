@@ -140,11 +140,15 @@ namespace MonODGE.UI.Components {
                 OnStyleChanged();
 
             if (IsMessy) {
+                // 2024.6.1: We now resize first because some internal subcomponents
+                // require the size of their parent for proper alignment. 
+                // Components that need to resize as a result of subcomponent changes
+                // in Layout() (looking at you, ListMenu) should duplicate the
+                // resizing code below at the END of their Layout() overrides.
+                //Layout();
+                if (Width < MinWidth)   Width = MinWidth;
+                if (Height < MinHeight) Height = MinHeight;
                 Layout();
-                if (Width < MinWidth)
-                    Width = MinWidth;
-                if (Height < MinHeight)
-                    Height = MinHeight;
             }
         }
 

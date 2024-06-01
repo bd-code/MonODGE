@@ -125,6 +125,11 @@ namespace MonODGE.UI.Components {
                 Height - (Style.Padding.Top + _stytex.Height + Style.Spacing.Vertical + Style.Padding.Bottom)
                 );
 
+            // Duplicate this from base Component otherwise
+            // we won't resize after buttons expand.
+            if (Width < MinWidth)   Width = MinWidth;
+            if (Height < MinHeight) Height = MinHeight;
+
             /// Calc textPoint X ///
             if (Style.AlignH == StyleSheet.AlignmentsH.LEFT)
                 textPoint.X = Style.Padding.Left;
