@@ -13,6 +13,7 @@ namespace MonODGE.IO {
             State = Keyboard.GetState();
         }
 
+
         public void Update() {
             OldState = State;
             State = Keyboard.GetState();
@@ -29,24 +30,21 @@ namespace MonODGE.IO {
             State = keystate;
         }
 
-        public bool IsKeyDown(Keys kee) {
-            return State.IsKeyDown(kee);
-        }
 
-        public bool IsKeyHold(Keys kee) {
-            return (State.IsKeyDown(kee) && OldState.IsKeyDown(kee));
-        }
+        public bool IsKeyDown(Keys kee) =>
+            State.IsKeyDown(kee);
+        public bool IsKeyHold(Keys kee) => 
+            State.IsKeyDown(kee) && OldState.IsKeyDown(kee);
+        public bool IsKeyPress(Keys kee) => 
+            State.IsKeyDown(kee) && !OldState.IsKeyDown(kee);
+        public bool IsKeyRelease(Keys kee) => 
+            !State.IsKeyDown(kee) && OldState.IsKeyDown(kee);
 
-        public bool IsKeyPress(Keys kee) {
-            return (State.IsKeyDown(kee) && !OldState.IsKeyDown(kee));
-        }
 
-        public bool IsKeyRelease(Keys kee) {
-            return (!State.IsKeyDown(kee) && OldState.IsKeyDown(kee));
-        }
-
-        public bool AnyKey() {
-            return (State.GetPressedKeys().Length > 0 && OldState.GetPressedKeys().Length == 0);
-        }
+        public bool AnyKeyDown() =>
+            State.GetPressedKeys().Length > 0;
+        public bool AnyKeyPress() =>
+            State.GetPressedKeys().Length > 0 && OldState.GetPressedKeys().Length == 0;
+        
     }
 }

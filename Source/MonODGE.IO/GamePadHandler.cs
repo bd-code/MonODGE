@@ -29,6 +29,7 @@ namespace MonODGE.IO {
             }
         }
 
+
         public void Update() {
             for (int p = 0; p < _playercount; p++) {
                 OldStates[p] = States[p];
@@ -51,20 +52,14 @@ namespace MonODGE.IO {
         }
 
 
-        public bool IsButtonDown(int playerIndex, Buttons button) {
-            return States[playerIndex].IsButtonDown(button);
-        }
-
-        public bool IsButtonHold(int playerIndex, Buttons button) {
-            return (States[playerIndex].IsButtonDown(button) && OldStates[playerIndex].IsButtonDown(button));
-        }
-
-        public bool IsButtonPress(int playerIndex, Buttons button) {
-            return (States[playerIndex].IsButtonDown(button) && !OldStates[playerIndex].IsButtonDown(button));
-        }
-
-        public bool IsButtonRelease(int playerIndex, Buttons button) {
-            return (!States[playerIndex].IsButtonDown(button) && OldStates[playerIndex].IsButtonDown(button));
-        }
+        public bool IsButtonDown(int playerIndex, Buttons button) =>
+            States[playerIndex].IsButtonDown(button);
+        public bool IsButtonHold(int playerIndex, Buttons button) =>
+            States[playerIndex].IsButtonDown(button) && OldStates[playerIndex].IsButtonDown(button);
+        public bool IsButtonPress(int playerIndex, Buttons button) =>
+            States[playerIndex].IsButtonDown(button) && !OldStates[playerIndex].IsButtonDown(button);
+        public bool IsButtonRelease(int playerIndex, Buttons button) =>
+            !States[playerIndex].IsButtonDown(button) && OldStates[playerIndex].IsButtonDown(button);
+        
     }
 }

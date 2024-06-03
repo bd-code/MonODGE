@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Microsoft.Xna.Framework.Input;
-
 namespace MonODGE.IO {
     /// <summary>
     /// Provides support for user input using a Keyboard or GamePad (controller).
@@ -20,20 +18,20 @@ namespace MonODGE.IO {
             }
         }
 
-        private int _defaultPlayerIndex;
         public static int DefaultPlayerIndex {
             get { return Input._defaultPlayerIndex; }
             set { Input._defaultPlayerIndex = value; }
         }
+        private int _defaultPlayerIndex;
 
+        public static KeyboardHandler KB => Input._keyboard;
         private KeyboardHandler _keyboard;
-        public static KeyboardHandler KB { get { return Input._keyboard; } }
 
+        public static GamePadHandler GP => Input._gamepads;
         private GamePadHandler _gamepads;
-        public static GamePadHandler GP { get { return Input._gamepads; } }
 
+        public static OdgeInputMap Map => Input._map;
         private OdgeInputMap _map;
-        public static OdgeInputMap Map { get { return Input._map; } }
 
         private OdgeIO() {
             _keyboard = new KeyboardHandler();
@@ -56,76 +54,29 @@ namespace MonODGE.IO {
         }
 
 
-        public static bool IsCommandDown(string command) {
-            return IsCommandDown(0, command);
-        }
-        public static bool IsCommandDown(int playerIndex, string command) {
-            if (
-            (Input.GamePadEnabled
-            && Map.HasButtonsCommand(command)
-            && GP.IsButtonDown(playerIndex, Map.ButtonLookup(command)))
-            ||
-            (Input.KeyboardEnabled
-            && Map.HasKeysCommand(command)
-            && KB.IsKeyDown(Map.KeyboardLookup(command)))
-            )
-                return true;
-            else return false;
-        }
+        public static bool IsCommandDown(string command) => 
+            Map.IsCommandDown(command, 0, KB, GP);
+        public static bool IsCommandDown(int playerIndex, string command) =>
+            Map.IsCommandDown(command, playerIndex, KB, GP);
+        
+
+        public static bool IsCommandHold(string command) =>
+            Map.IsCommandHold(command, 0, KB, GP);
+        public static bool IsCommandHold(int playerIndex, string command) =>
+            Map.IsCommandHold(command, playerIndex, KB, GP);
 
 
-        public static bool IsCommandHold(string command) {
-            return IsCommandHold(0, command);
-        }
-        public static bool IsCommandHold(int playerIndex, string command) {
-            if (
-            (Input.GamePadEnabled
-            && Map.HasButtonsCommand(command)
-            && GP.IsButtonHold(playerIndex, Map.ButtonLookup(command)))
-            ||
-            (Input.KeyboardEnabled
-            && Map.HasKeysCommand(command)
-            && KB.IsKeyHold(Map.KeyboardLookup(command)))
-            )
-                return true;
-            else return false;
-        }
+        public static bool IsCommandPress(string command) =>
+            Map.IsCommandPress(command, 0, KB, GP);
+        public static bool IsCommandPress(int playerIndex, string command) =>
+            Map.IsCommandPress(command, playerIndex, KB, GP);
+            
 
-
-        public static bool IsCommandPress(string command) {
-            return IsCommandPress(0, command);
-        }
-        public static bool IsCommandPress(int playerIndex, string command) {
-            if (
-            (Input.GamePadEnabled
-            && Map.HasButtonsCommand(command)
-            && GP.IsButtonPress(playerIndex, Map.ButtonLookup(command)))
-            ||
-            (Input.KeyboardEnabled
-            && Map.HasKeysCommand(command)
-            && KB.IsKeyPress(Map.KeyboardLookup(command)))
-            )
-                return true;
-            else return false;
-        }
-
-
-        public static bool IsCommandRelease(string command) {
-            return IsCommandRelease(0, command);
-        }
-        public static bool IsCommandRelease(int playerIndex, string command) {
-            if (
-            (Input.GamePadEnabled
-            && Map.HasButtonsCommand(command)
-            && GP.IsButtonRelease(playerIndex, Map.ButtonLookup(command)))
-            ||
-            (Input.KeyboardEnabled
-            && Map.HasKeysCommand(command)
-            && KB.IsKeyRelease(Map.KeyboardLookup(command)))
-            )
-                return true;
-            else return false;
-        }
+        public static bool IsCommandRelease(string command) =>
+            Map.IsCommandRelease(command, 0, KB, GP);
+        public static bool IsCommandRelease(int playerIndex, string command) =>
+            Map.IsCommandRelease(command, playerIndex, KB, GP);
+            
     }
 
     //////////////////////////////////////////////////////////////////////////

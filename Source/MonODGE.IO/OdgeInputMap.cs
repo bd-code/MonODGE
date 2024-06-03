@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using Microsoft.Xna.Framework.Input;
 
 namespace MonODGE.IO {
@@ -8,56 +7,127 @@ namespace MonODGE.IO {
     /// Provides Keyboard and GamePad Button mapping features.
     /// </summary>
     public class OdgeInputMap {
-        private Dictionary<string, Keys> _keymap;
-        private Dictionary<string, Buttons> _buttonmap;
+        private struct MappedIO {
+            internal Keys[] keys; 
+            internal Buttons[] buttons;
+            internal MappedIO(Keys[] k, Buttons[] b) { keys = k; buttons = b; }
+        }
+        private Dictionary<string, MappedIO> _map;
+
 
         public OdgeInputMap() {
-            _keymap = new Dictionary<string, Keys>();
-            _buttonmap = new Dictionary<string, Buttons>();
-        }
-
-        public void Add(string command, Keys keyboardInput, Buttons padInput) {
-            Add(command, keyboardInput);
-            Add(command, padInput);
-        }
-
-        public void Add(string command, Keys keyboardInput) {
-            if (_keymap.ContainsKey(command))
-                _keymap[command] = keyboardInput;
-            else
-                _keymap.Add(command, keyboardInput);
-        }
-
-        public void Add(string command, Buttons padInput) {
-            if (_buttonmap.ContainsKey(command))
-                _buttonmap[command] = padInput;
-            else
-                _buttonmap.Add(command, padInput);
+            _map = new Dictionary<string, MappedIO>();
         }
 
 
-        public bool HasKeysCommand(string command) => _keymap.ContainsKey(command);
-        public bool HasButtonsCommand(string command) => _buttonmap.ContainsKey(command);
-        public string[] GetKeysCommands() => _keymap.Keys.ToArray();
-        public string[] GetButtonsCommands() => _buttonmap.Keys.ToArray();
+        public void Set(string command, Keys key, Buttons butt) {
+            Set(command, new[] { key }, new[] { butt });
+        }
+        public void Set(string command, Keys key) {
+            Set(command, new[] { key });
+        }
+        public void Set(string command, Buttons butt) {
+            Set(command, new[] { butt });
+        }
+        public void Set(string command, Keys[] keys, Buttons[] butts) {
+            _map[command] = new MappedIO(keys, butts);
+        }
+        public void Set(string command, Keys[] keys) {
+            _map[command] = new MappedIO(keys, new Buttons[0]);
+        }
+        public void Set(string command, Buttons[] butts) {
+            _map[command] = new MappedIO(new Keys[0], butts);
+        }
+        public void Unset(string command) {
+            _map.Remove(command);
+        }
+
+
+
+        public bool Has(string command) => _map.ContainsKey(command);
+        public string[] AllCommands() => _map.Keys.ToArray();
 
 
         /// <summary>
-        /// Returns the Keys value paired to a command.
-        /// Throws an exception if command not found. Use HasKeysCommand first.
+        /// Returns the Keys array paired to a command.
+        /// Throws an exception if command not found. Use Has(command) first.
         /// </summary>
         /// <param name="command">string command</param>
-        /// <returns>Keys value paired with the input string command.</returns>
-        public Keys KeyboardLookup(string command) => _keymap[command];
+        /// <returns>Keys array paired with the input string command.</returns>
+        public Keys[] GetKeys(string command) => _map[command].keys;
 
 
         /// <summary>
-        /// Returns the GamePadButtons object paired to a command. 
-        /// Throws an exception if command not found. Use HasButtonCommand first.
+        /// Returns the GamePad Buttons array paired to a command. 
+        /// Throws an exception if command not found. Use Has(command) first.
         /// </summary>
         /// <param name="command">string command</param>
-        /// <returns>GamePadButtons button paired with the input string command.</returns>
-        public Buttons ButtonLookup(string command) => _buttonmap[command];
+        /// <returns>Buttons array paired with the input string command.</returns>
+        public Buttons[] GetButtons(string command) => _map[command].buttons;
+
+
+        public bool IsCommandDown(string command, int playerIndex, KeyboardHandler kb, GamePadHandler gp) {
+            if (!Has(command)) 
+                throw new OdgeInputMapException($"OdgeIO command not mapped: {command}");
+
+            foreach (var key in _map[command].keys) {
+                if (kb.IsKeyDown(key))
+                    return true;
+            }
+            foreach (var butt in _map[command].buttons) {
+                if (gp.IsButtonDown(playerIndex, butt))
+                    return true;
+            }
+            return false;
+        }
+
+
+        public bool IsCommandHold(string command, int playerIndex, KeyboardHandler kb, GamePadHandler gp) {
+            if (!Has(command))
+                throw new OdgeInputMapException($"OdgeIO command not mapped: {command}");
+
+            foreach (var key in _map[command].keys) {
+                if (kb.IsKeyHold(key))
+                    return true;
+            }
+            foreach (var butt in _map[command].buttons) {
+                if (gp.IsButtonHold(playerIndex, butt))
+                    return true;
+            }
+            return false;
+        }
+        
+        
+        public bool IsCommandPress(string command, int playerIndex, KeyboardHandler kb, GamePadHandler gp) {
+            if (!Has(command))
+                throw new OdgeInputMapException($"OdgeIO command not mapped: {command}");
+
+            foreach (var key in _map[command].keys) {
+                if (kb.IsKeyPress(key))
+                    return true;
+            }
+            foreach (var butt in _map[command].buttons) {
+                if (gp.IsButtonPress(playerIndex, butt))
+                    return true;
+            }
+            return false;
+        }
+        
+        
+        public bool IsCommandRelease(string command, int playerIndex, KeyboardHandler kb, GamePadHandler gp) {
+            if (!Has(command))
+                throw new OdgeInputMapException($"OdgeIO command not mapped: {command}");
+
+            foreach (var key in _map[command].keys) {
+                if (kb.IsKeyRelease(key))
+                    return true;
+            }
+            foreach (var butt in _map[command].buttons) {
+                if (gp.IsButtonRelease(playerIndex, butt))
+                    return true;
+            }
+            return false;
+        }
 
 
         /// <summary>
@@ -66,18 +136,15 @@ namespace MonODGE.IO {
         /// <returns>A clone of the current OdgeInputMap.</returns>
         public OdgeInputMap Clone() {
             var map = new OdgeInputMap();
-            map._buttonmap = _buttonmap;
-            map._keymap = _keymap;
+            map._map = _map;
             return map;
         }
+
 
         /// <summary>
         /// Restores Buttons and Keys mappings from another OdgeInputMap.
         /// </summary>
         /// <param name="map">Another OdgeInputMap.</param>
-        public void Restore(OdgeInputMap map) {
-            _buttonmap = map._buttonmap;
-            _keymap = map._keymap;
-        }
+        public void Restore(OdgeInputMap other) { _map = other._map; }
     }
 }

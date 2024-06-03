@@ -11,10 +11,10 @@ namespace MonODGE.IO {
         /// { "_UP", "_LEFT", "_RIGHT", "_DOWN" }
         /// </summary>
         public static void MapArrowKeys() {
-            OdgeIO.Map.Add("_UP", Keys.Up);
-            OdgeIO.Map.Add("_LEFT", Keys.Left);
-            OdgeIO.Map.Add("_RIGHT", Keys.Right);
-            OdgeIO.Map.Add("_DOWN", Keys.Down);
+            OdgeIO.Map.Set("_UP", Keys.Up);
+            OdgeIO.Map.Set("_LEFT", Keys.Left);
+            OdgeIO.Map.Set("_RIGHT", Keys.Right);
+            OdgeIO.Map.Set("_DOWN", Keys.Down);
         }
 
         /// <summary>
@@ -22,10 +22,10 @@ namespace MonODGE.IO {
         /// { "_UP", "_LEFT", "_RIGHT", "_DOWN" }
         /// </summary>
         public static void MapWASD() {
-            OdgeIO.Map.Add("_UP", Keys.W);
-            OdgeIO.Map.Add("_LEFT", Keys.A);
-            OdgeIO.Map.Add("_RIGHT", Keys.D);
-            OdgeIO.Map.Add("_DOWN", Keys.S);
+            OdgeIO.Map.Set("_UP", Keys.W);
+            OdgeIO.Map.Set("_LEFT", Keys.A);
+            OdgeIO.Map.Set("_RIGHT", Keys.D);
+            OdgeIO.Map.Set("_DOWN", Keys.S);
         }
 
         /// <summary>
@@ -33,10 +33,10 @@ namespace MonODGE.IO {
         /// { "_UP", "_LEFT", "_RIGHT", "_DOWN" }
         /// </summary>
         public static void MapDPad() {
-            OdgeIO.Map.Add("_UP", Buttons.DPadUp);
-            OdgeIO.Map.Add("_LEFT", Buttons.DPadLeft);
-            OdgeIO.Map.Add("_RIGHT", Buttons.DPadRight);
-            OdgeIO.Map.Add("_DOWN", Buttons.DPadDown);
+            OdgeIO.Map.Set("_UP", Buttons.DPadUp);
+            OdgeIO.Map.Set("_LEFT", Buttons.DPadLeft);
+            OdgeIO.Map.Set("_RIGHT", Buttons.DPadRight);
+            OdgeIO.Map.Set("_DOWN", Buttons.DPadDown);
         }
 
         /// <summary>
@@ -44,10 +44,10 @@ namespace MonODGE.IO {
         /// { "_UP", "_LEFT", "_RIGHT", "_DOWN" }
         /// </summary>
         public static void MapLeftThumbstick() {
-            OdgeIO.Map.Add("_UP", Buttons.LeftThumbstickUp);
-            OdgeIO.Map.Add("_LEFT", Buttons.LeftThumbstickLeft);
-            OdgeIO.Map.Add("_RIGHT", Buttons.LeftThumbstickRight);
-            OdgeIO.Map.Add("_DOWN", Buttons.LeftThumbstickDown);
+            OdgeIO.Map.Set("_UP", Buttons.LeftThumbstickUp);
+            OdgeIO.Map.Set("_LEFT", Buttons.LeftThumbstickLeft);
+            OdgeIO.Map.Set("_RIGHT", Buttons.LeftThumbstickRight);
+            OdgeIO.Map.Set("_DOWN", Buttons.LeftThumbstickDown);
         }
 
         /// <summary>
@@ -55,10 +55,10 @@ namespace MonODGE.IO {
         /// { "_UP", "_LEFT", "_RIGHT", "_DOWN" }
         /// </summary>
         public static void MapRightThumbstick() {
-            OdgeIO.Map.Add("_UP", Buttons.RightThumbstickUp);
-            OdgeIO.Map.Add("_LEFT", Buttons.RightThumbstickLeft);
-            OdgeIO.Map.Add("_RIGHT", Buttons.RightThumbstickRight);
-            OdgeIO.Map.Add("_DOWN", Buttons.RightThumbstickDown);
+            OdgeIO.Map.Set("_UP", Buttons.RightThumbstickUp);
+            OdgeIO.Map.Set("_LEFT", Buttons.RightThumbstickLeft);
+            OdgeIO.Map.Set("_RIGHT", Buttons.RightThumbstickRight);
+            OdgeIO.Map.Set("_DOWN", Buttons.RightThumbstickDown);
         }
 
         public static bool UP => OdgeIO.IsCommandDown("_UP");
