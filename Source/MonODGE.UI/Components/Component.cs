@@ -18,8 +18,6 @@ namespace MonODGE.UI.Components {
             LEFTBOTTOM, CENTERBOTTOM, RIGHTBOTTOM
         }
 
-        internal OdgeUI _manager;
-
         public string Name { get; set; }
         public bool IsMessy { get; protected set; }
         protected virtual ComponentContexts Context => ComponentContexts.Normal;
@@ -155,15 +153,6 @@ namespace MonODGE.UI.Components {
 
         public virtual void Draw(SpriteBatch batch) { }
         public virtual void Draw(SpriteBatch batch, Rectangle parentRect) { }
-
-
-        internal void PerformOpen() {
-            OnOpened();
-        }
-
-        internal void PerformClose() {
-            OnClosed();
-        }
 
 
         /// <summary>
@@ -377,16 +366,55 @@ namespace MonODGE.UI.Components {
         }
         public event EventHandler Cancel;
 
+        /// <summary>
+        /// This is called when the OdgeControl is re-made the active (top most)
+        /// element in a ControlCollection. It is not called on Open.
+        /// </summary>
+        protected virtual void OnFocus() { Focus?.Invoke(this, EventArgs.Empty); }
+        public event EventHandler Focus;
 
         /// <summary>
-        /// Closes the OdgeControl.
+        /// This is called when the OdgeControl is the active (top most) element
+        /// in a ControlCollection, and is pushed down by a new OdgeControl.
+        /// </summary>
+        protected virtual void OnBlur() { Blur?.Invoke(this, EventArgs.Empty); }
+        public event EventHandler Blur;
+
+
+        internal void SetFocus(bool isFocused) {
+            if (isFocused)  OnFocus();
+            else            OnBlur();
+        }
+
+
+        /// <summary>
+        /// Marks the OdgeControl as open and invokes the Opened event.
+        /// Code that contains and handles the OdgeControl can consider
+        /// the component Updateable and Drawable.
+        /// </summary>
+        public void Open() {
+            if (!IsOpened) {
+                IsOpened = true;
+                IsClosed = false;
+                OnOpened();
+            }
+        }
+        public bool IsOpened { get; private set; }
+
+
+        /// <summary>
+        /// Marks the OdgeControl as closed and invokes the Closed event.
+        /// Code that contains and handles the OdgeControl should handle this 
+        /// and remove the component from Update and Draw calls.
         /// </summary>
         public void Close() {
-            if (_manager != null)
-                _manager.Close(this);
-            else
-                throw new Exception($"Control {Name}: Close() called without UI manager.");
+            if (IsOpened) {
+                IsOpened = false;
+                IsClosed = true;
+                OnClosed();
+            }
         }
+        public bool IsClosed { get; private set; }
 
         protected bool IsSubmitPressed => 
             OdgeIO.KB.IsKeyPress(Style.SubmitKey) || OdgeIO.GP.IsButtonPress(0, Style.SubmitButton); 
@@ -414,14 +442,33 @@ namespace MonODGE.UI.Components {
         }
 
         /// <summary>
-        /// Closes the OdgePopUp.
+        /// Marks the OdgePopUp as open and invokes the Opened event.
+        /// Code that contains and handles the OdgePopUp can consider
+        /// the component Updateable and Drawable.
+        /// </summary>
+        public void Open() {
+            if (!IsOpened) {
+                IsOpened = true;
+                IsClosed = false;
+                OnOpened();
+            }
+        }
+        public bool IsOpened { get; private set; }
+
+
+        /// <summary>
+        /// Marks the OdgePopUp as closed and invokes the Closed event.
+        /// Code that contains and handles the OdgePopUp should handle this 
+        /// and remove the component from Update and Draw calls.
         /// </summary>
         public void Close() {
-            if (_manager != null)
-                _manager.Close(this);
-            else
-                throw new Exception($"Popup {Name}: Close() called without UI manager.");
+            if (IsOpened) {
+                IsOpened = false;
+                IsClosed = true;
+                OnClosed();
+            }
         }
+        public bool IsClosed { get; private set; }
     }
 
     ///////////////////////////////////////////////////////////////////////////
