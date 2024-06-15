@@ -79,12 +79,5 @@ namespace MonODGE.UI {
             OdgeIO.Map.Set("ODGE_UI_DOWN",  keysDown,  buttonsDown);
             IsInitialized = true;
         } 
-
-
-        //public void SetAllComponentStyle(StyleSheet style) {
-        //    OdgeUIVisitor stv = new OdgeUIVisitor(oc => oc.Style = style);
-        //    stv.Traverse(_controls);
-        //    stv.Traverse(_pops);
-        //}
     }
 }

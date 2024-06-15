@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonODGE.UI.Utilities;
+
 namespace MonODGE.UI.Components {
     public class PopupCollection {
         private Queue<OdgePopUp> _pops;
@@ -31,7 +32,7 @@ namespace MonODGE.UI.Components {
         public void Update() {
             if (Count > 0) {
                 if (DrawAll)   UpdateAll();
-                else                UpdateOne();
+                else           UpdateOne();
                 
                 _acceptVisitor.Traverse(_pops);
             }
@@ -126,6 +127,12 @@ namespace MonODGE.UI.Components {
                     return odge;
             string e = $"PopupCollection.Find() could not find {name}.";
             throw new ArgumentException(e);
+        }
+
+
+        public void SetAllStyles(Styles.StyleSheet style) {
+            OdgeUIVisitor stv = new OdgeUIVisitor(oc => oc.Style = style);
+            stv.Traverse(_pops);
         }
     }
 }

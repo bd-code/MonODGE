@@ -119,5 +119,11 @@ namespace MonODGE.UI.Components {
             string e = $"ControlCollection.Find() could not find {name}.";
             throw new ArgumentException(e);
         }
+
+
+        public void SetAllStyles(Styles.StyleSheet style) {
+            OdgeUIVisitor stv = new OdgeUIVisitor(oc => oc.Style = style);
+            stv.Traverse(_controls);
+        }
     }
 }
