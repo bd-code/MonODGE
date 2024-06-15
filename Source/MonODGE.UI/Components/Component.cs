@@ -133,6 +133,12 @@ namespace MonODGE.UI.Components {
         public event EventHandler Closed;
 
 
+        protected OdgeComponent() {
+            if (!OdgeUI.IsInitialized)
+                throw new OdgeNotInitializedException("OdgeUI not initialized before component.");
+        }
+
+
         public virtual void Update() {
             if (Style.IsChanged)
                 OnStyleChanged();
@@ -344,7 +350,7 @@ namespace MonODGE.UI.Components {
     /// Controls are modal components that require user input to proceed.
     /// </summary>
     public abstract class OdgeControl : OdgeComponent {
-        public OdgeControl(StyleSheet style) {
+        public OdgeControl(StyleSheet style) : base() {
             Style = style;
         }
 
@@ -437,7 +443,7 @@ namespace MonODGE.UI.Components {
         protected virtual void OnTimeout() { TimedOut?.Invoke(this, EventArgs.Empty); }
         public event EventHandler TimedOut;
 
-        public OdgePopUp(StyleSheet style) {
+        public OdgePopUp(StyleSheet style) : base() {
             Style = style;
         }
 
@@ -495,7 +501,7 @@ namespace MonODGE.UI.Components {
         }
         private bool _isSelected;
 
-        public OdgeButton(StyleSheet style, EventHandler action) {
+        public OdgeButton(StyleSheet style, EventHandler action) : base() {
             Style = style;
             Submit += action;
         }

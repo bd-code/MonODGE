@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonODGE.IO;
 using MonODGE.UI.Styles;
 using MonODGE.UI.Utilities;
 
@@ -62,11 +63,11 @@ namespace MonODGE.UI.Components {
                 OnSubmit();
             }
 
-            if ((InputHelper.LEFT || InputHelper.DOWN) && Value-Step >= MinValue) {
+            if ((OdgeIO.IsCommandPress("ODGE_UI_LEFT") || OdgeIO.IsCommandPress("ODGE_UI_DOWN")) && Value-Step >= MinValue) {
                 Decrement();
             }
 
-            else if ((InputHelper.RIGHT || InputHelper.UP) && Value+Step <= MaxValue) {
+            else if ((OdgeIO.IsCommandPress("ODGE_UI_RIGHT") || OdgeIO.IsCommandPress("ODGE_UI_UP")) && Value+Step <= MaxValue) {
                 Increment();
             }
 

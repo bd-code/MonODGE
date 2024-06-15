@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonODGE.IO;
 using MonODGE.UI.Styles;
 using MonODGE.UI.Utilities;
 
@@ -106,12 +107,12 @@ namespace MonODGE.UI.Components {
                 if (AutoClose) Close();
             }
 
-            else if (!btnYes.IsSelected && InputHelper.LEFT) {
+            else if (!btnYes.IsSelected && OdgeIO.IsCommandPress("ODGE_UI_LEFT")) {
                 btnNo.IsSelected = false;
                 btnYes.IsSelected = true;
             }
 
-            else if (btnYes.IsSelected && InputHelper.RIGHT) {
+            else if (btnYes.IsSelected && OdgeIO.IsCommandPress("ODGE_UI_RIGHT")) {
                 btnYes.IsSelected = false;
                 btnNo.IsSelected = true;
             }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonODGE.IO;
 using MonODGE.UI.Styles;
 using MonODGE.UI.Utilities;
 
@@ -126,7 +127,7 @@ namespace MonODGE.UI.Components {
             }
 
             // Right Button.
-            else if (InputHelper.RIGHT) {
+            else if (OdgeIO.IsCommandPress("ODGE_UI_RIGHT")) {
                 if (SelectedIndex + 1 >= Options.Count)
                     SelectedIndex = 0;
                 else
@@ -134,7 +135,7 @@ namespace MonODGE.UI.Components {
             }
 
             // Left Button.
-            else if (InputHelper.LEFT) {
+            else if (OdgeIO.IsCommandPress("ODGE_UI_LEFT")) {
                 if (SelectedIndex - 1 < 0)
                     SelectedIndex = Options.Count - 1;
                 else
@@ -142,12 +143,12 @@ namespace MonODGE.UI.Components {
             }
 
             // Down Button.
-            else if (InputHelper.DOWN) {
+            else if (OdgeIO.IsCommandPress("ODGE_UI_DOWN")) {
                 SelectedIndex += Columns;
             }
 
             // Up Button.
-            else if (InputHelper.UP) {
+            else if (OdgeIO.IsCommandPress("ODGE_UI_UP")) {
                 SelectedIndex -= Columns;
             }
 

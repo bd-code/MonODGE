@@ -14,7 +14,7 @@ namespace MonODGE.UI.Components {
         private Vector2[] _positions;
         int _minWidth, _minHeight;
 
-        public ComponentContexts Context {
+        public new ComponentContexts Context {
             get { return _context; }
             set {
                 if (_context != value) {
@@ -51,7 +51,8 @@ namespace MonODGE.UI.Components {
         public StyledText(StyleSheet style, string textblock, ComponentContexts mode = ComponentContexts.Normal) : 
             this(style, textblock.Split(new[] { Environment.NewLine }, StringSplitOptions.None), mode) { }
 
-        public StyledText(StyleSheet style, string[] textlines, ComponentContexts mode = ComponentContexts.Normal) {
+        public StyledText(StyleSheet style, string[] textlines, ComponentContexts mode = ComponentContexts.Normal) :
+        base() {
             Style = style;
             _context = mode;
             _lines = textlines;
