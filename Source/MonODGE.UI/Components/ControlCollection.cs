@@ -10,6 +10,7 @@ namespace MonODGE.UI.Components {
     public class ControlCollection {
         private Stack<OdgeControl> _controls;
         private OdgeUIVisitor _acceptVisitor;
+        private bool _hasUpdated;
 
         public OdgeControl ActiveComponent => _controls.Peek();
         public int Count => _controls.Count;
@@ -31,13 +32,19 @@ namespace MonODGE.UI.Components {
 
 
         public void Update() {
-            if (Count > 0) {
-                _controls.Peek().Update();
+            _hasUpdated = false;
+
+            // Check Count again because Controls can call CloseAllControls().
+            while (Count > 0 && !_hasUpdated) {
                 if (_controls.Peek().IsClosed)
                     _controls.Pop();
-
-                _acceptVisitor.Traverse(_controls);
+                else {
+                    _controls.Peek().Update();
+                    _hasUpdated = true;
+                }
             }
+            
+            _acceptVisitor.Traverse(_controls);
         }
 
 
