@@ -20,6 +20,12 @@ namespace MonODGE.UI.Components {
         /// </summary>
         public bool DrawAll { get; set; }
 
+        /// <summary>
+        /// Toggles whether to draw control's Mask when DrawAll is true;
+        /// </summary>
+        public bool DrawInactiveMask { get; set; }
+
+
         public ControlCollection() {
             _controls = new Stack<OdgeControl>();
             _acceptVisitor = new OdgeUIVisitor(oc => {
@@ -53,6 +59,9 @@ namespace MonODGE.UI.Components {
                 if (DrawAll) {
                     foreach (OdgeControl odge in _controls.Reverse()) {
                         odge.Draw(batch);
+                        if (odge != _controls.Peek() && DrawInactiveMask) {
+                            odge.DrawMask(batch);
+                        }
                     }
                 }
                 else

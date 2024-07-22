@@ -9,10 +9,13 @@ namespace MonODGE.UI.Styles {
     public class StyleSheet : IChangeTracking {
         public bool IsChanged { get; private set; }
 
+
+        ///////////////////
         //// Alignment ////
 
         public enum AlignmentsH { LEFT, CENTER, RIGHT }
         public enum AlignmentsV { TOP, CENTER, BOTTOM }
+
 
         /// <summary>
         /// Horizontal alignment for inner text and elements.
@@ -26,6 +29,7 @@ namespace MonODGE.UI.Styles {
         }
         private AlignmentsH _alignH;
         
+
         /// <summary>
         /// Vertical alignment for inner text and elements.
         /// </summary>
@@ -39,11 +43,13 @@ namespace MonODGE.UI.Styles {
         private AlignmentsV _alignV;
         
         
+
+        //////////////////////////////
         //// Background & Borders ////
 
         /// <summary>
         /// If true, only the four corners of the Borders NinePatch will be drawn.
-        /// If false the entire all nine Borders segments will be drawn.
+        /// If false, all nine Borders segments will be drawn.
         /// </summary>
         public bool DrawOnlyCorners {
             get => _drawOnlyCorners;
@@ -54,8 +60,10 @@ namespace MonODGE.UI.Styles {
         }
         private bool _drawOnlyCorners;
 
+
         /// <summary>
-        /// Background texture which fills Component dimensions. Can be set to null for no background.
+        /// Background texture which fills Component dimensions.
+        /// Can be set to null for no background.
         /// </summary>
         public StyleContext<BGTexture> Backgrounds {
             get => _backgrounds;
@@ -68,8 +76,10 @@ namespace MonODGE.UI.Styles {
         }
         private StyleContext<BGTexture> _backgrounds;
 
+
         /// <summary>
-        /// Border texture color. Set to Color.White to match original image.
+        /// Background texture color. 
+        /// Set to Color.White to match original image.
         /// </summary>
         public StyleContext<Color> BackgroundColors {
             get => _bgColors;
@@ -84,8 +94,10 @@ namespace MonODGE.UI.Styles {
 
 
         /// <summary>
-        /// Border texture which, uh, borders Components. Can be set to null for no borders.
-        /// Border textures are split into 3*3 tiles, and thus image dimensions should be divisible by 3.
+        /// Border texture which, uh, borders Components. 
+        /// Can be set to null for no borders.
+        /// Border textures are split into 3*3 tiles, 
+        /// and thus image dimensions should be divisible by 3.
         /// </summary>
         public StyleContext<NinePatch> Borders {
             get => _borders;
@@ -100,7 +112,8 @@ namespace MonODGE.UI.Styles {
 
 
         /// <summary>
-        /// Border texture color. Set to Color.White to match original image.
+        /// Border texture color. 
+        /// Set to Color.White to match original image.
         /// </summary>
         public StyleContext<Color> BorderColors {
             get => _borderColors;
@@ -114,8 +127,45 @@ namespace MonODGE.UI.Styles {
         private StyleContext<Color> _borderColors;
 
 
+        /// <summary>
+        /// Texture which masks over inactive Components.
+        /// Can be set to null for no inactive mask.
+        /// </summary>
+        public BGTexture Mask {
+            get => _mask;
+            set {
+                if (value != null) {
+                    _mask = value;
+                    IsChanged = true;
+                }
+            }
+        }
+        private BGTexture _mask;
+
+
+        /// <summary>
+        /// Mask texture color. 
+        /// Set to Color.White to match original image.
+        /// </summary>
+        public Color MaskColor {
+            get => _maskColors;
+            set {
+                if (value != null) {
+                    _maskColors = value;
+                    IsChanged = true;
+                }
+            }
+        }
+        private Color _maskColors;
+
+
+
+        //////////////////////////////
         //// Fonts and Text Color ////
 
+        /// <summary>
+        /// The fonts of any text displayed by the component.
+        /// </summary>
         public StyleContext<SpriteFont> Fonts {
             get => _fonts;
             set {
@@ -127,6 +177,10 @@ namespace MonODGE.UI.Styles {
         }
         private StyleContext<SpriteFont> _fonts;
 
+
+        /// <summary>
+        /// The colors of any text displayed by the component.
+        /// </summary>
         public StyleContext<Color> TextColors {
             get => _textColors;
             set {
@@ -139,6 +193,8 @@ namespace MonODGE.UI.Styles {
         private StyleContext<Color> _textColors;
 
 
+
+        ///////////////////////////////////////
         //// Padding, Spacing, and Shadows ////
 
         /// <summary>
@@ -152,6 +208,7 @@ namespace MonODGE.UI.Styles {
             }
         }
         private Padding _padding;
+
 
         /// <summary>
         /// Determines distance between child Components in OdgeComponents that have them.
@@ -179,6 +236,8 @@ namespace MonODGE.UI.Styles {
         private Shadows _shadows;
 
 
+
+        ///////////////////////
         //// Input Mapping ////
 
         /// <summary>
@@ -270,6 +329,7 @@ namespace MonODGE.UI.Styles {
             StyleSheet clone = new StyleSheet() {
                 Backgrounds = Backgrounds.Clone(),      BackgroundColors = BackgroundColors.Clone(),
                 Borders = Borders.Clone(),              BorderColors = BorderColors.Clone(),
+                Mask = Mask,                            MaskColor = MaskColor,
 
                 Fonts = Fonts.Clone(),                  TextColors = TextColors.Clone(),
 

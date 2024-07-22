@@ -248,6 +248,30 @@ namespace MonODGE.UI.Components {
 
 
         /// <summary>
+        /// Draws the Texture2D saved in Style.Mask in color Style.MaskColor
+        /// to the component's Dimensions.
+        /// </summary>
+        /// <param name="batch">SpriteBatch.</param>
+        public void DrawMask(SpriteBatch batch) {
+            Style.Mask?.Draw(batch, Dimensions, Style.MaskColor);
+        }
+
+
+        /// <summary>
+        /// Draws the Texture2D saved in Style.Mask in color Style.MaskColor
+        /// to the component's Dimensions relative to a parent Rectangle.
+        /// </summary>
+        /// <param name="batch">SpriteBatch.</param>
+        /// <param name="where">Rectangle area to draw.</param>
+        public void DrawMask(SpriteBatch batch, Rectangle parentRect) {
+            Style.Mask?.Draw(
+                batch,
+                new Rectangle(parentRect.Location + Location, Size),
+                Style.MaskColor);
+        }
+
+
+        /// <summary>
         /// Snaps the OdgeComponent to a screen position specified in SnapAnchors.
         /// </summary>
         /// <param name="anchor">A SnapAnchors enum value.</param>
