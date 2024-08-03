@@ -27,6 +27,10 @@ namespace MonODGE.UI.Styles {
             _tex2d = image; _srcrect = selection;
         }
 
+
+        public void Draw(SpriteBatch batch, Vector2 position, Color color) {
+            batch.Draw(_tex2d, position, _srcrect, color);
+        }
         public void Draw(SpriteBatch batch, Rectangle drawRect, Color color) {
             batch.Draw(_tex2d, drawRect, _srcrect, color);
         }
