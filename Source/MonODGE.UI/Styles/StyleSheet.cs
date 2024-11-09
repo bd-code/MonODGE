@@ -241,54 +241,98 @@ namespace MonODGE.UI.Styles {
         //// Input Mapping ////
 
         /// <summary>
-        /// This Keyboard Key triggers the Component's OnSubmit().
+        /// These Keyboard Keys trigger the Component's OnSubmit().
+        /// </summary>
+        public Keys[] SubmitKeys {
+            get => _submitKeys;
+            set {
+                _submitKeys = value;
+                IsChanged = true;
+            }
+        }
+        private Keys[] _submitKeys;
+
+        /// <summary>
+        /// Allows an easy way to set a single value to SubmitKeys.
         /// </summary>
         public Keys SubmitKey {
-            get => _submitKey;
             set {
-                _submitKey = value;
+                _submitKeys = new[] { value };
                 IsChanged = true;
             }
         }
-        private Keys _submitKey;
+
 
         /// <summary>
-        /// This GamePad Button triggers the Component's OnSubmit().
+        /// These GamePad Buttons trigger the Component's OnSubmit().
+        /// </summary>
+        public Buttons[] SubmitButtons {
+            get => _submitButtons;
+            set {
+                _submitButtons = value;
+                IsChanged = true;
+            }
+        }
+        private Buttons[] _submitButtons;
+
+        /// <summary>
+        /// Allows an easy way to set a single value to SubmitButtons.
         /// </summary>
         public Buttons SubmitButton {
-            get => _submitButton;
             set {
-                _submitButton = value;
+                _submitButtons = new[] { value };
                 IsChanged = true;
             }
         }
-        private Buttons _submitButton;
+
 
         /// <summary>
-        /// This Keyboard Key triggers the Component's OnCancel(). 
-        /// For most Controls, it also closes it.
+        /// These Keyboard Keys trigger the Component's OnCancel(). 
+        /// For most Controls, they also close it.
+        /// </summary>
+        public Keys[] CancelKeys {
+            get => _cancelKeys;
+            set {
+                _cancelKeys = value;
+                IsChanged = true;
+            }
+        }
+        private Keys[] _cancelKeys;
+
+        /// <summary>
+        /// Allows an easy way to set a single value to CancelKeys
         /// </summary>
         public Keys CancelKey {
-            get => _cancelKey;
             set {
-                _cancelKey = value;
+                _cancelKeys = new[] { value };
                 IsChanged = true;
             }
         }
-        private Keys _cancelKey;
+
 
         /// <summary>
-        /// This GamePad Button triggers the Component's OnCancel(). 
-        /// For most Controls, it also closes it.
+        /// These GamePad Buttons trigger the Component's OnCancel(). 
+        /// For most Controls, they also close it.
         /// </summary>
-        public Buttons CancelButton {
-            get => _cancelButton;
+        public Buttons[] CancelButtons {
+            get => _cancelButtons;
             set {
-                _cancelButton = value;
+                _cancelButtons = value;
                 IsChanged = true;
             }
         }
-        private Buttons _cancelButton;
+        private Buttons[] _cancelButtons;
+
+        /// <summary>
+        /// Allows an easy way to set a single value to CancelButtons.
+        /// </summary>
+        public Buttons CancelButton {
+            set {
+                _cancelButtons = new[] { value };
+                IsChanged = true;
+            }
+        }
+
 
         /// <summary>
         /// If true, Control is closed upon upon pressing CancelKey.
@@ -336,8 +380,8 @@ namespace MonODGE.UI.Styles {
                 AlignH = AlignH,                        AlignV = AlignV,
                 Padding = Padding,                      Spacing = Spacing,
 
-                SubmitButton = SubmitButton,            SubmitKey = SubmitKey,
-                CancelButton = CancelButton,            CancelKey = CancelKey,
+                SubmitButtons = SubmitButtons,            SubmitKeys = SubmitKeys,
+                CancelButtons = CancelButtons,            CancelKeys = CancelKeys,
                 CloseOnCancel = CloseOnCancel,
 
                 TextShadow = TextShadow,

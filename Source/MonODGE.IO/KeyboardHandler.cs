@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.Xna.Framework.Input;
 
 namespace MonODGE.IO {
     /// <summary>
@@ -31,14 +34,24 @@ namespace MonODGE.IO {
         }
 
 
-        public bool IsKeyDown(Keys kee) =>
-            State.IsKeyDown(kee);
-        public bool IsKeyHold(Keys kee) => 
-            State.IsKeyDown(kee) && OldState.IsKeyDown(kee);
-        public bool IsKeyPress(Keys kee) => 
-            State.IsKeyDown(kee) && !OldState.IsKeyDown(kee);
-        public bool IsKeyRelease(Keys kee) => 
-            !State.IsKeyDown(kee) && OldState.IsKeyDown(kee);
+        public bool IsKeyDown(Keys key) =>
+            State.IsKeyDown(key);
+        public bool IsKeyHold(Keys key) => 
+            State.IsKeyDown(key) && OldState.IsKeyDown(key);
+        public bool IsKeyPress(Keys key) => 
+            State.IsKeyDown(key) && !OldState.IsKeyDown(key);
+        public bool IsKeyRelease(Keys key) => 
+            !State.IsKeyDown(key) && OldState.IsKeyDown(key);
+
+
+        public bool AreKeysDown(IEnumerable<Keys> keys) =>
+            keys?.Any(k => State.IsKeyDown(k)) ?? false;
+        public bool AreKeysHeld(IEnumerable<Keys> keys) =>
+            keys?.Any(k => State.IsKeyDown(k) && OldState.IsKeyDown(k)) ?? false;
+        public bool AreKeysPressed(IEnumerable<Keys> keys) =>
+            keys?.Any(k => State.IsKeyDown(k) && !OldState.IsKeyDown(k)) ?? false;
+        public bool AreKeysReleased(IEnumerable<Keys> keys) =>
+            keys?.Any(k => !State.IsKeyDown(k) && OldState.IsKeyDown(k)) ?? false;
 
 
         public bool AnyKeyDown() =>

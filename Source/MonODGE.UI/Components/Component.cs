@@ -447,10 +447,10 @@ namespace MonODGE.UI.Components {
         public bool IsClosed { get; private set; }
 
         protected bool IsSubmitPressed => 
-            OdgeIO.KB.IsKeyPress(Style.SubmitKey) || OdgeIO.GP.IsButtonPress(0, Style.SubmitButton); 
+            OdgeIO.KB.AreKeysPressed(Style.SubmitKeys) || OdgeIO.GP.AreButtonsPressed(0, Style.SubmitButtons); 
 
         protected bool IsCancelPressed => 
-            OdgeIO.KB.IsKeyPress(Style.CancelKey) || OdgeIO.GP.IsButtonPress(0, Style.CancelButton); 
+            OdgeIO.KB.AreKeysPressed(Style.CancelKeys) || OdgeIO.GP.AreButtonsPressed(0, Style.CancelButtons); 
     }
 
     ///////////////////////////////////////////////////////////////////////////

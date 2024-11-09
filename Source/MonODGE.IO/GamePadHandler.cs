@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework.Input;
 
@@ -60,6 +62,16 @@ namespace MonODGE.IO {
             States[playerIndex].IsButtonDown(button) && !OldStates[playerIndex].IsButtonDown(button);
         public bool IsButtonRelease(int playerIndex, Buttons button) =>
             !States[playerIndex].IsButtonDown(button) && OldStates[playerIndex].IsButtonDown(button);
-        
+
+
+        public bool AreButtonsDown(int playerIndex, IEnumerable<Buttons> buttons) =>
+            buttons?.Any(b => States[playerIndex].IsButtonDown(b)) ?? false;
+        public bool AreButtonsHeld(int playerIndex, IEnumerable<Buttons> buttons) =>
+            buttons?.Any(b => States[playerIndex].IsButtonDown(b) && OldStates[playerIndex].IsButtonDown(b)) ?? false;
+        public bool AreButtonsPressed(int playerIndex, IEnumerable<Buttons> buttons) =>
+            buttons?.Any(b => States[playerIndex].IsButtonDown(b) && !OldStates[playerIndex].IsButtonDown(b)) ?? false;
+        public bool AreButtonsReleased(int playerIndex, IEnumerable<Buttons> buttons) =>
+            buttons?.Any(b => !States[playerIndex].IsButtonDown(b) && OldStates[playerIndex].IsButtonDown(b)) ?? false;
+
     }
 }
