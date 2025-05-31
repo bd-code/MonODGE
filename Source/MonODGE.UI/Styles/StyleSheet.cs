@@ -193,9 +193,22 @@ namespace MonODGE.UI.Styles {
         private StyleContext<Color> _textColors;
 
 
+        /// <summary>
+        /// Text shadowing used in StyledText.
+        /// </summary>
+        public StyleContext<Shadows> TextShadow { 
+            get => _shadows;
+            set {
+                _shadows = value;
+                IsChanged = true;
+            }
+        }
+        private StyleContext<Shadows> _shadows;
 
-        ///////////////////////////////////////
-        //// Padding, Spacing, and Shadows ////
+
+
+        //////////////////////////
+        //// Padding, Spacing ////
 
         /// <summary>
         /// Represents the Component's inner padding. 
@@ -221,19 +234,6 @@ namespace MonODGE.UI.Styles {
             }
         }
         private Spacing _spacing;
-
-
-        /// <summary>
-        /// Text shadowing used in StyledText.
-        /// </summary>
-        public Shadows TextShadow { 
-            get => _shadows;
-            set {
-                _shadows = value;
-                IsChanged = true;
-            }
-        }
-        private Shadows _shadows;
 
 
 
@@ -355,7 +355,7 @@ namespace MonODGE.UI.Styles {
 
             _padding = new Padding(0, 0, 0, 0);
             _spacing = new Spacing(0, 0);
-            _shadows = new Shadows(Color.Transparent, 0);
+            _shadows = new StyleContext<Shadows>(new Shadows(Color.Transparent, 0));
 
             IsChanged = false;
         }
@@ -384,7 +384,7 @@ namespace MonODGE.UI.Styles {
                 CancelButtons = CancelButtons,            CancelKeys = CancelKeys,
                 CloseOnCancel = CloseOnCancel,
 
-                TextShadow = TextShadow,
+                TextShadow = TextShadow.Clone(),
                 DrawOnlyCorners = DrawOnlyCorners,
                 IsChanged = false
             };

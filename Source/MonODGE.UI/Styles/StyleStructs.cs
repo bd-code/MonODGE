@@ -42,17 +42,20 @@ namespace MonODGE.UI.Styles {
     public struct Shadows {
         public Color Color { get; private set; }
         public Vector2[] Distances { get; private set; }
+        public bool IsVisible => Color != Color.Transparent && Distances.Length > 0;
 
-        public Shadows(Color shadowColor, int glow) {
-            Color = shadowColor;
-            if (Color == Color.Transparent || glow < 1)
+        public Shadows(Color shadowColor, int glow = 1) {
+            if (shadowColor == Color.Transparent || glow < 1) {
+                Color = Color.Transparent;
                 Distances = new Vector2[0];
+            }
             else {
+                Color = shadowColor;
                 Distances = new Vector2[] {
-                new Vector2(-glow, -glow),
-                new Vector2(-glow, glow),
-                new Vector2(glow, -glow),
-                new Vector2(glow, glow)
+                    new Vector2(-glow, -glow),
+                    new Vector2(-glow, glow),
+                    new Vector2(glow, -glow),
+                    new Vector2(glow, glow)
                 };
             }
         }

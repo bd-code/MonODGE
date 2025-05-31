@@ -30,23 +30,6 @@ namespace MonODGE.UI.Components {
 
         public string Text => string.Join(Environment.NewLine, _lines);
 
-        private SpriteFont _font {
-            get {
-                if (Context == ComponentContexts.Header) return Style.Fonts.Header;
-                else if (Context == ComponentContexts.Footer) return Style.Fonts.Footer;
-                else if (Context == ComponentContexts.Active) return Style.Fonts.Active;
-                else return Style.Fonts.Normal;
-            }
-        }
-        private Color _color {
-            get {
-                if (Context == ComponentContexts.Header) return Style.TextColors.Header;
-                else if (Context == ComponentContexts.Footer) return Style.TextColors.Footer;
-                else if (Context == ComponentContexts.Active) return Style.TextColors.Active;
-                else return Style.TextColors.Normal;
-            }
-        }
-
 
         public StyledText(StyleSheet style, string textblock, ComponentContexts mode = ComponentContexts.Normal) : 
             this(style, textblock.Split(new[] { Environment.NewLine }, StringSplitOptions.None), mode) { }
@@ -65,6 +48,7 @@ namespace MonODGE.UI.Components {
             float lasty = 0;
             float maxWidth = 0;
             float lineheight = 0f;
+            var _font = Style.Fonts.Get(Context);
 
             // Get dimensions and set HEIGHT ONLY of every string line.
             for (int s = 0; s < _lines.Length; s++) {
@@ -107,32 +91,45 @@ namespace MonODGE.UI.Components {
 
 
         public override void Draw(SpriteBatch batch) {
+            var font = Style.Fonts.Get(Context);
+            var color = Style.TextColors.Get(Context);
+
             for (int d = 0; d < _lines.Length; d++) {
                 DrawShadows(batch, d, new Vector2(X, Y));
-                batch.DrawString(_font, _lines[d], 
-                    new Vector2(X, Y) + _positions[d], 
-                    _color);
+                batch.DrawString(font, _lines[d], 
+                    new Vector2(X, Y) + _positions[d],
+                    color);
             }
         }
 
 
         public override void Draw(SpriteBatch batch, Rectangle parentRect) {
             Vector2 where = new Vector2(X + parentRect.X, Y + parentRect.Y);
+            var font = Style.Fonts.Get(Context);
+            var color = Style.TextColors.Get(Context);
+
             for (int d = 0; d < _lines.Length; d++) {
                 DrawShadows(batch, d, where);
-                batch.DrawString(_font, _lines[d], 
-                    where + _positions[d], 
-                    _color);
+                batch.DrawString(font, _lines[d], 
+                    where + _positions[d],
+                    color);
             }
         }
 
 
         private void DrawShadows(SpriteBatch batch, int index, Vector2 where) {
-            foreach (var s in Style.TextShadow.Distances) {
+            var scadu = Style.TextShadow.Get(Context);
+
+            if (!scadu.IsVisible)
+                return;
+
+            var font = Style.Fonts.Get(Context);
+
+            foreach (var s in scadu.Distances) {
                 if (s != Vector2.Zero) {
-                    batch.DrawString(_font, _lines[index],
+                    batch.DrawString(font, _lines[index],
                         where + _positions[index] + s,
-                        Style.TextShadow.Color);
+                        scadu.Color);
                 }
             }
         }
