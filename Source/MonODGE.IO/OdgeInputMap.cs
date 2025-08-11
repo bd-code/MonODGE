@@ -66,6 +66,18 @@ namespace MonODGE.IO {
         public Buttons[] GetButtons(string command) => _map[command].buttons;
 
 
+        /// <summary>
+        /// Returns the names of the Keys and Buttons associated with the given command.
+        /// </summary>
+        /// <param name="command">string command</param>
+        /// <returns>A string array of the Key and Button names.</returns>
+        public string[] GetKeyButtonNames(string command) {
+            return GetKeys(command).Select(k => k.ToString())
+            .Concat(GetButtons(command).Select(b => b.ToString()))
+            .ToArray();
+        }
+
+
         public bool IsCommandDown(string command, int playerIndex, KeyboardHandler kb, GamePadHandler gp) {
             if (!Has(command)) 
                 throw new OdgeInputMapException($"OdgeIO command not mapped: {command}");
