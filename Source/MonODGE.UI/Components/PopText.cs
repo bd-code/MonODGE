@@ -70,11 +70,11 @@ namespace MonODGE.UI.Components {
 
             // Fade
             if (Lifetime < 64 && Fade == FadeStyle.FadeOut) {
-                Style.TextColors = new StyleContext<Color>(
+                Style.TextColors = new Color[] {
                     Style.TextColors.Normal * (1.0f - (1.0f / (Lifetime + 1.0f))),
-                    Style.TextColors.Active,
-                    Style.TextColors.Header,
-                    Style.TextColors.Footer);
+                    Style.TextColors.Active * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.TextColors.Header * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.TextColors.Footer * (1.0f - (1.0f / (Lifetime + 1.0f))) };
             }
 
             if (Lifetime == 0)

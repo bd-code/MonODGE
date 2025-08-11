@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace MonODGE.UI.Styles {
     public enum ComponentContexts {
         Normal = 0, Header = 1, Footer = 2, Active = 3
@@ -23,6 +24,19 @@ namespace MonODGE.UI.Styles {
             _normal = normal; _active = active;
             _header = header; _footer = footer;
         }
+
+        public static implicit operator StyleContext<T>(T t) =>
+            new StyleContext<T>(t);
+
+        public static implicit operator StyleContext<T>(T[] t) {
+            if      (t.Length >= 4) return new StyleContext<T>(t[0], t[1], t[2], t[3]);
+            else if (t.Length == 3) return new StyleContext<T>(t[0], t[1], t[2]);
+            else if (t.Length == 2) return new StyleContext<T>(t[0], t[1]);
+            else if (t.Length == 1) return new StyleContext<T>(t[0]);
+            else throw new ArgumentException("StyleContext passed an empty array."); 
+        }
+
+        public static StyleContext<T> Default => new StyleContext<T>(default);
 
         public T Get(ComponentContexts context) {
             switch (context) {

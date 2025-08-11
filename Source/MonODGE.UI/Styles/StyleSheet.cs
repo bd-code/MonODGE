@@ -341,21 +341,21 @@ namespace MonODGE.UI.Styles {
 
 
         public StyleSheet() {
-            _backgrounds = new StyleContext<BGTexture>(null);
-            _bgColors = new StyleContext<Color>(Color.Transparent);
+            _backgrounds = StyleContext<BGTexture>.Default;
+            _bgColors = Color.Transparent;
 
-            _borders = new StyleContext<NinePatch>(null);
-            _borderColors = new StyleContext<Color>(Color.White);
+            _borders = StyleContext<NinePatch>.Default;
+            _borderColors = Color.Transparent;
 
-            _fonts = new StyleContext<SpriteFont>(null);
-            _textColors = new StyleContext<Color>(Color.White, Color.Gold);
+            _fonts = StyleContext<SpriteFont>.Default;
+            _textColors = new[] { Color.White, Color.Gold };
             
             _alignH = AlignmentsH.LEFT;
             _alignV = AlignmentsV.TOP;
 
             _padding = new Padding(0, 0, 0, 0);
             _spacing = new Spacing(0, 0);
-            _shadows = new StyleContext<Shadows>(new Shadows(Color.Transparent, 0));
+            _shadows = new Shadows(Color.Transparent, 0);
 
             IsChanged = false;
         }

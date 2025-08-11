@@ -35,23 +35,23 @@ namespace MonODGE.UI.Components {
             Lifetime--;
 
             if (Lifetime < 64 && Fade == FadeStyle.FadeOut) {
-                Style.BackgroundColors = new StyleContext<Color>(
+                Style.BackgroundColors = new Color[] {
                     Style.BackgroundColors.Normal * (1.0f - (1.0f / (Lifetime + 1.0f))),
-                    Style.BackgroundColors.Active,
-                    Style.BackgroundColors.Header,
-                    Style.BackgroundColors.Footer);
+                    Style.BackgroundColors.Active * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.BackgroundColors.Header * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.BackgroundColors.Footer * (1.0f - (1.0f / (Lifetime + 1.0f))) };
 
-                Style.TextColors = new StyleContext<Color>(
+                Style.TextColors = new Color[] {
                     Style.TextColors.Normal * (1.0f - (1.0f / (Lifetime + 1.0f))),
-                    Style.TextColors.Active,
-                    Style.TextColors.Header,
-                    Style.TextColors.Footer);
+                    Style.TextColors.Active * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.TextColors.Header * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.TextColors.Footer * (1.0f - (1.0f / (Lifetime + 1.0f))) };
 
-                Style.BorderColors = new StyleContext<Color>(
+                Style.BorderColors = new Color[] {
                     Style.BorderColors.Normal * (1.0f - (1.0f / (Lifetime + 1.0f))),
-                    Style.BorderColors.Active,
-                    Style.BorderColors.Header,
-                    Style.BorderColors.Footer);
+                    Style.BorderColors.Active * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.BorderColors.Header * (1.0f - (1.0f / (Lifetime + 1.0f))),
+                    Style.BorderColors.Footer * (1.0f - (1.0f / (Lifetime + 1.0f))) };
             }
 
             if (Lifetime == 0)
