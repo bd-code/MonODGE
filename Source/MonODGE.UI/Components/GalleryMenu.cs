@@ -128,16 +128,20 @@ namespace MonODGE.UI.Components {
 
             // Right Button.
             else if (OdgeIO.IsCommandPress("ODGE_UI_RIGHT")) {
-                if (SelectedIndex + 1 >= Options.Count)
-                    SelectedIndex = 0;
+                if (SelectedIndex + 1 >= Options.Count) {
+                    if (WrapAround)
+                        SelectedIndex = 0;
+                }
                 else
                     SelectedIndex++;
             }
 
             // Left Button.
             else if (OdgeIO.IsCommandPress("ODGE_UI_LEFT")) {
-                if (SelectedIndex - 1 < 0)
-                    SelectedIndex = Options.Count - 1;
+                if (SelectedIndex - 1 < 0) {
+                    if (WrapAround)
+                        SelectedIndex = Options.Count - 1;
+                }
                 else
                     SelectedIndex--;
             }

@@ -154,16 +154,20 @@ namespace MonODGE.UI.Components {
 
             // Move Down.
             else if (OdgeIO.IsCommandPress("ODGE_UI_DOWN")) {
-                if (SelectedIndex + 1 >= Options.Count)
-                    SelectedIndex = 0;
+                if (SelectedIndex + 1 >= Options.Count) {
+                    if (WrapAround)
+                        SelectedIndex = 0;
+                }
                 else
                     SelectedIndex++;
             }
 
             // Move Up!
             else if (OdgeIO.IsCommandPress("ODGE_UI_UP")) {
-                if (SelectedIndex - 1 < 0)
-                    SelectedIndex = Options.Count - 1;
+                if (SelectedIndex - 1 < 0) {
+                    if (WrapAround)
+                        SelectedIndex = Options.Count - 1;
+                }
                 else
                     SelectedIndex--;
             }

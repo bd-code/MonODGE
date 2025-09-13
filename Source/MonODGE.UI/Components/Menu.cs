@@ -33,8 +33,17 @@ namespace MonODGE.UI.Components {
             (Options.Count > _selectedIndex) ? Options[_selectedIndex] : null;
 
 
+        /// <summary>
+        /// If true, SelectedIndex will wrap to 0 or Count-1 
+        /// if player input would set SelectedIndex > Count-1 or SelectedIndex < 0. 
+        /// True by default.
+        /// </summary>
+        public bool WrapAround { get; set; }
+
+
         public OdgeMenu(StyleSheet style) : base(style) {
             Options = new ButtonCollection(this);
+            WrapAround = true;
         }
 
 
