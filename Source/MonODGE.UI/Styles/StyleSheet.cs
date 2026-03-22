@@ -206,6 +206,26 @@ namespace MonODGE.UI.Styles {
         private StyleContext<Shadows> _shadows;
 
 
+        /// <summary>
+        /// Sets effects on StyledText components and subcomponents.
+        /// </summary>
+        public StyleContext<Components.TextEffects> TextEffect {
+            get => _textEffect;
+            set {
+                _textEffect = value;
+                IsChanged = true;
+            }
+        }
+        private StyleContext<Components.TextEffects> _textEffect;
+
+
+        /// <summary>
+        /// Sets the rate at which text effects occur.
+        /// For Typewriter, sets the frame delay between char spawns.
+        /// </summary>
+        public int TextEffectRate { get; set; }
+
+
 
         //////////////////////////
         //// Padding, Spacing ////
@@ -349,6 +369,7 @@ namespace MonODGE.UI.Styles {
 
             _fonts = StyleContext<SpriteFont>.Default;
             _textColors = new[] { Color.White, Color.Gold };
+            TextEffect = Components.TextEffects.None;
             
             _alignH = AlignmentsH.LEFT;
             _alignV = AlignmentsV.TOP;
@@ -376,6 +397,7 @@ namespace MonODGE.UI.Styles {
                 Mask = Mask,                            MaskColor = MaskColor,
 
                 Fonts = Fonts.Clone(),                  TextColors = TextColors.Clone(),
+                TextEffect = TextEffect,                TextEffectRate = TextEffectRate,
 
                 AlignH = AlignH,                        AlignV = AlignV,
                 Padding = Padding,                      Spacing = Spacing,
