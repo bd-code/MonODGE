@@ -41,6 +41,15 @@ namespace MonODGE.UI.Components {
         public string Text => string.Join(Environment.NewLine, _lines);
 
 
+        public bool TextEffectDone { 
+            get {
+                if (Style.TextEffect.Get(Context) == TextEffects.Typewriter)
+                    return _lastCompleteLine >= _lines.Length-1;
+                else return true;
+            } 
+        }
+
+
         public StyledText(StyleSheet style, string textblock, ComponentContexts mode = ComponentContexts.Normal) : 
             this(style, textblock.Split(new[] { Environment.NewLine }, StringSplitOptions.None), mode) { }
 

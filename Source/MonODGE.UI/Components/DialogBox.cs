@@ -56,11 +56,16 @@ namespace MonODGE.UI.Components {
             Layout();
 
             Submit += (o, e) => {
-                messageIndex++;
-                if (messageIndex >= messages.Length)
-                    Close();
-                else
-                    OnTextChanged();
+                if (!_stytex.TextEffectDone) {
+                    _stytex.FinishTextEffects();
+                }
+                else {
+                    messageIndex++;
+                    if (messageIndex >= messages.Length)
+                        Close();
+                    else
+                        OnTextChanged();
+                }
             };
             StyleChanged += (o, e) => _stytex.Style = Style;
         }
